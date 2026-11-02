@@ -60,5 +60,5 @@
   <button class="btn-primary btn-block" bindtap="onSave">保存</button>
   <button wx:if="{{isEdit}}" class="btn-danger btn-block" bindtap="onDelete">删除这条</button>
 
-  <view class="disclaimer">理论讨论，不替代面诊。这里是个人学习笔记，不作诊断或用药依据。</view>
+  <view class="disclaimer">理性讨论，不替代面诊。这里是个人学习笔记，不作诊断或用药依据。</view>
 </view>

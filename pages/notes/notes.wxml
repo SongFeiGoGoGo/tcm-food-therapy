@@ -2,7 +2,7 @@
   <view class="notes-hero">
     <view class="notes-badge">学习笔记</view>
     <view class="notes-title">中医小笔记</view>
-    <view class="notes-desc">读书时整理的方子与用法，已改写成个人理解，并注明来源。也可自己新增笔记。内置笔记可浏览、可从本机列表移除（不可编辑）；我的笔记可编辑、可删除。理论讨论，不替代面诊。</view>
+    <view class="notes-desc">读书时整理的方子与用法，已改写成个人理解，并注明来源。也可自己新增笔记。内置笔记可浏览；我的笔记可编辑。理性讨论，不替代面诊。</view>
   </view>
 
   <view class="toolbar">
@@ -10,47 +10,50 @@
   </view>
 
   <view
-    class="note-card {{item.isUser ? 'note-card-user' : ''}}"
+    class="swipe-row"
     wx:for="{{notes}}"
     wx:key="key"
-    bindtap="onTap"
-    data-id="{{item.id}}"
-    data-user="{{item.isUser}}"
-    data-recipe="{{item.recipeId}}"
   >
-    <view class="note-top">
-      <text class="note-icon">{{item.icon}}</text>
-      <view class="note-meta">
-        <view class="note-name-row">
-          <view class="note-name">{{item.name}}</view>
-          <text class="note-tag {{item.isUser ? 'tag-user' : 'tag-seed'}}">{{item.badge}}</text>
-        </view>
-        <view class="note-summary">{{item.summary}}</view>
-      </view>
+    <view class="swipe-actions">
+      <view
+        wx:if="{{item.isUser}}"
+        class="swipe-btn swipe-btn-del"
+        data-id="{{item.id}}"
+        catchtap="onDeleteUser"
+      >删除</view>
+      <view
+        wx:else
+        class="swipe-btn swipe-btn-del"
+        data-id="{{item.id}}"
+        catchtap="onHideBuiltin"
+      >移除</view>
     </view>
-    <view class="note-foot">{{item.foot}}</view>
-    <view class="note-actions" catchtap="stopBubble">
-      <block wx:if="{{item.isUser}}">
-        <text class="act-hint">点卡片编辑</text>
-        <button
-          class="btn-mini-danger"
-          size="mini"
-          data-id="{{item.id}}"
-          catchtap="onDeleteUser"
-        >删除</button>
-      </block>
-      <block wx:else>
-        <text class="act-hint">点卡片浏览</text>
-        <button
-          class="btn-mini-danger"
-          size="mini"
-          data-id="{{item.id}}"
-          catchtap="onHideBuiltin"
-        >从列表移除</button>
-      </block>
+    <view
+      class="swipe-content note-card {{item.isUser ? 'note-card-user' : ''}}"
+      style="transform: translateX({{item._x || 0}}px);"
+      data-id="{{item.id}}"
+      data-user="{{item.isUser}}"
+      data-recipe="{{item.recipeId}}"
+      data-index="{{index}}"
+      bindtouchstart="onTouchStart"
+      bindtouchmove="onTouchMove"
+      bindtouchend="onTouchEnd"
+      bindtap="onTap"
+    >
+      <view class="note-top">
+        <text class="note-icon">{{item.icon}}</text>
+        <view class="note-meta">
+          <view class="note-name-row">
+            <view class="note-name">{{item.name}}</view>
+            <text class="note-tag {{item.isUser ? 'tag-user' : 'tag-seed'}}">{{item.badge}}</text>
+          </view>
+          <view class="note-summary">{{item.summary}}</view>
+        </view>
+      </view>
+      <view class="note-foot" wx:if="{{item.foot}}">{{item.foot}}</view>
     </view>
   </view>
 
   <view class="empty" wx:if="{{!loading && !notes.length}}">暂无笔记</view>
-  <view class="disclaimer">理论讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+  <view class="disclaimer">理性讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
 </view>

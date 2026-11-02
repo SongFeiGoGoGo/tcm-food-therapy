@@ -1,11 +1,15 @@
 const api = require('../../utils/api');
 const userNotes = require('../../utils/userNotes');
 
+const ACTION_WIDTH = 76; // px，约等于 140rpx
+
 Page({
   data: {
     notes: [],
     loading: true
   },
+
+  _touch: null,
 
   onShow() {
     this.reload();
@@ -25,10 +29,11 @@ Page({
       name: n.title,
       summary: n.summary || (n.content || '').slice(0, 60),
       icon: n.icon || '📝',
-      foot: '点开可编辑 · 可删除',
+      foot: '',
       badge: '我的',
       isUser: true,
-      recipeId: ''
+      recipeId: '',
+      _x: 0
     }));
 
     api
@@ -43,10 +48,11 @@ Page({
             name: s.name,
             summary: s.summary,
             icon: s.icon,
-            foot: '据罗大伦老师书籍学习笔记 · 非原文照录 · 可从列表移除',
+            foot: '据罗大伦老师书籍学习笔记 · 非原文照录',
             badge: '内置',
             isUser: false,
-            recipeId: s.recipeId || ''
+            recipeId: s.recipeId || '',
+            _x: 0
           }));
         this.setData({ notes: mine.concat(seed), loading: false });
       })
@@ -62,7 +68,19 @@ Page({
   },
 
   onTap(e) {
+    if (this._suppressTap) {
+      this._suppressTap = false;
+      return;
+    }
     const { id, user, recipe } = e.currentTarget.dataset;
+    // 若当前项已滑开，点卡片先收回
+    const index = e.currentTarget.dataset.index;
+    const notes = this.data.notes;
+    if (notes[index] && notes[index]._x < 0) {
+      this.closeAll();
+      return;
+    }
+    this.closeAll();
     if (user === true || user === 'true') {
       wx.navigateTo({ url: '/pages/notes/edit/edit?id=' + id });
       return;
@@ -81,6 +99,74 @@ Page({
         id +
         '&from=notes'
     });
+  },
+
+  closeAll() {
+    const notes = this.data.notes.map((n) =>
+      n._x ? Object.assign({}, n, { _x: 0 }) : n
+    );
+    this.setData({ notes });
+  },
+
+  onTouchStart(e) {
+    const t = e.touches[0];
+    const index = e.currentTarget.dataset.index;
+    this._touch = {
+      index,
+      startX: t.clientX,
+      startY: t.clientY,
+      startOffset: (this.data.notes[index] && this.data.notes[index]._x) || 0,
+      moved: false,
+      locking: null
+    };
+    // 关闭其他已打开项
+    const notes = this.data.notes;
+    let changed = false;
+    const next = notes.map((n, i) => {
+      if (i !== index && n._x) {
+        changed = true;
+        return Object.assign({}, n, { _x: 0 });
+      }
+      return n;
+    });
+    if (changed) this.setData({ notes: next });
+  },
+
+  onTouchMove(e) {
+    const touch = this._touch;
+    if (!touch) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touch.startX;
+    const dy = t.clientY - touch.startY;
+    if (touch.locking === null) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      touch.locking = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+    }
+    if (touch.locking === 'v') return;
+    touch.moved = true;
+    let x = touch.startOffset + dx;
+    if (x > 0) x = 0;
+    if (x < -ACTION_WIDTH) x = -ACTION_WIDTH;
+    const key = 'notes[' + touch.index + ']._x';
+    this.setData({ [key]: x });
+  },
+
+  onTouchEnd() {
+    const touch = this._touch;
+    if (!touch) return;
+    const notes = this.data.notes;
+    const item = notes[touch.index];
+    if (!item) {
+      this._touch = null;
+      return;
+    }
+    let x = item._x || 0;
+    if (touch.moved) {
+      this._suppressTap = true;
+      x = x < -ACTION_WIDTH / 2 ? -ACTION_WIDTH : 0;
+      this.setData({ ['notes[' + touch.index + ']._x']: x });
+    }
+    this._touch = null;
   },
 
   /** 用户笔记：列表快捷删除 */
@@ -117,9 +203,5 @@ Page({
         this.reload();
       }
     });
-  },
-
-  stopBubble() {
-    /* 阻止卡片 tap 冒泡 */
   }
 });

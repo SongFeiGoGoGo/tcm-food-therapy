@@ -2,33 +2,38 @@
   <view class="diary-hero">
     <view class="diary-badge">个人记录</view>
     <view class="diary-title">养生日记</view>
-    <view class="diary-desc">记下睡、便、口味、情绪等日常感觉，方便自己回顾。点开可编辑，也可删除。只做记录与简单计数，不做辨证或用药建议。</view>
+    <view class="diary-desc">记下睡、便、口味、情绪等日常感觉，方便自己回顾。只做记录与简单计数，不做辨证或用药建议。</view>
   </view>
 
   <view class="summary-card" wx:if="{{!empty}}">
     <view class="summary-head">本周小结</view>
-    <view class="summary-sub muted">从 {{summary.weekStart}}（周一）起 · 仅计数，非诊断</view>
-    <view class="summary-grid">
-      <view class="summary-item">
+    <view class="summary-sub muted">{{summary.weekStart}} 起 · 仅计数</view>
+    <scroll-view class="summary-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
+      <view class="summary-chip">
         <text class="summary-num">{{summary.recordCount}}</text>
-        <text class="summary-label">条记录</text>
+        <text class="summary-label">记录</text>
       </view>
-      <view class="summary-item">
+      <view class="summary-chip">
         <text class="summary-num">{{summary.dryThroatCount}}</text>
-        <text class="summary-label">次标口干</text>
+        <text class="summary-label">口干</text>
       </view>
-      <view class="summary-item">
+      <view class="summary-chip">
         <text class="summary-num">{{summary.acneCount}}</text>
-        <text class="summary-label">次标有痘</text>
+        <text class="summary-label">有痘</text>
       </view>
-      <view class="summary-item">
+      <view class="summary-chip">
         <text class="summary-num">{{summary.poorSleepCount}}</text>
-        <text class="summary-label">次睡差</text>
+        <text class="summary-label">睡差</text>
       </view>
-    </view>
-    <view class="summary-extra muted" wx:if="{{summary.coldCount || summary.heatCount}}">
-      怕冷 {{summary.coldCount}} 次 · 怕热 {{summary.heatCount}} 次
-    </view>
+      <view class="summary-chip" wx:if="{{summary.coldCount}}">
+        <text class="summary-num">{{summary.coldCount}}</text>
+        <text class="summary-label">怕冷</text>
+      </view>
+      <view class="summary-chip" wx:if="{{summary.heatCount}}">
+        <text class="summary-num">{{summary.heatCount}}</text>
+        <text class="summary-label">怕热</text>
+      </view>
+    </scroll-view>
   </view>
 
   <view class="toolbar">
@@ -41,35 +46,42 @@
   </view>
 
   <view
-    class="entry-card"
+    class="swipe-row"
     wx:for="{{entries}}"
     wx:key="id"
-    bindtap="onTapItem"
-    data-id="{{item.id}}"
   >
-    <view class="entry-date">{{item.date}}</view>
-    <view class="entry-preview">
-      <text wx:if="{{item.sleep}}">睡·{{item.sleep}}</text>
-      <text wx:if="{{item.sleep && item.stool}}"> · </text>
-      <text wx:if="{{item.stool}}">便·{{item.stool}}</text>
-      <text wx:if="{{(item.sleep || item.stool) && item.mood}}"> · </text>
-      <text wx:if="{{item.mood}}">情绪·{{item.mood}}</text>
-      <text wx:if="{{(item.sleep || item.stool || item.mood) && item.dryThroat === '有'}}"> · </text>
-      <text wx:if="{{item.dryThroat === '有'}}">嗓子干</text>
-      <text wx:if="{{(item.sleep || item.stool || item.mood || item.dryThroat === '有') && item.acne === '有'}}"> · </text>
-      <text wx:if="{{item.acne === '有'}}">有痘</text>
-      <text wx:if="{{!(item.sleep || item.stool || item.mood || item.dryThroat === '有' || item.acne === '有')}}" class="muted">（未填具体项，可点开补充）</text>
-    </view>
-    <view class="entry-actions" catchtap="stopBubble">
-      <text class="act-hint">点卡片编辑</text>
-      <button
-        class="btn-mini-danger"
-        size="mini"
+    <view class="swipe-actions">
+      <view
+        class="swipe-btn swipe-btn-del"
         data-id="{{item.id}}"
         catchtap="onDeleteItem"
-      >删除</button>
+      >删除</view>
+    </view>
+    <view
+      class="swipe-content entry-card"
+      style="transform: translateX({{item._x || 0}}px);"
+      data-id="{{item.id}}"
+      data-index="{{index}}"
+      bindtouchstart="onTouchStart"
+      bindtouchmove="onTouchMove"
+      bindtouchend="onTouchEnd"
+      bindtap="onTapItem"
+    >
+      <view class="entry-date">{{item.date}}</view>
+      <view class="entry-preview">
+        <text wx:if="{{item.sleep}}">睡·{{item.sleep}}</text>
+        <text wx:if="{{item.sleep && item.stool}}"> · </text>
+        <text wx:if="{{item.stool}}">便·{{item.stool}}</text>
+        <text wx:if="{{(item.sleep || item.stool) && item.mood}}"> · </text>
+        <text wx:if="{{item.mood}}">情绪·{{item.mood}}</text>
+        <text wx:if="{{(item.sleep || item.stool || item.mood) && item.dryThroat === '有'}}"> · </text>
+        <text wx:if="{{item.dryThroat === '有'}}">嗓子干</text>
+        <text wx:if="{{(item.sleep || item.stool || item.mood || item.dryThroat === '有') && item.acne === '有'}}"> · </text>
+        <text wx:if="{{item.acne === '有'}}">有痘</text>
+        <text wx:if="{{!(item.sleep || item.stool || item.mood || item.dryThroat === '有' || item.acne === '有')}}" class="muted">（可补充）</text>
+      </view>
     </view>
   </view>
 
-  <view class="disclaimer">理论讨论，不替代面诊。日记仅供个人回顾，不作诊断或用药依据。</view>
+  <view class="disclaimer">理性讨论，不替代面诊。日记仅供个人回顾，不作诊断或用药依据。</view>
 </view>

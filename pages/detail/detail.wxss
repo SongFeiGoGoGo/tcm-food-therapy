@@ -111,8 +111,14 @@
   border: none;
 }
 
-.hide-hint {
-  margin-top: 12rpx;
+.hide-row {
+  margin-top: 28rpx;
   text-align: center;
-  line-height: 1.45;
+}
+
+.hide-link {
+  font-size: 24rpx;
+  color: #9ca3af;
+  text-decoration: underline;
+  text-underline-offset: 4rpx;
 }

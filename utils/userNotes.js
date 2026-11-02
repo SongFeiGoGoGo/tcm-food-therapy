@@ -2,7 +2,7 @@
  * 用户自主笔记：本地 wx.storage 读写
  * 与种子笔记分离，不写入 seed / 云数据。
  * 另：内置笔记「本地隐藏」黑名单（不改 seed）。
- * 理论讨论，不替代面诊；不做诊断推荐。
+ * 理性讨论，不替代面诊；不做诊断推荐。
  */
 const STORAGE_KEY = 'tcm_user_notes';
 const HIDDEN_BUILTIN_KEY = 'tcm_hidden_builtin_notes';

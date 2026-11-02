@@ -44,13 +44,51 @@
   width: 100%;
 }
 
+.swipe-row {
+  position: relative;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  border-radius: 16rpx;
+}
+
+.swipe-actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  z-index: 0;
+}
+
+.swipe-btn {
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #fff;
+  font-weight: 500;
+}
+
+.swipe-btn-del {
+  background: #b91c1c;
+}
+
+.swipe-content {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.18s ease-out;
+  will-change: transform;
+}
+
 .note-card {
   background: #fffdf8;
   border-radius: 16rpx;
   padding: 28rpx;
-  margin-bottom: 20rpx;
   border-left: 8rpx solid #c4a574;
   box-shadow: 0 2rpx 10rpx rgba(92, 61, 30, 0.06);
+  box-sizing: border-box;
 }
 
 .note-card-user {
@@ -59,7 +97,7 @@
 }
 
 .note-card:active {
-  opacity: 0.88;
+  opacity: 0.92;
 }
 
 .note-top {
@@ -122,34 +160,4 @@
   margin-top: 16rpx;
   font-size: 20rpx;
   color: #a89070;
-}
-
-.note-actions {
-  margin-top: 16rpx;
-  padding-top: 16rpx;
-  border-top: 1rpx solid #efe4d2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16rpx;
-}
-
-.act-hint {
-  font-size: 22rpx;
-  color: #a89070;
-}
-
-.btn-mini-danger {
-  margin: 0;
-  background: #fff;
-  color: #b91c1c;
-  border: 2rpx solid #fecaca;
-  border-radius: 8rpx;
-  font-size: 22rpx;
-  line-height: 1.4;
-  padding: 6rpx 18rpx;
-}
-
-.btn-mini-danger::after {
-  border: none;
 }

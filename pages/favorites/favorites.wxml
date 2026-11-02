@@ -13,5 +13,5 @@
     <navigator url="/pages/index/index" class="back-link">去选症状</navigator>
   </view>
 
-  <view class="disclaimer">理论讨论，不替代面诊</view>
+  <view class="disclaimer">理性讨论，不替代面诊</view>
 </view>

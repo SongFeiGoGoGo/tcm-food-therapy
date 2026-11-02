@@ -26,5 +26,5 @@
     <navigator url="/pages/favorites/favorites" class="link-fav">我的收藏</navigator>
   </view>
 
-  <view class="disclaimer">理论讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+  <view class="disclaimer">理性讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
 </view>
