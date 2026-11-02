@@ -22,5 +22,13 @@
     "icon": "🌙",
     "sort": 3,
     "recipeId": "recipe_insomnia_night"
+  },
+  {
+    "_id": "symptom_cold_legs",
+    "name": "腰腿受寒之后的驱寒泡脚",
+    "summary": "外寒入络、气血不畅；泡脚方侧重温经散寒、舒筋通络、活血化瘀。",
+    "icon": "🦶",
+    "sort": 4,
+    "recipeId": "recipe_cold_legs_footbath"
   }
 ]
