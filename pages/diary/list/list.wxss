@@ -143,6 +143,10 @@
   will-change: transform;
 }
 
+.swipe-content.is-dragging {
+  transition: none;
+}
+
 .entry-card {
   background: #fff;
   border-radius: 16rpx;

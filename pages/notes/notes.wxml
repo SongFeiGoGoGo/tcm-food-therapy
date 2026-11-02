@@ -1,4 +1,4 @@
-<view class="notes-page">
+<view class="notes-page" bindtap="onPageTap">
   <view class="notes-hero">
     <view class="notes-badge">学习笔记</view>
     <view class="notes-title">中医小笔记</view>
@@ -6,7 +6,7 @@
   </view>
 
   <view class="toolbar">
-    <button class="btn-primary btn-add" bindtap="onAdd">写笔记</button>
+    <button class="btn-primary btn-add" catchtap="onAdd">写笔记</button>
   </view>
 
   <view
@@ -29,7 +29,7 @@
       >移除</view>
     </view>
     <view
-      class="swipe-content note-card {{item.isUser ? 'note-card-user' : ''}}"
+      class="swipe-content note-card {{item.isUser ? 'note-card-user' : ''}} {{item._dragging ? 'is-dragging' : ''}}"
       style="transform: translateX({{item._x || 0}}px);"
       data-id="{{item.id}}"
       data-user="{{item.isUser}}"
@@ -38,7 +38,9 @@
       bindtouchstart="onTouchStart"
       bindtouchmove="onTouchMove"
       bindtouchend="onTouchEnd"
-      bindtap="onTap"
+      bindtouchcancel="onTouchCancel"
+      catchtouchmove="{{item._catchMove ? 'onCatchTouchMove' : ''}}"
+      catchtap="onTap"
     >
       <view class="note-top">
         <text class="note-icon">{{item.icon}}</text>

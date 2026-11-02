@@ -1,6 +1,7 @@
 const diary = require('../../../utils/diary');
+const swipeCell = require('../../../utils/swipeCell');
 
-const ACTION_WIDTH = 76; // px
+const ACTION_WIDTH = swipeCell.getActionWidthPx(140);
 
 Page({
   data: {
@@ -18,13 +19,16 @@ Page({
   },
 
   _touch: null,
+  _suppressTap: false,
 
   onShow() {
     this.reload();
   },
 
   reload() {
-    const entries = diary.list().map((e) => Object.assign({}, e, { _x: 0 }));
+    const entries = diary.list().map((e) =>
+      Object.assign({}, e, { _x: 0, _dragging: false, _catchMove: false })
+    );
     const summary = diary.weekSummary(entries);
     this.setData({
       entries: entries,
@@ -34,7 +38,13 @@ Page({
   },
 
   onAdd() {
+    this.closeAll();
     wx.navigateTo({ url: '/pages/diary/edit/edit' });
+  },
+
+  /** 点空白处：收起已打开的删除 */
+  onPageTap() {
+    this.closeAll();
   },
 
   onTapItem(e) {
@@ -45,6 +55,7 @@ Page({
     const id = e.currentTarget.dataset.id;
     const index = e.currentTarget.dataset.index;
     const entries = this.data.entries;
+    // 已滑开：点卡片只收回，不进编辑
     if (entries[index] && entries[index]._x < 0) {
       this.closeAll();
       return;
@@ -55,29 +66,38 @@ Page({
   },
 
   closeAll() {
-    const entries = this.data.entries.map((n) =>
-      n._x ? Object.assign({}, n, { _x: 0 }) : n
-    );
-    this.setData({ entries });
+    const entries = this.data.entries;
+    let changed = false;
+    const next = entries.map((n) => {
+      if (n._x || n._dragging || n._catchMove) {
+        changed = true;
+        return Object.assign({}, n, { _x: 0, _dragging: false, _catchMove: false });
+      }
+      return n;
+    });
+    if (changed) this.setData({ entries: next });
   },
 
   onTouchStart(e) {
     const t = e.touches[0];
     const index = e.currentTarget.dataset.index;
+    const cur = this.data.entries[index];
     this._touch = {
-      index,
+      index: index,
       startX: t.clientX,
       startY: t.clientY,
-      startOffset: (this.data.entries[index] && this.data.entries[index]._x) || 0,
+      startOffset: (cur && cur._x) || 0,
+      currentX: (cur && cur._x) || 0,
       moved: false,
       locking: null
     };
+    // 同时只开一条：按下时关闭其他项
     const entries = this.data.entries;
     let changed = false;
     const next = entries.map((n, i) => {
-      if (i !== index && n._x) {
+      if (i !== index && (n._x || n._dragging || n._catchMove)) {
         changed = true;
-        return Object.assign({}, n, { _x: 0 });
+        return Object.assign({}, n, { _x: 0, _dragging: false, _catchMove: false });
       }
       return n;
     });
@@ -90,33 +110,62 @@ Page({
     const t = e.touches[0];
     const dx = t.clientX - touch.startX;
     const dy = t.clientY - touch.startY;
-    if (touch.locking === null) {
-      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      touch.locking = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+
+    if (touch.locking === null || touch.locking === 'pending') {
+      const lock = swipeCell.decideLock(dx, dy);
+      if (lock === null || lock === 'pending') {
+        touch.locking = lock === 'pending' ? 'pending' : null;
+        return;
+      }
+      touch.locking = lock;
+      if (lock === 'v') return;
+      // 水平锁定：跟手、禁 transition、catch 掉滚动
+      this.setData({
+        ['entries[' + touch.index + ']._dragging']: true,
+        ['entries[' + touch.index + ']._catchMove']: true
+      });
     }
+
     if (touch.locking === 'v') return;
+
     touch.moved = true;
-    let x = touch.startOffset + dx;
-    if (x > 0) x = 0;
-    if (x < -ACTION_WIDTH) x = -ACTION_WIDTH;
+    const x = swipeCell.clampX(touch.startOffset + dx, ACTION_WIDTH);
+    touch.currentX = x;
     this.setData({ ['entries[' + touch.index + ']._x']: x });
+  },
+
+  /** catchtouchmove：水平锁定后阻止页面滚动 */
+  onCatchTouchMove(e) {
+    this.onTouchMove(e);
   },
 
   onTouchEnd() {
     const touch = this._touch;
     if (!touch) return;
-    const item = this.data.entries[touch.index];
-    if (!item) {
-      this._touch = null;
+    const index = touch.index;
+    this._touch = null;
+
+    if (touch.locking !== 'h' || !touch.moved) {
+      // 点击或纵向滚动：强制收回，避免 setData 竞态残留半开
+      this.setData({
+        ['entries[' + index + ']._x']: 0,
+        ['entries[' + index + ']._dragging']: false,
+        ['entries[' + index + ']._catchMove']: false
+      });
       return;
     }
-    let x = item._x || 0;
-    if (touch.moved) {
-      this._suppressTap = true;
-      x = x < -ACTION_WIDTH / 2 ? -ACTION_WIDTH : 0;
-      this.setData({ ['entries[' + touch.index + ']._x']: x });
-    }
-    this._touch = null;
+
+    this._suppressTap = true;
+    const x = swipeCell.snapX(touch.currentX, ACTION_WIDTH);
+    this.setData({
+      ['entries[' + index + ']._x']: x,
+      ['entries[' + index + ']._dragging']: false,
+      ['entries[' + index + ']._catchMove']: false
+    });
+  },
+
+  onTouchCancel() {
+    this.onTouchEnd();
   },
 
   onDeleteItem(e) {

@@ -82,6 +82,10 @@
   will-change: transform;
 }
 
+.swipe-content.is-dragging {
+  transition: none;
+}
+
 .note-card {
   background: #fffdf8;
   border-radius: 16rpx;

@@ -1,7 +1,8 @@
 const api = require('../../utils/api');
 const userNotes = require('../../utils/userNotes');
+const swipeCell = require('../../utils/swipeCell');
 
-const ACTION_WIDTH = 76; // px，约等于 140rpx
+const ACTION_WIDTH = swipeCell.getActionWidthPx(140);
 
 Page({
   data: {
@@ -10,6 +11,7 @@ Page({
   },
 
   _touch: null,
+  _suppressTap: false,
 
   onShow() {
     this.reload();
@@ -33,7 +35,9 @@ Page({
       badge: '我的',
       isUser: true,
       recipeId: '',
-      _x: 0
+      _x: 0,
+      _dragging: false,
+      _catchMove: false
     }));
 
     api
@@ -52,7 +56,9 @@ Page({
             badge: '内置',
             isUser: false,
             recipeId: s.recipeId || '',
-            _x: 0
+            _x: 0,
+            _dragging: false,
+            _catchMove: false
           }));
         this.setData({ notes: mine.concat(seed), loading: false });
       })
@@ -64,7 +70,13 @@ Page({
   },
 
   onAdd() {
+    this.closeAll();
     wx.navigateTo({ url: '/pages/notes/edit/edit' });
+  },
+
+  /** 点空白处：收起已打开的删除 */
+  onPageTap() {
+    this.closeAll();
   },
 
   onTap(e) {
@@ -73,9 +85,9 @@ Page({
       return;
     }
     const { id, user, recipe } = e.currentTarget.dataset;
-    // 若当前项已滑开，点卡片先收回
     const index = e.currentTarget.dataset.index;
     const notes = this.data.notes;
+    // 已滑开：点卡片只收回
     if (notes[index] && notes[index]._x < 0) {
       this.closeAll();
       return;
@@ -102,30 +114,38 @@ Page({
   },
 
   closeAll() {
-    const notes = this.data.notes.map((n) =>
-      n._x ? Object.assign({}, n, { _x: 0 }) : n
-    );
-    this.setData({ notes });
+    const notes = this.data.notes;
+    let changed = false;
+    const next = notes.map((n) => {
+      if (n._x || n._dragging || n._catchMove) {
+        changed = true;
+        return Object.assign({}, n, { _x: 0, _dragging: false, _catchMove: false });
+      }
+      return n;
+    });
+    if (changed) this.setData({ notes: next });
   },
 
   onTouchStart(e) {
     const t = e.touches[0];
     const index = e.currentTarget.dataset.index;
+    const cur = this.data.notes[index];
     this._touch = {
-      index,
+      index: index,
       startX: t.clientX,
       startY: t.clientY,
-      startOffset: (this.data.notes[index] && this.data.notes[index]._x) || 0,
+      startOffset: (cur && cur._x) || 0,
+      currentX: (cur && cur._x) || 0,
       moved: false,
       locking: null
     };
-    // 关闭其他已打开项
+    // 同时只开一条
     const notes = this.data.notes;
     let changed = false;
     const next = notes.map((n, i) => {
-      if (i !== index && n._x) {
+      if (i !== index && (n._x || n._dragging || n._catchMove)) {
         changed = true;
-        return Object.assign({}, n, { _x: 0 });
+        return Object.assign({}, n, { _x: 0, _dragging: false, _catchMove: false });
       }
       return n;
     });
@@ -138,35 +158,60 @@ Page({
     const t = e.touches[0];
     const dx = t.clientX - touch.startX;
     const dy = t.clientY - touch.startY;
-    if (touch.locking === null) {
-      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      touch.locking = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+
+    if (touch.locking === null || touch.locking === 'pending') {
+      const lock = swipeCell.decideLock(dx, dy);
+      if (lock === null || lock === 'pending') {
+        touch.locking = lock === 'pending' ? 'pending' : null;
+        return;
+      }
+      touch.locking = lock;
+      if (lock === 'v') return;
+      this.setData({
+        ['notes[' + touch.index + ']._dragging']: true,
+        ['notes[' + touch.index + ']._catchMove']: true
+      });
     }
+
     if (touch.locking === 'v') return;
+
     touch.moved = true;
-    let x = touch.startOffset + dx;
-    if (x > 0) x = 0;
-    if (x < -ACTION_WIDTH) x = -ACTION_WIDTH;
-    const key = 'notes[' + touch.index + ']._x';
-    this.setData({ [key]: x });
+    const x = swipeCell.clampX(touch.startOffset + dx, ACTION_WIDTH);
+    touch.currentX = x;
+    this.setData({ ['notes[' + touch.index + ']._x']: x });
+  },
+
+  onCatchTouchMove(e) {
+    this.onTouchMove(e);
   },
 
   onTouchEnd() {
     const touch = this._touch;
     if (!touch) return;
-    const notes = this.data.notes;
-    const item = notes[touch.index];
-    if (!item) {
-      this._touch = null;
+    const index = touch.index;
+    this._touch = null;
+
+    if (touch.locking !== 'h' || !touch.moved) {
+      // 点击或纵向优先：强制收回，避免竞态半开
+      this.setData({
+        ['notes[' + index + ']._x']: 0,
+        ['notes[' + index + ']._dragging']: false,
+        ['notes[' + index + ']._catchMove']: false
+      });
       return;
     }
-    let x = item._x || 0;
-    if (touch.moved) {
-      this._suppressTap = true;
-      x = x < -ACTION_WIDTH / 2 ? -ACTION_WIDTH : 0;
-      this.setData({ ['notes[' + touch.index + ']._x']: x });
-    }
-    this._touch = null;
+
+    this._suppressTap = true;
+    const x = swipeCell.snapX(touch.currentX, ACTION_WIDTH);
+    this.setData({
+      ['notes[' + index + ']._x']: x,
+      ['notes[' + index + ']._dragging']: false,
+      ['notes[' + index + ']._catchMove']: false
+    });
+  },
+
+  onTouchCancel() {
+    this.onTouchEnd();
   },
 
   /** 用户笔记：列表快捷删除 */
