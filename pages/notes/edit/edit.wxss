@@ -1,0 +1,85 @@
+.edit-page {
+  min-height: 100vh;
+  padding: 24rpx 32rpx 64rpx;
+  background: linear-gradient(180deg, #f3efe6 0%, #f7f7f5 40%);
+  box-sizing: border-box;
+}
+
+.field {
+  background: #fffdf8;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  border: 2rpx solid #efe4d2;
+  box-shadow: 0 2rpx 10rpx rgba(92, 61, 30, 0.04);
+}
+
+.label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #5c3d1e;
+  margin-bottom: 16rpx;
+}
+
+.opt {
+  font-weight: 400;
+  font-size: 22rpx;
+  color: #a89070;
+  margin-left: 8rpx;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.chip {
+  padding: 12rpx 20rpx;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  background: #f5efe4;
+  border: 2rpx solid transparent;
+}
+
+.chip.on {
+  background: #8b5e34;
+  border-color: #8b5e34;
+}
+
+.input {
+  margin-top: 8rpx;
+  padding: 16rpx 20rpx;
+  background: #f7f3eb;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 220rpx;
+  padding: 16rpx 20rpx;
+  background: #f7f3eb;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: 12rpx;
+}
+
+.btn-danger {
+  background: #fff;
+  color: #b91c1c;
+  border: 2rpx solid #fecaca;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  padding: 18rpx 36rpx;
+  margin-top: 20rpx;
+}
+
+.btn-danger::after {
+  border: none;
+}

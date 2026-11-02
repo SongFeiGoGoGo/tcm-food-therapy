@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/detail/detail",
     "pages/notes/notes",
+    "pages/notes/edit/edit",
     "pages/diary/list/list",
     "pages/diary/edit/edit",
     "pages/favorites/favorites"
