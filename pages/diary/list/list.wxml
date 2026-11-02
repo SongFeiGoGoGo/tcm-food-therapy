@@ -2,7 +2,7 @@
   <view class="diary-hero">
     <view class="diary-badge">个人记录</view>
     <view class="diary-title">养生日记</view>
-    <view class="diary-desc">记下睡、便、口味、情绪等日常感觉，方便自己回顾。只做记录与简单计数，不做辨证或用药建议。</view>
+    <view class="diary-desc">记下睡、便、口味、情绪等日常感觉，方便自己回顾。点开可编辑，也可删除。只做记录与简单计数，不做辨证或用药建议。</view>
   </view>
 
   <view class="summary-card" wx:if="{{!empty}}">
@@ -60,7 +60,15 @@
       <text wx:if="{{item.acne === '有'}}">有痘</text>
       <text wx:if="{{!(item.sleep || item.stool || item.mood || item.dryThroat === '有' || item.acne === '有')}}" class="muted">（未填具体项，可点开补充）</text>
     </view>
-    <view class="entry-arrow">›</view>
+    <view class="entry-actions" catchtap="stopBubble">
+      <text class="act-hint">点卡片编辑</text>
+      <button
+        class="btn-mini-danger"
+        size="mini"
+        data-id="{{item.id}}"
+        catchtap="onDeleteItem"
+      >删除</button>
+    </view>
   </view>
 
   <view class="disclaimer">理论讨论，不替代面诊。日记仅供个人回顾，不作诊断或用药依据。</view>

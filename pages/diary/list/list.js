@@ -39,4 +39,24 @@ Page({
     wx.navigateTo({ url: '/pages/diary/edit/edit?id=' + id });
   },
 
+  onDeleteItem(e) {
+    const id = e.currentTarget.dataset.id;
+    if (!id) return;
+    wx.showModal({
+      title: '删除这条日记？',
+      content: '删除后无法恢复',
+      confirmText: '删除',
+      confirmColor: '#b91c1c',
+      success: (res) => {
+        if (!res.confirm) return;
+        diary.remove(id);
+        wx.showToast({ title: '已删除', icon: 'success' });
+        this.reload();
+      }
+    });
+  },
+
+  stopBubble() {
+    /* 阻止卡片 tap 冒泡 */
+  }
 });

@@ -1,4 +1,5 @@
 const api = require('../../utils/api');
+const userNotes = require('../../utils/userNotes');
 
 Page({
   data: {
@@ -6,13 +7,15 @@ Page({
     favorited: false,
     loading: true,
     recipeId: '',
-    symptomId: ''
+    symptomId: '',
+    fromNotes: false
   },
 
   onLoad(query) {
     const id = query.id || '';
     const symptomId = query.symptomId || '';
-    this.setData({ recipeId: id, symptomId });
+    const fromNotes = query.from === 'notes';
+    this.setData({ recipeId: id, symptomId, fromNotes });
     this.loadDetail(id);
   },
 
@@ -59,6 +62,29 @@ Page({
       .catch(() => {
         wx.showToast({ title: '操作失败', icon: 'none' });
       });
+  },
+
+  /** 内置学习笔记：仅本机从列表隐藏，不改 seed / 云库 */
+  onHideFromNotes() {
+    const symptomId = this.data.symptomId;
+    if (!symptomId) {
+      wx.showToast({ title: '无法定位该笔记', icon: 'none' });
+      return;
+    }
+    wx.showModal({
+      title: '从我的列表移除？',
+      content: '仅在本机隐藏这条内置学习笔记，不会修改资料库。重启后仍保持隐藏。',
+      confirmText: '移除',
+      confirmColor: '#b91c1c',
+      success: (res) => {
+        if (!res.confirm) return;
+        userNotes.hideBuiltin(symptomId);
+        wx.showToast({ title: '已从列表移除', icon: 'success' });
+        setTimeout(() => {
+          wx.navigateBack({ fail() {} });
+        }, 400);
+      }
+    });
   },
 
   onShareAppMessage() {

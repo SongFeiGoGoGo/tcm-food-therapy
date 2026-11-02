@@ -96,3 +96,23 @@
 .fav-btn {
   width: 100%;
 }
+
+.btn-danger {
+  background: #fff;
+  color: #b91c1c;
+  border: 2rpx solid #fecaca;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  padding: 18rpx 36rpx;
+  margin-top: 20rpx;
+}
+
+.btn-danger::after {
+  border: none;
+}
+
+.hide-hint {
+  margin-top: 12rpx;
+  text-align: center;
+  line-height: 1.45;
+}
