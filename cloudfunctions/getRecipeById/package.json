@@ -1,0 +1,9 @@
+{
+  "name": "getRecipeById",
+  "version": "1.0.0",
+  "description": "按 ID 获取食疗详情",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

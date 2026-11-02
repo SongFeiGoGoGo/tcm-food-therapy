@@ -1,0 +1,31 @@
+# 依赖
+node_modules/
+**/node_modules/
+
+# 微信开发者工具私有 / 本地配置
+project.private.config.json
+private.config.json
+
+# 云函数构建产物与本地 env
+cloudfunctions/**/config.json
+*.local.json
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 日志与临时
+*.log
+npm-debug.log*
+.temp/
+.tmp/
+
+# 密钥与证书（切勿提交）
+*.pem
+*.key
+.env
+.env.*

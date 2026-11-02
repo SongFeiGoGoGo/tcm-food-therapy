@@ -1,0 +1,49 @@
+<view class="container" wx:if="{{recipe}}">
+  <view class="card header-card">
+    <view class="symptom-chip" wx:if="{{recipe.symptomName}}">症状：{{recipe.symptomName}}</view>
+    <view class="title">{{recipe.title}}</view>
+    <view class="subtitle">{{recipe.subtitle}}</view>
+    <view class="tags" wx:if="{{recipe.tags && recipe.tags.length}}">
+      <text class="tag" wx:for="{{recipe.tags}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-label">食材与克数</view>
+    <view class="ingredient" wx:for="{{recipe.ingredients}}" wx:key="name">
+      <text class="ing-name">{{item.name}}</text>
+      <text class="ing-amount">{{item.amount}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-label">配伍说明</view>
+    <view class="body-text">{{recipe.pairing}}</view>
+  </view>
+
+  <view class="card" wx:if="{{recipe.steps && recipe.steps.length}}">
+    <view class="section-label">简单做法</view>
+    <view class="step" wx:for="{{recipe.steps}}" wx:key="*this" wx:for-index="idx">
+      <text class="step-num">{{idx + 1}}.</text>
+      <text class="step-text">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-label">注意事项</view>
+    <view class="note" wx:for="{{recipe.notes}}" wx:key="*this">
+      <text class="note-dot">·</text>
+      <text class="note-text">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="{{favorited ? 'btn-outline' : 'btn-primary'}} fav-btn" bindtap="onToggleFavorite">
+      {{favorited ? '已收藏 · 点击取消' : '收藏此方案'}}
+    </button>
+  </view>
+
+  <view class="disclaimer">理论讨论，不替代面诊</view>
+</view>
+
+<view class="empty" wx:elif="{{!loading}}">未找到该食疗方案</view>

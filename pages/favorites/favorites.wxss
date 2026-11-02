@@ -1,0 +1,14 @@
+.hint {
+  margin-bottom: 16rpx;
+}
+
+.fav-item:active {
+  opacity: 0.85;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 24rpx;
+  color: #2d6a4f;
+  text-decoration: underline;
+}

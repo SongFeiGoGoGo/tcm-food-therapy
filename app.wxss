@@ -1,0 +1,82 @@
+/**app.wxss — 全局样式：干净可读**/
+page {
+  background-color: #f7f7f5;
+  color: #1a1a1a;
+  font-size: 28rpx;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 24rpx 32rpx 48rpx;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1b4332;
+  margin-bottom: 12rpx;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 24rpx;
+}
+
+.btn-primary {
+  background: #2d6a4f;
+  color: #fff;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  padding: 20rpx 40rpx;
+  border: none;
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+.btn-outline {
+  background: #fff;
+  color: #2d6a4f;
+  border: 2rpx solid #2d6a4f;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  padding: 18rpx 36rpx;
+}
+
+.btn-outline::after {
+  border: none;
+}
+
+.section-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #2d6a4f;
+  margin: 24rpx 0 12rpx;
+}
+
+.disclaimer {
+  margin-top: 48rpx;
+  padding: 24rpx;
+  background: #fef9e7;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  color: #7c6a1f;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.empty {
+  text-align: center;
+  padding: 80rpx 40rpx;
+  color: #9ca3af;
+}

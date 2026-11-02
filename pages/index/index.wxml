@@ -1,0 +1,27 @@
+<view class="container">
+  <view class="hero">
+    <view class="hero-title">今天哪里不舒服？</view>
+    <view class="hero-desc">点选症状，查看对应的中医食疗参考方案。内容仅供学习讨论。</view>
+    <view class="mode-tag" wx:if="{{!cloudReady}}">本地演示模式</view>
+    <view class="mode-tag cloud" wx:else>云开发已连接</view>
+  </view>
+
+  <view class="card symptom-item" wx:for="{{symptoms}}" wx:key="_id" bindtap="onTapSymptom" data-id="{{item._id}}" data-recipe="{{item.recipeId}}">
+    <view class="symptom-row">
+      <text class="symptom-icon">{{item.icon}}</text>
+      <view class="symptom-body">
+        <view class="card-title">{{item.name}}</view>
+        <view class="muted">{{item.summary}}</view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{!loading && !symptoms.length}}">暂无症状数据</view>
+
+  <view class="footer-actions">
+    <navigator url="/pages/favorites/favorites" class="link-fav">我的收藏</navigator>
+  </view>
+
+  <view class="disclaimer">理论讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+</view>
