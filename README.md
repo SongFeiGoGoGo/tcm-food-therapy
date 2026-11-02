@@ -19,7 +19,7 @@
 2. 感冒前兆之睡醒嗓子干疼  
 3. 夜里 11～12 点烦躁睡不着  
 
-（文案与克数为合理占位，可自行在 `utils/seed.js` 与 `cloud/database/*.json` 中修改。）
+（首批三条食疗文案已改写；仍为理论讨论，可继续在 `utils/seed.js` 与 `cloud/database/*.json` 中调整。）
 
 ## 目录结构
 

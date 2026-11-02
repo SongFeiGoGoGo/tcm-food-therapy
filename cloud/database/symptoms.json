@@ -2,7 +2,7 @@
   {
     "_id": "symptom_acne_chin",
     "name": "下巴唇周反复长痘",
-    "summary": "多与湿热、脾胃失调有关，食疗侧重清湿热、调脾胃。",
+    "summary": "多与脾胃湿热上蒸有关；兼易感寒者清利宜缓，食疗侧重利湿健脾、反佐护阳。",
     "icon": "🧴",
     "sort": 1,
     "recipeId": "recipe_acne_chin"
@@ -10,7 +10,7 @@
   {
     "_id": "symptom_sore_throat",
     "name": "感冒前兆之睡醒嗓子干疼",
-    "summary": "风热初起或阴虚津少，食疗侧重润燥利咽、轻宣风热。",
+    "summary": "阴津不足夹余热或风邪初感；寒包火恢复期宜润燥利咽、微温反佐，少堆大寒。",
     "icon": "🤒",
     "sort": 2,
     "recipeId": "recipe_sore_throat"
@@ -18,7 +18,7 @@
   {
     "_id": "symptom_insomnia_night",
     "name": "夜里11～12点烦躁睡不着",
-    "summary": "心肝火旺或阴虚内热，食疗侧重养心安神、清肝火。",
+    "summary": "心脾不交或阴虚夹扰；易内耗、寒包火后宜养安为主、清火为辅。",
     "icon": "🌙",
     "sort": 3,
     "recipeId": "recipe_insomnia_night"
