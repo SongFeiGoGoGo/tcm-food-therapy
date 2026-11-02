@@ -6,13 +6,13 @@
     <view class="mode-tag cloud" wx:else>云开发已连接</view>
   </view>
 
-  <navigator url="/pages/notes/notes" class="notes-entry" hover-class="notes-entry-hover">
+  <view class="notes-entry" bindtap="onOpenNotes" hover-class="notes-entry-hover">
     <view class="notes-entry-left">
       <view class="notes-entry-title">中医小笔记</view>
       <view class="notes-entry-desc">读书整理的方子合集 · 学习笔记</view>
     </view>
     <text class="notes-entry-arrow">›</text>
-  </navigator>
+  </view>
 
   <view class="section-cap">日常调理</view>
 

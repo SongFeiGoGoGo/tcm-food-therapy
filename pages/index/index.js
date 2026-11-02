@@ -30,7 +30,17 @@ Page({
   },
 
   onOpenNotes() {
-    wx.navigateTo({ url: '/pages/notes/notes' });
+    wx.navigateTo({
+      url: '/pages/notes/notes',
+      fail(err) {
+        console.error('notes nav fail', err);
+        wx.showModal({
+          title: '跳转失败',
+          content: (err && err.errMsg) || '未知错误',
+          showCancel: false
+        });
+      }
+    });
   },
 
   onTapSymptom(e) {
