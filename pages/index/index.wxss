@@ -73,3 +73,35 @@
   font-size: 28rpx;
   text-decoration: underline;
 }
+
+.notes-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  margin-bottom: 28rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #f6ead7 0%, #efe0c8 100%);
+  border: 2rpx solid #e2d0b0;
+}
+.notes-entry:active { opacity: 0.9; }
+.notes-entry-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #5c3d1e;
+  margin-bottom: 6rpx;
+}
+.notes-entry-desc {
+  font-size: 22rpx;
+  color: #8a7355;
+}
+.notes-entry-arrow {
+  font-size: 44rpx;
+  color: #a89070;
+  padding-left: 12rpx;
+}
+.section-cap {
+  font-size: 24rpx;
+  color: #6b7280;
+  margin: 8rpx 0 16rpx 8rpx;
+}

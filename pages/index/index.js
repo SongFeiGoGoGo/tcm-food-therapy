@@ -18,13 +18,19 @@ Page({
     api
       .getSymptoms()
       .then((list) => {
-        this.setData({ symptoms: list || [], loading: false });
+        const all = list || [];
+        const symptoms = all.filter((s) => s.group !== 'notes');
+        this.setData({ symptoms, loading: false });
       })
       .catch((err) => {
         console.error(err);
         this.setData({ loading: false });
         wx.showToast({ title: '加载失败', icon: 'none' });
       });
+  },
+
+  onOpenNotes() {
+    wx.navigateTo({ url: '/pages/notes/notes' });
   },
 
   onTapSymptom(e) {

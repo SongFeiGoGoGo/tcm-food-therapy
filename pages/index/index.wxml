@@ -1,10 +1,20 @@
 <view class="container">
   <view class="hero">
     <view class="hero-title">今天哪里不舒服？</view>
-    <view class="hero-desc">点选症状，查看对应的中医食疗参考方案。内容仅供学习讨论。</view>
+    <view class="hero-desc">点选症状，查看食疗参考。内容仅供学习讨论。</view>
     <view class="mode-tag" wx:if="{{!cloudReady}}">本地演示模式</view>
     <view class="mode-tag cloud" wx:else>云开发已连接</view>
   </view>
+
+  <view class="notes-entry" bindtap="onOpenNotes">
+    <view class="notes-entry-left">
+      <view class="notes-entry-title">中医小笔记</view>
+      <view class="notes-entry-desc">读书整理的方子合集 · 学习笔记</view>
+    </view>
+    <text class="notes-entry-arrow">›</text>
+  </view>
+
+  <view class="section-cap">日常调理</view>
 
   <view class="card symptom-item" wx:for="{{symptoms}}" wx:key="_id" bindtap="onTapSymptom" data-id="{{item._id}}" data-recipe="{{item.recipeId}}">
     <view class="symptom-row">

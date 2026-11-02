@@ -9,6 +9,7 @@ const symptoms = [
     summary: '多与脾胃湿热上蒸有关；兼易感寒者清利宜缓，食疗侧重利湿健脾、反佐护阳。',
     icon: '🧴',
     sort: 1,
+    group: 'daily',
     recipeId: 'recipe_acne_chin'
   },
   {
@@ -17,6 +18,7 @@ const symptoms = [
     summary: '阴津不足夹余热或风邪初感；寒包火恢复期宜润燥利咽、微温反佐，少堆大寒。',
     icon: '🤒',
     sort: 2,
+    group: 'daily',
     recipeId: 'recipe_sore_throat'
   },
   {
@@ -25,6 +27,7 @@ const symptoms = [
     summary: '心脾不交或阴虚夹扰；易内耗、寒包火后宜养安为主、清火为辅。',
     icon: '🌙',
     sort: 3,
+    group: 'daily',
     recipeId: 'recipe_insomnia_night'
   },
   {
@@ -33,6 +36,7 @@ const symptoms = [
     summary: '外寒入络、气血不畅；泡脚方侧重温经散寒、舒筋通络、活血化瘀。',
     icon: '🦶',
     sort: 4,
+    group: 'daily',
     recipeId: 'recipe_cold_legs_footbath'
   },
   {
@@ -41,6 +45,7 @@ const symptoms = [
     summary: '笔记中见收敛止血、清肠一类食疗思路；便血多需先排查病因。',
     icon: '🩹',
     sort: 5,
+    group: 'notes',
     recipeId: 'recipe_hemorrhoid'
   },
   {
@@ -49,6 +54,7 @@ const symptoms = [
     summary: '笔记中以骨汤配三七助化瘀生新；仅作康复期饮食参考。',
     icon: '🦴',
     sort: 6,
+    group: 'notes',
     recipeId: 'recipe_fracture_stasis'
   },
   {
@@ -57,6 +63,7 @@ const symptoms = [
     summary: '笔记中取健脾化痰思路外用泡脚；湿重痰多者可参考。',
     icon: '💧',
     sort: 7,
+    group: 'notes',
     recipeId: 'recipe_phlegm_damp_foot'
   },
   {
@@ -65,6 +72,7 @@ const symptoms = [
     summary: '笔记对应黄芪建中一类温中建中思路；溃疡须就医确诊。',
     icon: '🥣',
     sort: 8,
+    group: 'notes',
     recipeId: 'recipe_huangqi_jianzhong'
   },
   {
@@ -73,6 +81,7 @@ const symptoms = [
     summary: '笔记中疏肝理气、健脾化痰思路用于泡脚；结节须专科随访。',
     icon: '🫧',
     sort: 9,
+    group: 'notes',
     recipeId: 'recipe_thyroid_foot'
   },
   {
@@ -81,6 +90,7 @@ const symptoms = [
     summary: '笔记中桔梗元参一类宣肺化痰思路；过敏性鼻炎另论。',
     icon: '🤧',
     sort: 10,
+    group: 'notes',
     recipeId: 'recipe_rhinitis'
   },
   {
@@ -89,6 +99,7 @@ const symptoms = [
     summary: '笔记责之寒湿瘀滞、湿气偏重；需辨清寒热再参考。',
     icon: '😷',
     sort: 11,
+    group: 'notes',
     recipeId: 'recipe_rhinitis_severe'
   },
   {
@@ -97,6 +108,7 @@ const symptoms = [
     summary: '笔记中宣降肺气、化痰止咳思路；黄痰热象需加减并就医。',
     icon: '😮‍💨',
     sort: 12,
+    group: 'notes',
     recipeId: 'recipe_chronic_cough'
   },
   {
@@ -105,6 +117,7 @@ const symptoms = [
     summary: '笔记中健脾渗湿消食思路；外感期间应停服。',
     icon: '🧒',
     sort: 13,
+    group: 'notes',
     recipeId: 'recipe_child_spleen'
   }
 ];

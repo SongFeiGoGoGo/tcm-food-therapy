@@ -1,0 +1,21 @@
+<view class="notes-page">
+  <view class="notes-hero">
+    <view class="notes-badge">学习笔记</view>
+    <view class="notes-title">中医小笔记</view>
+    <view class="notes-desc">读书时整理的方子与用法，已改写成个人理解，并注明来源。理论讨论，不替代面诊。</view>
+  </view>
+
+  <view class="note-card" wx:for="{{notes}}" wx:key="_id" bindtap="onTap" data-id="{{item._id}}" data-recipe="{{item.recipeId}}">
+    <view class="note-top">
+      <text class="note-icon">{{item.icon}}</text>
+      <view class="note-meta">
+        <view class="note-name">{{item.name}}</view>
+        <view class="note-summary">{{item.summary}}</view>
+      </view>
+    </view>
+    <view class="note-foot">据罗大伦老师书籍学习笔记 · 非原文照录</view>
+  </view>
+
+  <view class="empty" wx:if="{{!loading && !notes.length}}">暂无笔记</view>
+  <view class="disclaimer">理论讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+</view>
