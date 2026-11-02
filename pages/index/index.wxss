@@ -107,3 +107,31 @@
 }
 
 .notes-entry-hover { opacity: 0.9; }
+
+.diary-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  margin-bottom: 28rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #e8f5ee 0%, #d8eee3 100%);
+  border: 2rpx solid #b7dcc8;
+}
+.diary-entry:active { opacity: 0.9; }
+.diary-entry-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1b4332;
+  margin-bottom: 6rpx;
+}
+.diary-entry-desc {
+  font-size: 22rpx;
+  color: #4a6b58;
+}
+.diary-entry-arrow {
+  font-size: 44rpx;
+  color: #6b9b80;
+  padding-left: 12rpx;
+}
+.diary-entry-hover { opacity: 0.9; }

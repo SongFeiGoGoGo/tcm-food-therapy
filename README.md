@@ -9,8 +9,10 @@
 
 | 页面 | 路径 | 说明 |
 |------|------|------|
-| 症状列表 | `pages/index` | 首批 3 条症状，点选进入详情 |
+| 首页 | `pages/index` | 中医小笔记 + 养生日记入口、我的收藏 |
+| 中医小笔记 | `pages/notes` | 学习笔记列表 |
 | 食疗详情 | `pages/detail` | 食材+克数、配伍、做法、注意、收藏、免责声明 |
+| 养生日记 | `pages/diary/list` / `edit` | 本地写入睡/便/口味等；本周小结仅计数 |
 | 我的收藏 | `pages/favorites` | 从云库或本地存储读取 |
 
 症状与方案见 `utils/seed.js`（含学习笔记条目）。
@@ -25,12 +27,15 @@ tcm-food-therapy-miniprogram/
 ├── project.config.json          # appid 现为 touristappid
 ├── sitemap.json
 ├── pages/
-│   ├── index/                   # 症状列表
+│   ├── index/                   # 首页入口
+│   ├── notes/                   # 中医小笔记
+│   ├── diary/list · edit        # 养生日记（本地写入）
 │   ├── detail/                  # 食疗详情
 │   └── favorites/               # 我的收藏
 ├── utils/
 │   ├── seed.js                  # 本地种子数据
-│   └── api.js                   # 云 / 本地统一数据层
+│   ├── api.js                   # 云 / 本地统一数据层
+│   └── diary.js                 # 养生日记 storage
 ├── cloudfunctions/
 │   ├── getSymptoms
 │   ├── getRecipeById
@@ -61,6 +66,7 @@ tcm-food-therapy-miniprogram/
 
 - 症状 / 食疗：读 `utils/seed.js`  
 - 收藏 / 浏览日志：写 `wx.setStorage`（键名 `favorites`、`view_logs`）  
+- 养生日记：写 `wx.setStorage`（键名 `tcm_diary_entries`），仅本机，不走云  
 - 首页会显示黄色标签「本地演示模式」
 
 **验证步骤：**
@@ -70,6 +76,8 @@ tcm-food-therapy-miniprogram/
 3. 点进详情 → 可见食材、配伍、注意、底部「理论讨论，不替代面诊」。  
 4. 点「收藏此方案」→ 打开「我的收藏」应能看到；再进详情可取消收藏。  
 5. 开发者工具 → 调试器 → Storage，可看到 `favorites` / `view_logs` 有数据。
+
+**养生日记验证：** 首页点「养生日记」→ 写一条 → 返回列表 → 再点进编辑 → 删除一条 → 看本周小结计数。Storage 键 `tcm_diary_entries`。
 
 ## 开通云开发（可选）
 

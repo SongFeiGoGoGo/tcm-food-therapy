@@ -22,5 +22,19 @@ Page({
         });
       }
     });
+  },
+
+  onOpenDiary() {
+    wx.navigateTo({
+      url: '/pages/diary/list/list',
+      fail(err) {
+        console.error('diary nav fail', err);
+        wx.showModal({
+          title: '跳转失败',
+          content: (err && err.errMsg) || '未知错误',
+          showCancel: false
+        });
+      }
+    });
   }
 });

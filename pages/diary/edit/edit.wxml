@@ -1,0 +1,154 @@
+<view class="edit-page">
+  <view class="field">
+    <view class="label">日期</view>
+    <picker mode="date" value="{{date}}" bindchange="onDateChange">
+      <view class="picker-val">{{date}} <text class="muted">点此改日期</text></view>
+    </picker>
+  </view>
+
+  <view class="field">
+    <view class="label">睡 <text class="opt">选填</text></view>
+    <view class="chips">
+      <view
+        wx:for="{{sleepOpts}}"
+        wx:key="*this"
+        class="chip {{sleep === item && !sleepCustom ? 'on' : ''}}"
+        data-v="{{item}}"
+        bindtap="onPickSleep"
+      >{{item}}</view>
+      <view
+        class="chip {{sleepCustom ? 'on' : ''}}"
+        data-v="__custom"
+        bindtap="onPickSleep"
+      >自填</view>
+    </view>
+    <input
+      wx:if="{{sleepCustom}}"
+      class="input"
+      placeholder="例如：半夜醒了两次"
+      value="{{sleep}}"
+      maxlength="40"
+      bindinput="onSleepInput"
+    />
+  </view>
+
+  <view class="field">
+    <view class="label">便 <text class="opt">选填</text></view>
+    <view class="chips">
+      <view
+        wx:for="{{stoolOpts}}"
+        wx:key="*this"
+        class="chip {{stool === item && !stoolCustom ? 'on' : ''}}"
+        data-v="{{item}}"
+        bindtap="onPickStool"
+      >{{item}}</view>
+      <view
+        class="chip {{stoolCustom ? 'on' : ''}}"
+        data-v="__custom"
+        bindtap="onPickStool"
+      >自填</view>
+    </view>
+    <input
+      wx:if="{{stoolCustom}}"
+      class="input"
+      placeholder="短文本备注"
+      value="{{stool}}"
+      maxlength="40"
+      bindinput="onStoolInput"
+    />
+  </view>
+
+  <view class="field">
+    <view class="label">饮食口味 <text class="opt">选填</text></view>
+    <input
+      class="input"
+      placeholder="想吃什么 / 口味偏好"
+      value="{{appetite}}"
+      maxlength="60"
+      bindinput="onAppetiteInput"
+    />
+  </view>
+
+  <view class="field">
+    <view class="label">情绪 <text class="opt">选填</text></view>
+    <input
+      class="input"
+      placeholder="如：平静、烦躁、开心"
+      value="{{mood}}"
+      maxlength="40"
+      bindinput="onMoodInput"
+    />
+  </view>
+
+  <view class="field">
+    <view class="label">怕冷怕热 <text class="opt">选填</text></view>
+    <view class="chips">
+      <view
+        wx:for="{{coldHeatOpts}}"
+        wx:key="*this"
+        class="chip {{coldHeat === item ? 'on' : ''}}"
+        data-v="{{item}}"
+        bindtap="onPickColdHeat"
+      >{{item}}</view>
+    </view>
+  </view>
+
+  <view class="field">
+    <view class="label">有没有痘 <text class="opt">选填</text></view>
+    <view class="chips">
+      <view
+        wx:for="{{yesNo}}"
+        wx:key="*this"
+        class="chip {{acne === item ? 'on' : ''}}"
+        data-v="{{item}}"
+        bindtap="onPickAcne"
+      >{{item}}</view>
+    </view>
+    <input
+      class="input"
+      style="margin-top:16rpx;"
+      placeholder="可选备注，如位置、多少"
+      value="{{acneNote}}"
+      maxlength="60"
+      bindinput="onAcneNoteInput"
+    />
+  </view>
+
+  <view class="field">
+    <view class="label">嗓子干 <text class="opt">选填</text></view>
+    <view class="chips">
+      <view
+        wx:for="{{yesNo}}"
+        wx:key="*this"
+        class="chip {{dryThroat === item ? 'on' : ''}}"
+        data-v="{{item}}"
+        bindtap="onPickDryThroat"
+      >{{item}}</view>
+    </view>
+    <input
+      class="input"
+      style="margin-top:16rpx;"
+      placeholder="可选备注"
+      value="{{dryThroatNote}}"
+      maxlength="60"
+      bindinput="onDryThroatNoteInput"
+    />
+  </view>
+
+  <view class="field">
+    <view class="label">其他备注 <text class="opt">选填</text></view>
+    <textarea
+      class="textarea"
+      placeholder="想记的其他事"
+      value="{{remark}}"
+      maxlength="500"
+      bindinput="onRemarkInput"
+      auto-height
+    />
+  </view>
+
+  <button class="btn-primary btn-block" bindtap="onSave">保存</button>
+  <button wx:if="{{isEdit}}" class="btn-danger btn-block" bindtap="onDelete">删除这条</button>
+
+  <view class="disclaimer">理论讨论，不替代面诊。这里只是个人感觉记录，不作诊断依据。</view>
+</view>

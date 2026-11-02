@@ -1,7 +1,7 @@
 <view class="container">
   <view class="hero">
     <view class="hero-title">今天哪里不舒服？</view>
-    <view class="hero-desc">从笔记里按症状找食疗参考。内容仅供学习讨论。</view>
+    <view class="hero-desc">从笔记里按症状找食疗参考，或写下今日感觉。内容仅供学习讨论。</view>
     <view class="mode-tag" wx:if="{{!cloudReady}}">本地演示模式</view>
     <view class="mode-tag cloud" wx:else>云开发已连接</view>
   </view>
@@ -12,6 +12,14 @@
       <view class="notes-entry-desc">读书整理的方子合集 · 学习笔记</view>
     </view>
     <text class="notes-entry-arrow">›</text>
+  </view>
+
+  <view class="diary-entry" bindtap="onOpenDiary" hover-class="diary-entry-hover">
+    <view class="diary-entry-left">
+      <view class="diary-entry-title">养生日记</view>
+      <view class="diary-entry-desc">记录睡、便、口味、情绪 · 本机保存</view>
+    </view>
+    <text class="diary-entry-arrow">›</text>
   </view>
 
   <view class="footer-actions">
