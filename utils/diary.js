@@ -1,6 +1,7 @@
 /**
- * 打卡（原养生日记）：本地 wx.storage 读写
- * 不做辨证、诊断、用药建议；仅记录与简单本周计数。
+ * 旧养生日记归档。键 tcm_diary_entries 保留，不在新打卡页展示，也不删除。
+ * 新习惯打卡见 utils/habits.js（tcm_habit_checkins）。
+ * 不做辨证、诊断、用药建议。
  */
 const STORAGE_KEY = 'tcm_diary_entries';
 

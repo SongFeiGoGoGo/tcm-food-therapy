@@ -1,72 +1,63 @@
-<view class="diary-page">
-  <view class="diary-hero">
-    <view class="diary-badge">个人记录</view>
-    <view class="diary-title">打卡</view>
-    <view class="diary-desc">记下睡、便、口味、情绪等日常感觉，方便自己回顾。只做记录与简单计数，不做辨证或用药建议。</view>
+<view class="checkin-page">
+  <view class="checkin-hero">
+    <view class="checkin-badge">个人记录</view>
+    <view class="checkin-title">打卡</view>
+    <view class="checkin-desc">五个日常习惯，做了就勾上。格子颜色表示当天完成了几项。</view>
   </view>
 
-  <view class="summary-card" wx:if="{{!empty}}">
-    <view class="summary-head">本周小结</view>
-    <view class="summary-sub muted">{{summary.weekStart}} 起 · 仅计数</view>
-    <scroll-view class="summary-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
-      <view class="summary-chip">
-        <text class="summary-num">{{summary.recordCount}}</text>
-        <text class="summary-label">记录</text>
+  <view class="heat-card">
+    <view class="heat-head">近 {{weeks.length}} 周</view>
+    <view class="heat-body">
+      <view class="heat-labels">
+        <view class="heat-label-gap"></view>
+        <view class="heat-label" wx:for="{{weekdays}}" wx:key="*this">{{item}}</view>
       </view>
-      <view class="summary-chip">
-        <text class="summary-num">{{summary.dryThroatCount}}</text>
-        <text class="summary-label">口干</text>
-      </view>
-      <view class="summary-chip">
-        <text class="summary-num">{{summary.acneCount}}</text>
-        <text class="summary-label">有痘</text>
-      </view>
-      <view class="summary-chip">
-        <text class="summary-num">{{summary.poorSleepCount}}</text>
-        <text class="summary-label">睡差</text>
-      </view>
-      <view class="summary-chip" wx:if="{{summary.coldCount}}">
-        <text class="summary-num">{{summary.coldCount}}</text>
-        <text class="summary-label">怕冷</text>
-      </view>
-      <view class="summary-chip" wx:if="{{summary.heatCount}}">
-        <text class="summary-num">{{summary.heatCount}}</text>
-        <text class="summary-label">怕热</text>
-      </view>
-    </scroll-view>
-  </view>
-
-  <view class="toolbar">
-    <button class="btn-primary btn-add" catchtap="onAdd">写一条日记</button>
-  </view>
-
-  <view class="empty" wx:if="{{empty}}">
-    <view>还没有日记</view>
-    <view class="muted" style="margin-top:12rpx;">点上方按钮，记下今天的感觉吧</view>
-  </view>
-
-  <view
-    class="entry-card"
-    wx:for="{{entries}}"
-    wx:key="id"
-    data-id="{{item.id}}"
-    catchtap="onTapItem"
-  >
-    <view class="card-del" data-id="{{item.id}}" catchtap="onDeleteItem">×</view>
-    <view class="entry-date">{{item.date}}</view>
-      <view class="entry-preview">
-        <text wx:if="{{item.sleep}}">睡·{{item.sleep}}</text>
-        <text wx:if="{{item.sleep && item.stool}}"> · </text>
-        <text wx:if="{{item.stool}}">便·{{item.stool}}</text>
-        <text wx:if="{{(item.sleep || item.stool) && item.mood}}"> · </text>
-        <text wx:if="{{item.mood}}">情绪·{{item.mood}}</text>
-        <text wx:if="{{(item.sleep || item.stool || item.mood) && item.dryThroat === '有'}}"> · </text>
-        <text wx:if="{{item.dryThroat === '有'}}">嗓子干</text>
-        <text wx:if="{{(item.sleep || item.stool || item.mood || item.dryThroat === '有') && item.acne === '有'}}"> · </text>
-        <text wx:if="{{item.acne === '有'}}">有痘</text>
-        <text wx:if="{{!(item.sleep || item.stool || item.mood || item.dryThroat === '有' || item.acne === '有')}}" class="muted">（可补充）</text>
+      <scroll-view
+        class="heat-scroll"
+        scroll-x
+        enable-flex
+        scroll-into-view="{{lastWeekId}}"
+        scroll-with-animation="{{false}}"
+      >
+        <view class="heat-cols">
+          <view class="heat-col" wx:for="{{weeks}}" wx:key="id" id="{{item.id}}">
+            <view class="heat-month">{{item.monthText}}</view>
+            <view
+              wx:for="{{item.days}}"
+              wx:for-item="day"
+              wx:key="date"
+              class="heat-cell lv{{day.level}} {{day.future ? 'is-future' : ''}} {{selected === day.date ? 'is-on' : ''}}"
+              data-date="{{day.date}}"
+              data-future="{{day.future}}"
+              catchtap="onPickDay"
+            ></view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="heat-legend">
+      <text class="legend-word">少</text>
+      <view class="heat-cell lv{{item}}" wx:for="{{levels}}" wx:key="*this"></view>
+      <text class="legend-word">多</text>
     </view>
   </view>
 
-  <view class="disclaimer">理性讨论，不替代面诊。打卡记录仅供个人回顾，不作诊断或用药依据。</view>
+  <view class="day-card" wx:if="{{selected}}">
+    <view class="day-head">
+      <text class="day-title">{{selectedLabel}}</text>
+      <text class="day-count">{{doneCount}}/5</text>
+    </view>
+    <view
+      class="habit-row"
+      wx:for="{{habitRows}}"
+      wx:key="key"
+      data-key="{{item.key}}"
+      catchtap="onToggle"
+    >
+      <view class="habit-box {{item.checked ? 'is-on' : ''}}"></view>
+      <text class="habit-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view class="disclaimer">理性讨论，不替代面诊。这里只记个人习惯，不作诊疗依据。</view>
 </view>

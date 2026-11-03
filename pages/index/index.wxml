@@ -33,6 +33,13 @@
     <view class="banner-fallback-title">暂无轮播</view>
   </view>
 
+  <view class="almanac" wx:if="{{cal && cal.line}}">
+    <view class="almanac-gz">{{cal.line}}</view>
+    <view class="almanac-solar">公历 {{cal.solarText}}</view>
+    <view class="almanac-term {{cal.termToday ? 'is-today' : ''}}">{{cal.termText}}</view>
+    <view class="almanac-near" wx:if="{{cal.nearText}}">{{cal.nearText}}</view>
+  </view>
+
   <view class="home-intro">
     <view class="home-title">中医食疗助手</view>
     <view class="home-desc">笔记、打卡和我的在底部栏。本页只做展示。</view>

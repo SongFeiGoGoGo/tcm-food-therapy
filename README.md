@@ -11,10 +11,10 @@
 
 | 页面 | 路径 | 说明 |
 |------|------|------|
-| 首页 | `pages/index` | 三张本地轮播（`utils/banners.js`）。图失败时用色块，不白屏 |
+| 首页 | `pages/index` | 三张本地轮播；轮播下为干支三柱、公历和节气 |
 | 笔记 | `pages/notes` | 原「中医小笔记」：内置列表、详情、自建笔记；卡片右上角删除并确认 |
 | 写笔记 | `pages/notes/edit` | 标题、药材名+克数（可增减）、槽位 A/B/C、自由正文 |
-| 打卡 | `pages/diary/list` / `edit` | 原养生日记，读写与本周小结不变；导航与页内主标题为「打卡」 |
+| 打卡 | `pages/diary/list` | 五项习惯 + 16 周热力图。旧养生日记只归档，不展示、不删除 |
 | 我的 | `pages/mine` | 本地登录闭环：头像、昵称（可改，写入 storage） |
 | 食疗详情 | `pages/detail` | 内置笔记详情。食材+克数、配伍、做法、注意、收藏 |
 | 我的收藏 | `pages/favorites` | 从「我的」进入；云库或本地存储 |
@@ -28,23 +28,28 @@
 ```
 tcm-food-therapy-miniprogram/
 ├── app.js / app.json / app.wxss
-├── project.config.json          # appid 现为 touristappid
+├── package.json                 # 依赖 lunar-javascript
+├── project.config.json          # appid 现为 touristappid；已配置构建 npm
+├── miniprogram_npm/lunar-javascript/
 ├── sitemap.json
 ├── pages/
-│   ├── index/                   # Tab 首页（轮播）
+│   ├── index/                   # Tab 首页（轮播 + 干支节气）
 │   ├── notes/                   # Tab 笔记
-│   ├── diary/list · edit        # Tab 打卡（原养生日记，本地写入）
+│   ├── diary/list               # Tab 打卡（习惯热力图）
+│   ├── diary/edit               # 旧写日记页，主路径已不用
 │   ├── mine/                    # Tab 我的（头像昵称）
 │   ├── detail/                  # 食疗详情
 │   └── favorites/               # 我的收藏
-├── images/tab · banners         # tab 占位图标、轮播占位图
+├── images/tab · banners         # tab 占位图标、轮播图
 ├── utils/
 │   ├── seed.js                  # 本地种子数据
 │   ├── api.js                   # 云 / 本地统一数据层
 │   ├── banners.js               # 首页轮播配置
+│   ├── calendar.js              # 干支 / 节气（上海时区，23:00 换日）
+│   ├── habits.js                # 习惯打卡 storage
 │   ├── userNotes.js             # 自建笔记 storage（含药材行、槽位）
 │   ├── profile.js               # 我的：头像昵称；wx.login 的后端接入点
-│   └── diary.js                 # 打卡（养生日记）storage
+│   └── diary.js                 # 旧养生日记归档，不删除
 ├── cloudfunctions/
 │   ├── getSymptoms
 │   ├── getRecipeById
@@ -63,6 +68,18 @@ tcm-food-therapy-miniprogram/
 3. AppID：可先用测试号，或使用项目里的 `touristappid`（游客模式）。  
 4. 不勾选 / 暂不开通云开发也可直接编译预览——首页会显示「本地演示模式」。`app.js` 保持 `cloudEnv = ''`，`project.config.json` 的 `appid` 保持 `touristappid`。
 
+### 农历库（首页干支 / 节气）
+
+干支和节气用 [`lunar-javascript@1.7.6`](https://github.com/6tail/lunar-javascript)，只在本机计算，不请求网络。
+
+`utils/calendar.js` 里写死的规则：
+
+- 时区 `Asia/Shanghai`（按 UTC+8，不用手机时区）。
+- **23:00 子时换日**：上海钟点从 23:00 起，干支日和打卡日期键都算下一天。公历小字仍是当天日历。
+- 节气用库给出的交节时刻，再套同一套 23:00 规则。临近提示阈值 7 天。
+
+仓库已提交 `miniprogram_npm/lunar-javascript`，导入后可以直接编译。若改过依赖，在项目根目录执行 `npm install`，再在微信开发者工具菜单选 **工具 → 构建 npm**（`project.config.json` 的 `packNpmRelationList` 已指向根目录 `package.json`，产物在 `./miniprogram_npm`）。
+
 ### 换成自己的 AppID
 
 1. 在[微信公众平台](https://mp.weixin.qq.com/)注册小程序，拿到 AppID。  
@@ -75,7 +92,8 @@ tcm-food-therapy-miniprogram/
 
 - 症状 / 食疗：读 `utils/seed.js`  
 - 收藏 / 浏览日志：写 `wx.setStorage`（键名 `favorites`、`view_logs`）  
-- 打卡（养生日记）：写 `wx.setStorage`（键名 `tcm_diary_entries`），仅本机，不走云  
+- 习惯打卡：写 `wx.setStorage`（键名 `tcm_habit_checkins`），仅本机，不走云  
+- 旧养生日记：键 `tcm_diary_entries` 仍留在本机，打卡页不展示、不删除  
 - 自建笔记：`tcm_user_notes`；我的头像昵称：`tcm_user_profile`  
 - 首页会显示黄色标签「本地演示模式」
 
@@ -84,7 +102,7 @@ tcm-food-therapy-miniprogram/
 保持 `const cloudEnv = ''`，不要开通云开发，不要改成真实 AppID。导入后直接编译。
 
 1. **四个 Tab**  
-   冷启动落在「首页」。底栏从左到右是首页、笔记、打卡、我的。笔记是原来的中医小笔记（内置条目点进详情、写笔记）。打卡是原来的养生日记（写一条、点进编辑、本周小结计数），导航标题和页内主标题都是「打卡」。首页不再提供「进笔记 / 进日记」大入口。
+   冷启动落在「首页」。底栏从左到右是首页、笔记、打卡、我的。笔记是原来的中医小笔记（内置条目点进详情、写笔记）。打卡页标题是「打卡」，里面是习惯热力图，不再是周记流。首页不再提供「进笔记 / 进日记」大入口，也不放免责声明。
 
 2. **首页轮播**  
    首页可以左右滑动三张 banner，都是本地图。配置在 `utils/banners.js`：`image`、短标题、预留 `link`（空则点击不跳转）。标题为「一盏茶」「笔记与打卡」「草木清气」。出处见 `images/banners/ATTRIBUTION.md`。图加载失败时仍用色块和标题，不白屏。
@@ -98,11 +116,15 @@ tcm-food-therapy-miniprogram/
 
 收藏从「我的」里的「我的收藏」进入（本迭代从首页挪过来，方便还能打开）。
 
-**打卡验证：** 底栏「打卡」→ 写一条 → 返回列表 → 点卡片进编辑 → 本周小结仍是横向小卡片。字段仍是睡 / 便 / 口味 / 情绪 / 怕冷怕热 / 痘等，没有增减。
+**干支 / 节气：** 轮播正下方有干支三柱（如「丙午年 · 戊戌月 · 辛巳日」）和一行小字公历。不是节气日时，显示下一节气和还有几天；距离 ≤7 天还会多一句「还有 N 天到××」。把开发者工具的系统日期改到 2026-11-07，应看到「今日立冬」。23:00 之后干支日会进到下一天，公历小字仍是当天。
+
+**热力图：** 底栏「打卡」没有周记列表，也没有本周小结。近 16 周方格可以横滑。点今天（默认）或过去某一天，勾选早睡、柔腹、梳头、拍八虚、七点前完成排大便。完成 0 项最浅，5 项最深，勾上后格子马上变色。不要清数据，重新编译或关掉再打开，勾选还在。Storage 键：`tcm_habit_checkins`。
+
+**旧日记提示：** 若调试器里已经有 `tcm_diary_entries`，第一次打开打卡页会提示一次：「以前的养生日记已保存在本机，新版改为习惯打卡；旧记录暂不展示，不会删除。」没有旧数据则不提示。这条键不会被清掉。
 
 **笔记列表验证：** 内置笔记进现有详情页；自建笔记进上面的模板表单。
 
-**删除与头像：** 笔记列表和打卡列表都在卡片右上角放 ×。点 × 会弹出「确认删除？」，确认后才删除（内置笔记仍只是本机隐藏）；取消则记录还在。不再使用左滑删除。
+**删除与头像：** 笔记列表卡片右上角有 ×。点 × 会弹出「确认删除？」，确认后才删除（内置笔记仍只是本机隐藏）；取消则记录还在。不再使用左滑删除。登录后的头像应是正圆。
 
 ## 开通云开发（可选）
 

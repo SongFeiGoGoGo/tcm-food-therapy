@@ -1,4 +1,5 @@
 const bannerConfig = require('../../utils/banners');
+const calendar = require('../../utils/calendar');
 
 function cloneBanners() {
   return (bannerConfig || []).map((b, i) => ({
@@ -13,12 +14,22 @@ function cloneBanners() {
 Page({
   data: {
     cloudReady: false,
-    banners: cloneBanners()
+    banners: cloneBanners(),
+    cal: null
   },
 
   onShow() {
     const app = getApp();
-    this.setData({ cloudReady: !!(app.globalData && app.globalData.cloudReady) });
+    let cal = null;
+    try {
+      cal = calendar.todayAlmanac();
+    } catch (err) {
+      console.error('almanac fail', err);
+    }
+    this.setData({
+      cloudReady: !!(app.globalData && app.globalData.cloudReady),
+      cal: cal
+    });
   },
 
   onBannerError(e) {

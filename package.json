@@ -1,0 +1,9 @@
+{
+  "name": "tcm-food-therapy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "中医食疗小程序",
+  "dependencies": {
+    "lunar-javascript": "1.7.6"
+  }
+}
