@@ -1,12 +1,13 @@
 const bannerConfig = require('../../utils/banners');
+const cardConfig = require('../../utils/cards');
 const calendar = require('../../utils/calendar');
 
-function cloneBanners() {
-  return (bannerConfig || []).map((b, i) => ({
-    id: b.id || 'banner_' + i,
-    title: b.title || '',
-    image: b.image || '',
-    link: b.link || '',
+function cloneItems(list, prefix) {
+  return (list || []).map((item, i) => ({
+    id: item.id || prefix + i,
+    title: item.title || '',
+    image: item.image || '',
+    link: item.link || '',
     imgError: false
   }));
 }
@@ -14,7 +15,8 @@ function cloneBanners() {
 Page({
   data: {
     cloudReady: false,
-    banners: cloneBanners(),
+    banners: cloneItems(bannerConfig, 'banner_'),
+    cards: cloneItems(cardConfig, 'card_'),
     cal: null
   },
 
@@ -36,6 +38,12 @@ Page({
     const index = e.currentTarget.dataset.index;
     if (index === undefined || index === '') return;
     this.setData({ ['banners[' + index + '].imgError']: true });
+  },
+
+  onCardError(e) {
+    const index = e.currentTarget.dataset.index;
+    if (index === undefined || index === '') return;
+    this.setData({ ['cards[' + index + '].imgError']: true });
   },
 
   /** link 为空则不跳转。预留站内路径，tab 页走 switchTab。 */

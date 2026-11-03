@@ -103,6 +103,33 @@
   color: #40916c;
 }
 
+.feature-list {
+  margin-bottom: 8rpx;
+}
+
+.feature-card {
+  margin-bottom: 24rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background: #f3eadb;
+}
+
+.feature-img {
+  width: 100%;
+  display: block;
+}
+
+.feature-fallback {
+  min-height: 280rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5c3d1e;
+  font-size: 34rpx;
+  font-weight: 700;
+  background: #f6ead7;
+}
+
 .home-intro {
   background: #ffffff;
   border-radius: 16rpx;
