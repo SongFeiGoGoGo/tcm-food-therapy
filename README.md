@@ -107,7 +107,7 @@ tcm-food-therapy-miniprogram/
 2. **首页轮播**  
    首页可以左右滑动三张 banner，都是本地图。配置在 `utils/banners.js`：`image`、短标题、预留 `link`（空则点击不跳转）。标题为「一盏茶」「笔记与打卡」「草木清气」。出处见 `images/banners/ATTRIBUTION.md`。图加载失败时仍用色块和标题，不白屏。
 
-   干支区下面有两张功能卡，图在 `images/cards/siji.jpg`（四季养生，786×978）和 `images/cards/shiliao.jpg`（养生食疗，816×978），配置在 `utils/cards.js`。标题已经在图里，页面不再叠字，也不叠「查看方案 / 查看食谱」。`link` 为空，点击不跳转。
+   干支区下面有两张功能卡，图在 `images/cards/siji.jpg`（四季养生，568×545）和 `images/cards/shiliao.jpg`（养生食疗，580×545），配置在 `utils/cards.js`。按钮区已裁掉，标题已经在图里，页面不再叠字，也不叠「查看方案 / 查看食谱」。`link` 为空，点击不跳转。
 
 3. **带药材行的新笔记，保存后再打开仍在**  
    底栏「笔记」→「写笔记」。填标题，在药材行写下名称和克数（例如黄芪、20克），需要的话点「+ 添加一味药」。三个预留槽（配伍说明 / 注意事项 / 来源备注，文案在 `utils/userNotes.js` 的 `NOTE_TEMPLATE_SLOTS`）和正文可以先空着。保存后回到列表，再点开这条，药材行还在。升级前已经存过的笔记仍在列表里，打开后原标题和正文还在。调试器 Storage 键：`tcm_user_notes`。
