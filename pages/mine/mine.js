@@ -121,7 +121,6 @@ Page({
   onLogout() {
     wx.showModal({
       title: '退出登录？',
-      content: '头像和昵称仍留在本机，下次登录会再显示。',
       confirmText: '退出',
       success: (res) => {
         if (!res.confirm) return;
