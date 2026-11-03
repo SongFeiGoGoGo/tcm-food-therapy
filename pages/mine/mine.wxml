@@ -33,8 +33,9 @@
   </view>
 
   <!-- 打开微信客服会话。需在微信公众平台开通客服功能后才能收到消息。 -->
-  <button class="feedback-row" open-type="contact">
+  <view class="feedback-row">
     <text>反馈</text>
     <text class="feedback-arrow">›</text>
-  </button>
+    <button class="feedback-hit" open-type="contact"></button>
+  </view>
 </view>
