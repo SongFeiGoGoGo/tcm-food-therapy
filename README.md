@@ -110,7 +110,8 @@ tcm-food-therapy-miniprogram/
 
 4. **我的：改昵称，杀进程重进仍在**  
    底栏「我的」。未登录只看到「微信登录」，其它 Tab 不拦截。点登录（游客模式经常没有 `wx.login` 的 code，仍然可以进入已登录态）。看到头像和昵称后点「编辑」，改昵称，点「保存」，页面立刻显示新昵称。开发者工具里「清缓存」不要选清数据；用重新编译，或模拟器里关掉再打开，回到「我的」，昵称还在。Storage 键：`tcm_user_profile`。头像用 `chooseAvatar`，能写入本地文件则一并留下。  
-   **还没接的后端点：** `utils/profile.js` 的 `loginWithWechat` 会调用 `wx.login`，但 **不上传 code、不换 openId**。以后把 `res.code` 交给自有后端即可。登录后的头像应是正圆，微信头像完整落在圆框里，而不是只露出一条。
+   **还没接的后端点：** `utils/profile.js` 的 `loginWithWechat` 会调用 `wx.login`，但 **不上传 code、不换 openId**。以后把 `res.code` 交给自有后端即可。登录后的头像应是正圆，微信头像完整落在圆框里，而不是只露出一条。  
+   「反馈」是微信客服按钮（`open-type="contact"`）。需在微信公众平台开通客服功能后才能收到消息，不需要 request 合法域名。
 
 **干支 / 节气：** 轮播正下方有干支三柱（如「丙午年 · 戊戌月 · 辛巳日」）和一行小字公历。不是节气日时，显示下一节气和还有几天；距离 ≤7 天还会多一句「还有 N 天到××」。把开发者工具的系统日期改到 2026-11-07，应看到「今日立冬」。23:00 之后干支日会进到下一天，公历小字仍是当天。
 
@@ -160,17 +161,6 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 | `steps` | array | 做法步骤字符串数组 |
 | `notes` | array | 注意事项字符串数组 |
 | `tags` | array | 标签 |
-
-#### `feedback`
-
-客户端「反馈」页在云开发已连接时 `add`。权限建议仅客户端新增、管理端在控制台查看。字段见 `cloud/database/feedback.schema.md`。
-
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `message` | string | 反馈正文 |
-| `contact` | string | 选填联系方式 |
-| `source` | string | `tcm-miniprogram` |
-| `createdAt` | date | 服务端时间 |
 
 #### `view_logs`
 

@@ -6,8 +6,7 @@
     "pages/mine/mine",
     "pages/detail/detail",
     "pages/notes/edit/edit",
-    "pages/diary/edit/edit",
-    "pages/feedback/feedback"
+    "pages/diary/edit/edit"
   ],
   "window": {
     "navigationBarBackgroundColor": "#6B4F2A",

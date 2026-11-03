@@ -118,10 +118,6 @@ Page({
     wx.showToast({ title: '已保存', icon: 'success' });
   },
 
-  onFeedback() {
-    wx.navigateTo({ url: '/pages/feedback/feedback' });
-  },
-
   onLogout() {
     wx.showModal({
       title: '退出登录？',
