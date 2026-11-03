@@ -10,15 +10,15 @@
     "pages/favorites/favorites"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#2d6a4f",
+    "navigationBarBackgroundColor": "#6B4F2A",
     "navigationBarTitleText": "中医食疗助手",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#f7f7f5",
+    "backgroundColor": "#F7F4EF",
     "backgroundTextStyle": "dark"
   },
   "tabBar": {
     "color": "#6b7280",
-    "selectedColor": "#2d6a4f",
+    "selectedColor": "#6B4F2A",
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [

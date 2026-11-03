@@ -1,7 +1,7 @@
 .edit-page {
   min-height: 100vh;
   padding: 24rpx 32rpx 64rpx;
-  background: linear-gradient(180deg, #f3efe6 0%, #f7f7f5 40%);
+  background: linear-gradient(180deg, #f3efe6 0%, #F7F4EF 40%);
   box-sizing: border-box;
 }
 
@@ -17,7 +17,7 @@
 .label {
   font-size: 28rpx;
   font-weight: 600;
-  color: #5c3d1e;
+  color: #4A3420;
   margin-bottom: 16rpx;
 }
 
@@ -43,8 +43,8 @@
 }
 
 .chip.on {
-  background: #8b5e34;
-  border-color: #8b5e34;
+  background: #6B4F2A;
+  border-color: #6B4F2A;
 }
 
 .input {

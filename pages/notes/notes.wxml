@@ -23,13 +23,13 @@
       class="card-del"
       data-id="{{item.id}}"
       catchtap="onDeleteUser"
-    >×</view>
+    >删除</view>
     <view
       wx:else
       class="card-del"
       data-id="{{item.id}}"
       catchtap="onHideBuiltin"
-    >×</view>
+    >删除</view>
     <view class="note-top">
         <text class="note-icon">{{item.icon}}</text>
         <view class="note-meta">

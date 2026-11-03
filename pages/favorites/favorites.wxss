@@ -9,6 +9,6 @@
 .back-link {
   display: inline-block;
   margin-top: 24rpx;
-  color: #2d6a4f;
+  color: #6B4F2A;
   text-decoration: underline;
 }
