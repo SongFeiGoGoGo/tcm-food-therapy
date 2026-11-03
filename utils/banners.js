@@ -1,27 +1,27 @@
 /**
- * 首页轮播占位。本地配置即可，没有运营后台。
- * image：本地图路径；空字符串表示无图，页面用色块 + 标题，不白屏。
- * title：可选。
+ * 首页轮播。本地配置即可，没有运营后台。
+ * image：小程序内本地路径，不要外链。
+ * title：可选短句，不放免责声明。
  * link：预留。空字符串表示点击不跳转；以后可填站内路径 /pages/...
- * 配图用本地路径 /images/banners/，不要外链。正式图到位后只改 image。
+ * 出处见 images/banners/ATTRIBUTION.md。
  */
 module.exports = [
   {
-    id: 'banner_green',
-    title: '中医食疗',
+    id: 'banner_tea',
+    title: '一盏茶',
     image: '/images/banners/banner-1.png',
     link: ''
   },
   {
-    id: 'banner_paper',
+    id: 'banner_notes',
     title: '笔记与打卡',
     image: '/images/banners/banner-2.png',
     link: ''
   },
   {
-    id: 'banner_no_image',
-    title: '中医食疗',
-    image: '',
+    id: 'banner_herb',
+    title: '草木清气',
+    image: '/images/banners/banner-3.png',
     link: ''
   }
 ];
