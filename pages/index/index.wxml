@@ -62,8 +62,7 @@
 
   <view class="home-intro">
     <view class="home-title">中医食疗助手</view>
-    <view class="home-desc">笔记、打卡和我的在底部栏。本页只做展示。</view>
-    <view class="mode-tag" wx:if="{{!cloudReady}}">本地演示模式</view>
-    <view class="mode-tag cloud" wx:else>云开发已连接</view>
+    <view class="home-desc">快来开启你的养生记录打卡吧</view>
+    <view class="mode-tag cloud" wx:if="{{cloudReady}}">云开发已连接</view>
   </view>
 </view>

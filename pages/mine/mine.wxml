@@ -11,7 +11,6 @@
         <image class="avatar" src="{{avatarUrl || defaultAvatar}}" mode="aspectFill" />
       </button>
     </view>
-    <view class="avatar-hint">点头像更换（chooseAvatar）</view>
 
     <view class="nick-row" wx:if="{{!editingNick}}">
       <view class="nick">{{nickName}}</view>

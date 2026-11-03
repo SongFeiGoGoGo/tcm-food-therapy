@@ -41,7 +41,7 @@
 .avatar-slot {
   width: 160rpx;
   height: 160rpx;
-  margin: 0 auto 12rpx;
+  margin: 0 auto 28rpx;
   border-radius: 50%;
   overflow: hidden;
   background: #F6F1EA;
@@ -75,13 +75,6 @@
   height: 160rpx !important;
   border-radius: 50%;
   display: block;
-}
-
-.avatar-hint {
-  text-align: center;
-  font-size: 22rpx;
-  color: #6b7280;
-  margin-bottom: 28rpx;
 }
 
 .nick-row {
