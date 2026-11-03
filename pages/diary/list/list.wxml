@@ -1,7 +1,7 @@
 <view class="diary-page" bindtap="onPageTap">
   <view class="diary-hero">
     <view class="diary-badge">个人记录</view>
-    <view class="diary-title">养生日记</view>
+    <view class="diary-title">打卡</view>
     <view class="diary-desc">记下睡、便、口味、情绪等日常感觉，方便自己回顾。只做记录与简单计数，不做辨证或用药建议。</view>
   </view>
 
@@ -85,5 +85,5 @@
     </view>
   </view>
 
-  <view class="disclaimer">理性讨论，不替代面诊。日记仅供个人回顾，不作诊断或用药依据。</view>
+  <view class="disclaimer">理论讨论，不替代面诊。打卡记录仅供个人回顾，不作诊断或用药依据。</view>
 </view>

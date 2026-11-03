@@ -2,7 +2,7 @@
   <view class="notes-hero">
     <view class="notes-badge">学习笔记</view>
     <view class="notes-title">中医小笔记</view>
-    <view class="notes-desc">读书时整理的方子与用法，已改写成个人理解，并注明来源。也可自己新增笔记。内置笔记可浏览；我的笔记可编辑。理性讨论，不替代面诊。</view>
+    <view class="notes-desc">读书时整理的方子与用法，已改写成个人理解，并注明来源。自建笔记可填写药材和克数。内置笔记可浏览；我的笔记可编辑。理论讨论，不替代面诊。</view>
   </view>
 
   <view class="toolbar">
@@ -49,7 +49,8 @@
             <view class="note-name">{{item.name}}</view>
             <text class="note-tag {{item.isUser ? 'tag-user' : 'tag-seed'}}">{{item.badge}}</text>
           </view>
-          <view class="note-summary">{{item.summary}}</view>
+          <view class="note-summary" wx:if="{{item.summary}}">{{item.summary}}</view>
+          <view class="note-herbs" wx:if="{{item.herbLine}}">{{item.herbLine}}</view>
         </view>
       </view>
       <view class="note-foot" wx:if="{{item.foot}}">{{item.foot}}</view>
@@ -57,5 +58,5 @@
   </view>
 
   <view class="empty" wx:if="{{!loading && !notes.length}}">暂无笔记</view>
-  <view class="disclaimer">理性讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+  <view class="disclaimer">理论讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
 </view>

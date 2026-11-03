@@ -1,5 +1,5 @@
 /**
- * 养生日记：本地 wx.storage 读写
+ * 打卡（原养生日记）：本地 wx.storage 读写
  * 不做辨证、诊断、用药建议；仅记录与简单本周计数。
  */
 const STORAGE_KEY = 'tcm_diary_entries';

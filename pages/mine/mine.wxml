@@ -1,0 +1,45 @@
+<view class="mine-page">
+  <view class="mine-card" wx:if="{{!loggedIn}}">
+    <view class="mine-title">未登录</view>
+    <view class="mine-desc">登录后在本机显示头像和昵称。不拦截首页、笔记和打卡。</view>
+    <button class="btn-primary btn-block" bindtap="onLogin">微信登录</button>
+    <view class="hook">当前为本地演示：点击登录会调用 wx.login，code 不上传、不换 openId。以后把 code 交给后端即可，接入点在 utils/profile.js 的 loginWithWechat。cloudEnv 仍为空，不开云开发。</view>
+  </view>
+
+  <view class="mine-card" wx:else>
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image class="avatar" src="{{avatarUrl || defaultAvatar}}" mode="aspectFill" />
+    </button>
+    <view class="avatar-hint">点头像更换（chooseAvatar）</view>
+
+    <view class="nick-row" wx:if="{{!editingNick}}">
+      <view class="nick">{{nickName}}</view>
+      <text class="edit-link" bindtap="onEditNick">编辑</text>
+    </view>
+    <view class="nick-edit" wx:else>
+      <input
+        class="nick-input"
+        type="nickname"
+        maxlength="32"
+        placeholder="填写昵称"
+        value="{{nickDraft}}"
+        focus="{{nickFocus}}"
+        bindinput="onNickInput"
+        bindblur="onNickBlur"
+      />
+      <button class="btn-primary nick-save" bindtap="onSaveNick">保存</button>
+    </view>
+
+    <view class="hook" wx:if="{{loginCodeSeen}}">已调用 wx.login，code 未上传。openId 需以后端换取，接入点：utils/profile.js → loginWithWechat。</view>
+    <view class="hook" wx:else>未取得 login code（游客模式常见）。昵称保存在本机。接入点仍是 utils/profile.js → loginWithWechat。</view>
+
+    <button class="btn-outline btn-block logout" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <navigator url="/pages/favorites/favorites" class="menu-row">
+    <text>我的收藏</text>
+    <text class="menu-arrow">›</text>
+  </navigator>
+
+  <view class="disclaimer">理论讨论，不替代面诊。这里只保存本机头像与昵称，不作诊疗依据。</view>
+</view>

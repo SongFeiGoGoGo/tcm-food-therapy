@@ -2,6 +2,25 @@ const userNotes = require('../../../utils/userNotes');
 
 const ICON_OPTS = ['📝', '🌿', '🍵', '📖', '💊', '🔥', '💧', '🧘', '🥣', '🦴'];
 
+function blankHerb() {
+  return {
+    _key: 'h_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    name: '',
+    amount: ''
+  };
+}
+
+function herbsFromNote(note) {
+  const list = note && Array.isArray(note.herbs) ? note.herbs : [];
+  const rows = list.map((h, i) => ({
+    _key: 'h_' + i + '_' + ((h && h.name) || 'row'),
+    name: (h && h.name) || '',
+    amount: (h && h.amount) || ''
+  }));
+  if (!rows.length) rows.push(blankHerb());
+  return rows;
+}
+
 Page({
   data: {
     id: '',
@@ -10,8 +29,9 @@ Page({
     summary: '',
     content: '',
     icon: '📝',
-    source: '个人学习笔记',
-    iconOpts: ICON_OPTS
+    iconOpts: ICON_OPTS,
+    herbs: [],
+    slots: []
   },
 
   onLoad(query) {
@@ -30,7 +50,8 @@ Page({
         summary: note.summary || '',
         content: note.content || '',
         icon: note.icon || '📝',
-        source: note.source || '个人学习笔记'
+        herbs: herbsFromNote(note),
+        slots: userNotes.templateSlotsFor(note)
       });
       wx.setNavigationBarTitle({ title: '编辑笔记' });
     } else {
@@ -41,7 +62,8 @@ Page({
         summary: '',
         content: '',
         icon: '📝',
-        source: '个人学习笔记'
+        herbs: [blankHerb()],
+        slots: userNotes.templateSlotsFor(null)
       });
       wx.setNavigationBarTitle({ title: '写笔记' });
     }
@@ -59,12 +81,44 @@ Page({
     this.setData({ content: e.detail.value });
   },
 
-  onSourceInput(e) {
-    this.setData({ source: e.detail.value });
-  },
-
   onPickIcon(e) {
     this.setData({ icon: e.currentTarget.dataset.v });
+  },
+
+  onHerbName(e) {
+    const index = e.currentTarget.dataset.index;
+    this.setData({ ['herbs[' + index + '].name']: e.detail.value });
+  },
+
+  onHerbAmount(e) {
+    const index = e.currentTarget.dataset.index;
+    this.setData({ ['herbs[' + index + '].amount']: e.detail.value });
+  },
+
+  onAddHerb() {
+    const herbs = (this.data.herbs || []).concat([blankHerb()]);
+    this.setData({ herbs: herbs });
+  },
+
+  onRemoveHerb(e) {
+    const index = Number(e.currentTarget.dataset.index);
+    const herbs = (this.data.herbs || []).slice();
+    if (herbs.length <= 1) {
+      const kept = herbs[0] || blankHerb();
+      herbs.splice(0, herbs.length, {
+        _key: kept._key || blankHerb()._key,
+        name: '',
+        amount: ''
+      });
+    } else if (index >= 0 && index < herbs.length) {
+      herbs.splice(index, 1);
+    }
+    this.setData({ herbs: herbs });
+  },
+
+  onSlotInput(e) {
+    const index = e.currentTarget.dataset.index;
+    this.setData({ ['slots[' + index + '].value']: e.detail.value });
   },
 
   onSave() {
@@ -73,6 +127,25 @@ Page({
       wx.showToast({ title: '请填写标题', icon: 'none' });
       return;
     }
+
+    const cleaned = [];
+    const rows = this.data.herbs || [];
+    for (let i = 0; i < rows.length; i++) {
+      const name = (rows[i].name || '').trim();
+      const amount = (rows[i].amount || '').trim();
+      if (!name && !amount) continue;
+      if (!name || !amount) {
+        wx.showToast({ title: '药材名称和克数请成对填写', icon: 'none' });
+        return;
+      }
+      cleaned.push({ name: name, amount: amount });
+    }
+
+    const slotPayload = {};
+    (this.data.slots || []).forEach((s) => {
+      slotPayload[s.key] = s.value || '';
+    });
+
     try {
       const saved = userNotes.save({
         id: this.data.id || undefined,
@@ -80,7 +153,10 @@ Page({
         summary: this.data.summary,
         content: this.data.content,
         icon: this.data.icon,
-        source: this.data.source
+        herbs: cleaned,
+        slotA: slotPayload.slotA || '',
+        slotB: slotPayload.slotB || '',
+        slotC: slotPayload.slotC || ''
       });
       this.setData({ id: saved.id, isEdit: true });
       wx.showToast({ title: '已保存', icon: 'success' });

@@ -1,30 +1,44 @@
-<view class="container">
-  <view class="hero">
-    <view class="hero-title">今天哪里不舒服？</view>
-    <view class="hero-desc">从笔记里按症状找食疗参考，或写下今日感觉。内容仅供学习讨论。</view>
+<view class="container home-page">
+  <swiper
+    wx:if="{{banners.length}}"
+    class="banner-swiper"
+    indicator-dots
+    indicator-color="rgba(255,255,255,0.45)"
+    indicator-active-color="#ffffff"
+    autoplay
+    circular
+    interval="{{4000}}"
+    duration="{{450}}"
+  >
+    <swiper-item wx:for="{{banners}}" wx:key="id">
+      <view class="banner-slide" data-link="{{item.link}}" catchtap="onBannerTap">
+        <image
+          wx:if="{{item.image && !item.imgError}}"
+          class="banner-img"
+          src="{{item.image}}"
+          mode="aspectFill"
+          data-index="{{index}}"
+          binderror="onBannerError"
+        />
+        <view wx:else class="banner-fallback">
+          <view class="banner-kicker">占位</view>
+          <view class="banner-fallback-title">{{item.title || '理论讨论，不替代面诊'}}</view>
+        </view>
+        <view class="banner-caption" wx:if="{{item.image && !item.imgError && item.title}}">{{item.title}}</view>
+      </view>
+    </swiper-item>
+  </swiper>
+  <view class="banner-fallback banner-fallback-empty" wx:else>
+    <view class="banner-kicker">占位</view>
+    <view class="banner-fallback-title">暂无轮播</view>
+  </view>
+
+  <view class="home-intro">
+    <view class="home-title">中医食疗助手</view>
+    <view class="home-desc">笔记、打卡和我的在底部栏。本页只做展示。理论讨论，不替代面诊。</view>
     <view class="mode-tag" wx:if="{{!cloudReady}}">本地演示模式</view>
     <view class="mode-tag cloud" wx:else>云开发已连接</view>
   </view>
 
-  <view class="notes-entry" bindtap="onOpenNotes" hover-class="notes-entry-hover">
-    <view class="notes-entry-left">
-      <view class="notes-entry-title">中医小笔记</view>
-      <view class="notes-entry-desc">读书整理的方子合集 · 学习笔记</view>
-    </view>
-    <text class="notes-entry-arrow">›</text>
-  </view>
-
-  <view class="diary-entry" bindtap="onOpenDiary" hover-class="diary-entry-hover">
-    <view class="diary-entry-left">
-      <view class="diary-entry-title">养生日记</view>
-      <view class="diary-entry-desc">记录睡、便、口味、情绪 · 本机保存</view>
-    </view>
-    <text class="diary-entry-arrow">›</text>
-  </view>
-
-  <view class="footer-actions">
-    <navigator url="/pages/favorites/favorites" class="link-fav">我的收藏</navigator>
-  </view>
-
-  <view class="disclaimer">理性讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+  <view class="disclaimer">理论讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
 </view>

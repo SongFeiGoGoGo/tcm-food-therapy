@@ -10,8 +10,8 @@
 
   <view class="empty" wx:if="{{!loading && !list.length}}">
     <view>还没有收藏</view>
-    <navigator url="/pages/index/index" class="back-link">去选症状</navigator>
+    <navigator url="/pages/notes/notes" open-type="switchTab" class="back-link">去笔记看看</navigator>
   </view>
 
-  <view class="disclaimer">理性讨论，不替代面诊</view>
+  <view class="disclaimer">理论讨论，不替代面诊</view>
 </view>

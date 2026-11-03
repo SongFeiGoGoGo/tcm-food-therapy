@@ -4,6 +4,19 @@ const swipeCell = require('../../utils/swipeCell');
 
 const ACTION_WIDTH = swipeCell.getActionWidthPx(140);
 
+function herbLineOf(n) {
+  const herbs = n && Array.isArray(n.herbs) ? n.herbs : [];
+  const bits = [];
+  herbs.forEach((h) => {
+    if (!h) return;
+    const name = String(h.name || '').trim();
+    const amount = String(h.amount || '').trim();
+    if (!name && !amount) return;
+    bits.push(amount ? name + ' ' + amount : name);
+  });
+  return bits.join('、');
+}
+
 Page({
   data: {
     notes: [],
@@ -30,6 +43,7 @@ Page({
       id: n.id,
       name: n.title,
       summary: n.summary || (n.content || '').slice(0, 60),
+      herbLine: herbLineOf(n),
       icon: n.icon || '📝',
       foot: '',
       badge: '我的',
@@ -56,6 +70,7 @@ Page({
             badge: '内置',
             isUser: false,
             recipeId: s.recipeId || '',
+            herbLine: '',
             _x: 0,
             _dragging: false,
             _catchMove: false

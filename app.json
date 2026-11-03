@@ -1,10 +1,11 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/detail/detail",
     "pages/notes/notes",
-    "pages/notes/edit/edit",
     "pages/diary/list/list",
+    "pages/mine/mine",
+    "pages/detail/detail",
+    "pages/notes/edit/edit",
     "pages/diary/edit/edit",
     "pages/favorites/favorites"
   ],
@@ -14,6 +15,38 @@
     "navigationBarTextStyle": "white",
     "backgroundColor": "#f7f7f5",
     "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#6b7280",
+    "selectedColor": "#2d6a4f",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/notes/notes",
+        "text": "笔记",
+        "iconPath": "images/tab/notes.png",
+        "selectedIconPath": "images/tab/notes-active.png"
+      },
+      {
+        "pagePath": "pages/diary/list/list",
+        "text": "打卡",
+        "iconPath": "images/tab/checkin.png",
+        "selectedIconPath": "images/tab/checkin-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab/mine.png",
+        "selectedIconPath": "images/tab/mine-active.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",

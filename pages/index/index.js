@@ -1,8 +1,19 @@
-const api = require('../../utils/api');
+const bannerConfig = require('../../utils/banners');
+
+function cloneBanners() {
+  return (bannerConfig || []).map((b, i) => ({
+    id: b.id || 'banner_' + i,
+    title: b.title || '',
+    image: b.image || '',
+    link: b.link || '',
+    imgError: false
+  }));
+}
 
 Page({
   data: {
-    cloudReady: false
+    cloudReady: false,
+    banners: cloneBanners()
   },
 
   onShow() {
@@ -10,29 +21,22 @@ Page({
     this.setData({ cloudReady: !!(app.globalData && app.globalData.cloudReady) });
   },
 
-  onOpenNotes() {
-    wx.navigateTo({
-      url: '/pages/notes/notes',
-      fail(err) {
-        console.error('notes nav fail', err);
-        wx.showModal({
-          title: '跳转失败',
-          content: (err && err.errMsg) || '未知错误',
-          showCancel: false
-        });
-      }
-    });
+  onBannerError(e) {
+    const index = e.currentTarget.dataset.index;
+    if (index === undefined || index === '') return;
+    this.setData({ ['banners[' + index + '].imgError']: true });
   },
 
-  onOpenDiary() {
+  /** link 为空则不跳转。预留站内路径，tab 页走 switchTab。 */
+  onBannerTap(e) {
+    const link = ((e.currentTarget.dataset && e.currentTarget.dataset.link) || '').trim();
+    if (!link || link.indexOf('/pages/') !== 0) return;
     wx.navigateTo({
-      url: '/pages/diary/list/list',
-      fail(err) {
-        console.error('diary nav fail', err);
-        wx.showModal({
-          title: '跳转失败',
-          content: (err && err.errMsg) || '未知错误',
-          showCancel: false
+      url: link,
+      fail() {
+        wx.switchTab({
+          url: link.split('?')[0],
+          fail() {}
         });
       }
     });
