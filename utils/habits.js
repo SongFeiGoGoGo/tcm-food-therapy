@@ -11,7 +11,7 @@ const WEEK_COUNT = 16;
 
 const HABITS = [
   { key: 'earlySleep', label: '早睡' },
-  { key: 'softBelly', label: '柔腹' },
+  { key: 'softBelly', label: '揉腹' },
   { key: 'combHair', label: '梳头' },
   { key: 'patBaxu', label: '拍八虚' },
   { key: 'morningStool', label: '七点前完成排大便' }
