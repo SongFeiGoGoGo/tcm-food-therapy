@@ -1,4 +1,4 @@
-<view class="edit-page">
+<view class="edit-page" wx:if="{{!blocked}}">
   <view class="field">
     <view class="label">标题 <text class="req">必填</text></view>
     <input

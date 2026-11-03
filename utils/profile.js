@@ -96,10 +96,34 @@ function logout() {
   return save({ loggedIn: false });
 }
 
+function isLoggedIn() {
+  return !!read().loggedIn;
+}
+
+/** 未登录时拦截写操作。确认后去「我的」。 */
+function promptLogin(onCancel) {
+  wx.showModal({
+    title: '请先登录',
+    content: '写笔记和打卡需要先登录',
+    cancelText: '取消',
+    confirmText: '去登录',
+    confirmColor: '#6B4F2A',
+    success: (res) => {
+      if (res.confirm) {
+        wx.switchTab({ url: '/pages/mine/mine' });
+        return;
+      }
+      if (typeof onCancel === 'function') onCancel();
+    }
+  });
+}
+
 module.exports = {
   STORAGE_KEY: STORAGE_KEY,
   read: read,
   save: save,
   loginWithWechat: loginWithWechat,
-  logout: logout
+  logout: logout,
+  isLoggedIn: isLoggedIn,
+  promptLogin: promptLogin
 };

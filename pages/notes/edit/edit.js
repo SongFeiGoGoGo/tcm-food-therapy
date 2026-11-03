@@ -1,4 +1,5 @@
 const userNotes = require('../../../utils/userNotes');
+const profileUtil = require('../../../utils/profile');
 
 const ICON_OPTS = ['📝', '🌿', '🍵', '📖', '💊', '🔥', '💧', '🧘', '🥣', '🦴'];
 
@@ -31,10 +32,43 @@ Page({
     icon: '📝',
     iconOpts: ICON_OPTS,
     herbs: [],
-    slots: []
+    slots: [],
+    blocked: false
   },
 
+  _query: null,
+  _loginPrompted: false,
+  _opened: false,
+
   onLoad(query) {
+    this._query = query || {};
+    if (!this.guardLogin()) return;
+    this.openForm(this._query);
+  },
+
+  onShow() {
+    if (!this.guardLogin()) return;
+    if (!this._opened) this.openForm(this._query || {});
+  },
+
+  guardLogin() {
+    if (profileUtil.isLoggedIn()) return true;
+    this.setData({ blocked: true });
+    if (!this._loginPrompted) {
+      this._loginPrompted = true;
+      profileUtil.promptLogin(() => {
+        wx.navigateBack({
+          fail() {
+            wx.switchTab({ url: '/pages/mine/mine' });
+          }
+        });
+      });
+    }
+    return false;
+  },
+
+  openForm(query) {
+    this._opened = true;
     const id = (query && query.id) || '';
     if (id) {
       const note = userNotes.get(id);
@@ -122,6 +156,10 @@ Page({
   },
 
   onSave() {
+    if (!profileUtil.isLoggedIn()) {
+      this.guardLogin();
+      return;
+    }
     const title = (this.data.title || '').trim();
     if (!title) {
       wx.showToast({ title: '请填写标题', icon: 'none' });

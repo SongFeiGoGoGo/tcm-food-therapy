@@ -1,6 +1,7 @@
 const calendar = require('../../../utils/calendar');
 const habits = require('../../../utils/habits');
 const diary = require('../../../utils/diary');
+const profileUtil = require('../../../utils/profile');
 
 const WEEKDAYS = ['一', '二', '三', '四', '五', '六', '日'];
 
@@ -59,6 +60,10 @@ Page({
   },
 
   onToggle(e) {
+    if (!profileUtil.isLoggedIn()) {
+      profileUtil.promptLogin();
+      return;
+    }
     const key = e.currentTarget.dataset.key;
     const selected = this.data.selected;
     if (!selected || !key) return;

@@ -1,5 +1,6 @@
 const api = require('../../utils/api');
 const userNotes = require('../../utils/userNotes');
+const profileUtil = require('../../utils/profile');
 
 function herbLineOf(n) {
   const herbs = n && Array.isArray(n.herbs) ? n.herbs : [];
@@ -73,12 +74,20 @@ Page({
   },
 
   onAdd() {
+    if (!profileUtil.isLoggedIn()) {
+      profileUtil.promptLogin();
+      return;
+    }
     wx.navigateTo({ url: '/pages/notes/edit/edit' });
   },
 
   onTap(e) {
     const { id, user, recipe } = e.currentTarget.dataset;
     if (user === true || user === 'true') {
+      if (!profileUtil.isLoggedIn()) {
+        profileUtil.promptLogin();
+        return;
+      }
       wx.navigateTo({ url: '/pages/notes/edit/edit?id=' + id });
       return;
     }
