@@ -9,19 +9,19 @@ module.exports = [
   {
     id: 'banner_tea',
     title: '一盏茶',
-    image: '/images/banners/banner-1.png',
+    image: '/images/banners/banner-1.jpg',
     link: ''
   },
   {
     id: 'banner_notes',
     title: '笔记与打卡',
-    image: '/images/banners/banner-2.png',
+    image: '/images/banners/banner-2.jpg',
     link: ''
   },
   {
     id: 'banner_herb',
     title: '草木清气',
-    image: '/images/banners/banner-3.png',
+    image: '/images/banners/banner-3.jpg',
     link: ''
   }
 ];
