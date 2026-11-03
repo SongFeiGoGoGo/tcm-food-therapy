@@ -93,10 +93,6 @@
   margin: 32rpx 0 8rpx;
 }
 
-.fav-btn {
-  width: 100%;
-}
-
 .btn-danger {
   background: #fff;
   color: #b91c1c;

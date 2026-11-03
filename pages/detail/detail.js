@@ -4,7 +4,6 @@ const userNotes = require('../../utils/userNotes');
 Page({
   data: {
     recipe: null,
-    favorited: false,
     loading: true,
     recipeId: '',
     symptomId: '',
@@ -32,35 +31,11 @@ Page({
           symptomId: recipe.symptomId || this.data.symptomId,
           page: 'detail'
         });
-        return api.isFavorite(recipe._id);
-      })
-      .then((favorited) => {
-        if (typeof favorited === 'boolean') {
-          this.setData({ favorited });
-        }
       })
       .catch((err) => {
         console.error(err);
         this.setData({ loading: false, recipe: null });
         wx.showToast({ title: '加载失败', icon: 'none' });
-      });
-  },
-
-  onToggleFavorite() {
-    const recipeId = this.data.recipeId || (this.data.recipe && this.data.recipe._id);
-    if (!recipeId) return;
-    api
-      .toggleFavorite(recipeId)
-      .then((res) => {
-        const favorited = !!(res && res.favorited);
-        this.setData({ favorited });
-        wx.showToast({
-          title: favorited ? '已收藏' : '已取消收藏',
-          icon: 'none'
-        });
-      })
-      .catch(() => {
-        wx.showToast({ title: '操作失败', icon: 'none' });
       });
   },
 

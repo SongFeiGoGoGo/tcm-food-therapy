@@ -34,10 +34,5 @@
     <button class="btn-outline btn-block logout" bindtap="onLogout">退出登录</button>
   </view>
 
-  <navigator url="/pages/favorites/favorites" class="menu-row">
-    <text>我的收藏</text>
-    <text class="menu-arrow">›</text>
-  </navigator>
-
   <view class="disclaimer">理性讨论，不替代面诊。这里只保存本机头像与昵称，不作诊疗依据。</view>
 </view>

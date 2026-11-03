@@ -16,8 +16,7 @@
 | 写笔记 | `pages/notes/edit` | 标题、药材名+克数（可增减）、槽位 A/B/C、自由正文 |
 | 打卡 | `pages/diary/list` | 五项习惯 + 16 周热力图。旧养生日记只归档，不展示、不删除 |
 | 我的 | `pages/mine` | 本地登录闭环：头像、昵称（可改，写入 storage） |
-| 食疗详情 | `pages/detail` | 内置笔记详情。食材+克数、配伍、做法、注意、收藏 |
-| 我的收藏 | `pages/favorites` | 从「我的」进入；云库或本地存储 |
+| 食疗详情 | `pages/detail` | 内置笔记详情。食材+克数、配伍、做法、注意 |
 
 症状与方案见 `utils/seed.js`（含学习笔记条目）。
 
@@ -38,8 +37,7 @@ tcm-food-therapy-miniprogram/
 │   ├── diary/list               # Tab 打卡（习惯热力图）
 │   ├── diary/edit               # 旧写日记页，主路径已不用
 │   ├── mine/                    # Tab 我的（头像昵称）
-│   ├── detail/                  # 食疗详情
-│   └── favorites/               # 我的收藏
+│   └── detail/                  # 食疗详情
 ├── images/tab · banners         # tab 占位图标、轮播图
 ├── utils/
 │   ├── seed.js                  # 本地种子数据
@@ -53,8 +51,6 @@ tcm-food-therapy-miniprogram/
 ├── cloudfunctions/
 │   ├── getSymptoms
 │   ├── getRecipeById
-│   ├── toggleFavorite
-│   ├── listFavorites
 │   └── logView
 ├── cloud/database/              # 可选：导入云库的 JSON / 字段说明
 ├── LICENSE                      # MIT
@@ -91,7 +87,7 @@ tcm-food-therapy-miniprogram/
 当 `app.js` 里 `cloudEnv` 为空，或 `wx.cloud.init` 未成功时：
 
 - 症状 / 食疗：读 `utils/seed.js`  
-- 收藏 / 浏览日志：写 `wx.setStorage`（键名 `favorites`、`view_logs`）  
+- 浏览日志：写 `wx.setStorage`（键名 `view_logs`）  
 - 习惯打卡：写 `wx.setStorage`（键名 `tcm_habit_checkins`），仅本机，不走云  
 - 旧养生日记：键 `tcm_diary_entries` 仍留在本机，打卡页不展示、不删除  
 - 自建笔记：`tcm_user_notes`；我的头像昵称：`tcm_user_profile`  
@@ -116,8 +112,6 @@ tcm-food-therapy-miniprogram/
    底栏「我的」。未登录只看到「微信登录」，其它 Tab 不拦截。点登录（游客模式经常没有 `wx.login` 的 code，仍然可以进入已登录态）。看到头像和昵称后点「编辑」，改昵称，点「保存」，页面立刻显示新昵称。开发者工具里「清缓存」不要选清数据；用重新编译，或模拟器里关掉再打开，回到「我的」，昵称还在。Storage 键：`tcm_user_profile`。头像用 `chooseAvatar`，能写入本地文件则一并留下。  
    **还没接的后端点：** `utils/profile.js` 的 `loginWithWechat` 会调用 `wx.login`，但 **不上传 code、不换 openId**。以后把 `res.code` 交给自有后端即可。登录后的头像应是正圆，微信头像完整落在圆框里，而不是只露出一条。
 
-收藏从「我的」里的「我的收藏」进入（本迭代从首页挪过来，方便还能打开）。
-
 **干支 / 节气：** 轮播正下方有干支三柱（如「丙午年 · 戊戌月 · 辛巳日」）和一行小字公历。不是节气日时，显示下一节气和还有几天；距离 ≤7 天还会多一句「还有 N 天到××」。把开发者工具的系统日期改到 2026-11-07，应看到「今日立冬」。23:00 之后干支日会进到下一天，公历小字仍是当天。
 
 **热力图：** 底栏「打卡」没有周记列表，也没有本周小结。近 16 周方格可以横滑。点今天（默认）或过去某一天，勾选早睡、柔腹、梳头、拍八虚、七点前完成排大便。完成 0 项最浅，5 项最深，勾上后格子马上变色。不要清数据，重新编译或关掉再打开，勾选还在。Storage 键：`tcm_habit_checkins`。
@@ -139,7 +133,7 @@ tcm-food-therapy-miniprogram/
 const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 ```
 
-3. 在云开发控制台创建集合（权限建议先「仅管理端可写，所有用户可读」或按业务收紧 `favorites` / `view_logs`）：
+3. 在云开发控制台创建集合（权限建议先「仅管理端可写，所有用户可读」，或按业务收紧 `view_logs`）：
 
 ### 数据库集合字段
 
@@ -167,16 +161,6 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 | `notes` | array | 注意事项字符串数组 |
 | `tags` | array | 标签 |
 
-#### `favorites`
-
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `openId` | string | 用户 openid |
-| `recipeId` | string | 食疗 ID |
-| `createdAt` | number | 毫秒时间戳 |
-
-建议索引：`openId` + `recipeId`。
-
 #### `view_logs`
 
 | 字段 | 类型 | 说明 |
@@ -192,11 +176,11 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 ### 导入种子数据
 
 可将 `cloud/database/symptoms.json`、`recipes.json` 在云控制台「数据库」→ 对应集合 → 导入（或逐条添加，保持 `_id` 与 JSON 一致）。  
-`favorites`、`view_logs` 初始为空即可。
+`view_logs` 初始为空即可。
 
 ### 部署云函数
 
-对 `cloudfunctions` 下每个目录（`getSymptoms`、`getRecipeById`、`toggleFavorite`、`listFavorites`、`logView`）：
+对 `cloudfunctions` 下每个目录（`getSymptoms`、`getRecipeById`、`logView`）：
 
 1. 右键 →「上传并部署：云端安装依赖」（需已关联云环境）。  
 2. 部署完成后重新编译小程序；首页应变为「云开发已连接」。  
@@ -208,8 +192,6 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 |------|------|
 | `getSymptoms` | 返回症状列表（按 `sort`） |
 | `getRecipeById` | 按食疗 ID 或症状 ID 取详情 |
-| `toggleFavorite` | 切换当前用户收藏 |
-| `listFavorites` | 当前用户收藏列表（含摘要） |
 | `logView` | 写入浏览日志 |
 
 ## 开源协议
