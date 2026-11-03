@@ -2,7 +2,7 @@
   <view class="notes-hero">
     <view class="notes-badge">学习笔记</view>
     <view class="notes-title">中医小笔记</view>
-    <view class="notes-desc">读书时整理的方子与用法，已改写成个人理解，并注明来源。自建笔记可填写药材和克数。内置笔记可浏览；我的笔记可编辑。理性讨论，不替代面诊。</view>
+    <view class="notes-desc">这里可以记录你读书时整理的方子与用法，下面是我的示例（已改写成个人理解，并注明来源）。也可以随意记录自己学习中医的过程。理性讨论，不替代面诊。</view>
   </view>
 
   <view class="toolbar">
