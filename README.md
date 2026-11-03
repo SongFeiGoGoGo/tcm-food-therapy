@@ -161,6 +161,17 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 | `notes` | array | 注意事项字符串数组 |
 | `tags` | array | 标签 |
 
+#### `feedback`
+
+客户端「反馈」页在云开发已连接时 `add`。权限建议仅客户端新增、管理端在控制台查看。字段见 `cloud/database/feedback.schema.md`。
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `message` | string | 反馈正文 |
+| `contact` | string | 选填联系方式 |
+| `source` | string | `tcm-miniprogram` |
+| `createdAt` | date | 服务端时间 |
+
 #### `view_logs`
 
 | 字段 | 类型 | 说明 |
