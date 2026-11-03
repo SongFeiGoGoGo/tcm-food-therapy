@@ -46,7 +46,7 @@
     </view>
   </view>
 
-  <view class="disclaimer">理论讨论，不替代面诊</view>
+  <view class="disclaimer">理性讨论，不替代面诊</view>
 </view>
 
 <view class="empty" wx:elif="{{!loading}}">未找到该食疗方案</view>

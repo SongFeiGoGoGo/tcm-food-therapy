@@ -4,7 +4,7 @@
  * 另：内置笔记「本地隐藏」黑名单（不改 seed）。
  * 用户自建笔记带固定模板：药材名+克数（可多行）、槽位 A/B/C、自由正文。
  * 槽位文案改 NOTE_TEMPLATE_SLOTS 即可，key 先固定。
- * 理论讨论，不替代面诊；不做诊断推荐。
+ * 理性讨论，不替代面诊；不做诊断推荐。
  */
 const STORAGE_KEY = 'tcm_user_notes';
 const HIDDEN_BUILTIN_KEY = 'tcm_hidden_builtin_notes';

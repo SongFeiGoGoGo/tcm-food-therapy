@@ -13,5 +13,5 @@
     <navigator url="/pages/notes/notes" open-type="switchTab" class="back-link">去笔记看看</navigator>
   </view>
 
-  <view class="disclaimer">理论讨论，不替代面诊</view>
+  <view class="disclaimer">理性讨论，不替代面诊</view>
 </view>

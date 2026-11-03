@@ -6,7 +6,7 @@
  * 以后把 code 交给自有后端（或云函数）换 openId / session，再与头像、昵称一起落库。
  * 当前 cloudEnv 为空，这里只完成本机头像昵称闭环。
  *
- * 理论讨论，不替代面诊。
+ * 理性讨论，不替代面诊。
  */
 const STORAGE_KEY = 'tcm_user_profile';
 

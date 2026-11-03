@@ -22,7 +22,7 @@
         />
         <view wx:else class="banner-fallback">
           <view class="banner-kicker">占位</view>
-          <view class="banner-fallback-title">{{item.title || '理论讨论，不替代面诊'}}</view>
+          <view class="banner-fallback-title">{{item.title || '中医食疗'}}</view>
         </view>
         <view class="banner-caption" wx:if="{{item.image && !item.imgError && item.title}}">{{item.title}}</view>
       </view>
@@ -35,10 +35,8 @@
 
   <view class="home-intro">
     <view class="home-title">中医食疗助手</view>
-    <view class="home-desc">笔记、打卡和我的在底部栏。本页只做展示。理论讨论，不替代面诊。</view>
+    <view class="home-desc">笔记、打卡和我的在底部栏。本页只做展示。</view>
     <view class="mode-tag" wx:if="{{!cloudReady}}">本地演示模式</view>
     <view class="mode-tag cloud" wx:else>云开发已连接</view>
   </view>
-
-  <view class="disclaimer">理论讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
 </view>
