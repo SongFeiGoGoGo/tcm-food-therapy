@@ -127,3 +127,21 @@
   width: 100%;
 }
 
+.feedback-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 28rpx 32rpx;
+  color: #4A3420;
+  font-size: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.feedback-arrow {
+  color: #A67C52;
+  font-size: 40rpx;
+  line-height: 1;
+}
+

@@ -33,5 +33,8 @@
     <button class="btn-outline btn-block logout" bindtap="onLogout">退出登录</button>
   </view>
 
-  <view class="disclaimer">理性讨论，不替代面诊。这里只保存本机头像与昵称，不作诊疗依据。</view>
+  <navigator url="/pages/feedback/feedback" class="feedback-row">
+    <text>反馈</text>
+    <text class="feedback-arrow">›</text>
+  </navigator>
 </view>
