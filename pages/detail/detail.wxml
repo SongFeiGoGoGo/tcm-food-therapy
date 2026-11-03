@@ -39,7 +39,7 @@
 
   <view class="actions" wx:if="{{fromNotes && symptomId}}">
     <view class="hide-row">
-      <text class="hide-link" bindtap="onHideFromNotes">从列表移除</text>
+      <text class="hide-link" bindtap="onHideFromNotes">删除</text>
     </view>
   </view>
 

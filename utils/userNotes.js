@@ -1,7 +1,7 @@
 /**
  * 用户自主笔记：本地 wx.storage 读写
  * 与种子笔记分离，不写入 seed / 云数据。
- * 另：内置笔记「本地隐藏」黑名单（不改 seed）。
+ * 另：已删除的示例笔记 id 存在本机（键名不改）。列表每次从种子读取时跳过这些 id，重启也不会再出现。
  * 用户自建笔记带固定模板：药材名+克数（可多行）、槽位 A/B/C、自由正文。
  * 槽位文案改 NOTE_TEMPLATE_SLOTS 即可，key 先固定。
  * 理性讨论，不替代面诊；不做诊断推荐。
@@ -183,7 +183,7 @@ function remove(id) {
   return true;
 }
 
-/** 已隐藏的内置笔记 id 列表（仅本地，不改 seed） */
+/** 已删除的示例笔记 id。种子仍在文件里，但列表不再加回。 */
 function listHiddenBuiltins() {
   try {
     const raw = wx.getStorageSync(HIDDEN_BUILTIN_KEY);
@@ -214,7 +214,7 @@ function writeHiddenBuiltins(ids) {
 }
 
 /**
- * 将内置笔记 id 加入本地隐藏黑名单（本机列表不再出现；不改 seed）
+ * 永久去掉一条示例笔记（写入已删 id，重启后种子不会再把它加回列表）
  * @param {string} id symptom _id
  * @returns {boolean}
  */

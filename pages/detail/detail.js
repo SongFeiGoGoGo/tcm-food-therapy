@@ -39,7 +39,7 @@ Page({
       });
   },
 
-  /** 内置学习笔记：仅本机从列表隐藏，不改 seed / 云库 */
+  /** 示例笔记：永久从列表去掉，重启不再从种子加回 */
   onHideFromNotes() {
     const symptomId = this.data.symptomId;
     if (!symptomId) {
@@ -47,14 +47,13 @@ Page({
       return;
     }
     wx.showModal({
-      title: '从我的列表移除？',
-      content: '仅在本机隐藏这条内置学习笔记，不会修改资料库。重启后仍保持隐藏。',
-      confirmText: '移除',
+      title: '确认删除？',
+      confirmText: '删除',
       confirmColor: '#b91c1c',
       success: (res) => {
         if (!res.confirm) return;
         userNotes.hideBuiltin(symptomId);
-        wx.showToast({ title: '已从列表移除', icon: 'success' });
+        wx.showToast({ title: '已删除', icon: 'success' });
         setTimeout(() => {
           wx.navigateBack({ fail() {} });
         }, 400);

@@ -59,7 +59,7 @@ Page({
             summary: s.summary,
             icon: s.icon,
             foot: '据罗大伦老师书籍学习笔记 · 非原文照录',
-            badge: '内置',
+            badge: '示例',
             isUser: false,
             recipeId: s.recipeId || '',
             herbLine: ''
@@ -69,7 +69,7 @@ Page({
       .catch((err) => {
         console.error(err);
         this.setData({ notes: mine, loading: false });
-        wx.showToast({ title: '内置笔记加载失败', icon: 'none' });
+        wx.showToast({ title: '示例笔记加载失败', icon: 'none' });
       });
   },
 
@@ -125,19 +125,18 @@ Page({
     });
   },
 
-  /** 内置笔记：仅本地从列表隐藏，不改种子库 */
+  /** 示例笔记：记下已删 id，下次启动不再从种子加回 */
   onHideBuiltin(e) {
     const id = e.currentTarget.dataset.id;
     if (!id) return;
     wx.showModal({
       title: '确认删除？',
-      content: '仅在本机隐藏，不会修改内置资料库。重启小程序后仍保持隐藏。',
-      confirmText: '移除',
+      confirmText: '删除',
       confirmColor: '#b91c1c',
       success: (res) => {
         if (!res.confirm) return;
         userNotes.hideBuiltin(id);
-        wx.showToast({ title: '已从列表移除', icon: 'success' });
+        wx.showToast({ title: '已删除', icon: 'success' });
         this.reload();
       }
     });
