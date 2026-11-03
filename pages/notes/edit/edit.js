@@ -196,7 +196,9 @@ Page({
         slotB: slotPayload.slotB || '',
         slotC: slotPayload.slotC || ''
       });
-      this.setData({ id: saved.id, isEdit: true });
+      if (!this.data.id && saved.id) {
+        this.setData({ id: saved.id });
+      }
       wx.showToast({ title: '已保存', icon: 'success' });
       setTimeout(() => {
         wx.navigateBack({ fail() {} });
