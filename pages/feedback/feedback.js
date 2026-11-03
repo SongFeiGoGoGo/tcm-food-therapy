@@ -12,6 +12,18 @@ Page({
     submitting: false
   },
 
+  onLoad() {
+    const pages = getCurrentPages();
+    const prev = pages.length >= 2 ? pages[pages.length - 2] : null;
+    const route = prev && (prev.route || prev.__route__);
+    if (route === 'pages/mine/mine') return;
+    wx.navigateBack({
+      fail() {
+        wx.switchTab({ url: '/pages/mine/mine' });
+      }
+    });
+  },
+
   onMessage(e) {
     this.setData({ message: (e.detail && e.detail.value) || '' });
   },
