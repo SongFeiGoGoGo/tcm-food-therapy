@@ -1,4 +1,4 @@
-<view class="notes-page" bindtap="onPageTap">
+<view class="notes-page">
   <view class="notes-hero">
     <view class="notes-badge">学习笔记</view>
     <view class="notes-title">中医小笔记</view>
@@ -10,39 +10,27 @@
   </view>
 
   <view
-    class="swipe-row"
+    class="note-card {{item.isUser ? 'note-card-user' : ''}}"
     wx:for="{{notes}}"
     wx:key="key"
+    data-id="{{item.id}}"
+    data-user="{{item.isUser}}"
+    data-recipe="{{item.recipeId}}"
+    catchtap="onTap"
   >
-    <view class="swipe-actions">
-      <view
-        wx:if="{{item.isUser}}"
-        class="swipe-btn swipe-btn-del"
-        data-id="{{item.id}}"
-        catchtap="onDeleteUser"
-      >删除</view>
-      <view
-        wx:else
-        class="swipe-btn swipe-btn-del"
-        data-id="{{item.id}}"
-        catchtap="onHideBuiltin"
-      >移除</view>
-    </view>
     <view
-      class="swipe-content note-card {{item.isUser ? 'note-card-user' : ''}} {{item._dragging ? 'is-dragging' : ''}}"
-      style="transform: translateX({{item._x || 0}}px);"
+      wx:if="{{item.isUser}}"
+      class="card-del"
       data-id="{{item.id}}"
-      data-user="{{item.isUser}}"
-      data-recipe="{{item.recipeId}}"
-      data-index="{{index}}"
-      bindtouchstart="onTouchStart"
-      bindtouchmove="onTouchMove"
-      bindtouchend="onTouchEnd"
-      bindtouchcancel="onTouchCancel"
-      catchtouchmove="{{item._catchMove ? 'onCatchTouchMove' : ''}}"
-      catchtap="onTap"
-    >
-      <view class="note-top">
+      catchtap="onDeleteUser"
+    >×</view>
+    <view
+      wx:else
+      class="card-del"
+      data-id="{{item.id}}"
+      catchtap="onHideBuiltin"
+    >×</view>
+    <view class="note-top">
         <text class="note-icon">{{item.icon}}</text>
         <view class="note-meta">
           <view class="note-name-row">
@@ -54,7 +42,6 @@
         </view>
       </view>
       <view class="note-foot" wx:if="{{item.foot}}">{{item.foot}}</view>
-    </view>
   </view>
 
   <view class="empty" wx:if="{{!loading && !notes.length}}">暂无笔记</view>

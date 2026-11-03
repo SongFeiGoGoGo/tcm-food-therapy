@@ -1,4 +1,4 @@
-<view class="diary-page" bindtap="onPageTap">
+<view class="diary-page">
   <view class="diary-hero">
     <view class="diary-badge">个人记录</view>
     <view class="diary-title">打卡</view>
@@ -46,30 +46,14 @@
   </view>
 
   <view
-    class="swipe-row"
+    class="entry-card"
     wx:for="{{entries}}"
     wx:key="id"
+    data-id="{{item.id}}"
+    catchtap="onTapItem"
   >
-    <view class="swipe-actions">
-      <view
-        class="swipe-btn swipe-btn-del"
-        data-id="{{item.id}}"
-        catchtap="onDeleteItem"
-      >删除</view>
-    </view>
-    <view
-      class="swipe-content entry-card {{item._dragging ? 'is-dragging' : ''}}"
-      style="transform: translateX({{item._x || 0}}px);"
-      data-id="{{item.id}}"
-      data-index="{{index}}"
-      bindtouchstart="onTouchStart"
-      bindtouchmove="onTouchMove"
-      bindtouchend="onTouchEnd"
-      bindtouchcancel="onTouchCancel"
-      catchtouchmove="{{item._catchMove ? 'onCatchTouchMove' : ''}}"
-      catchtap="onTapItem"
-    >
-      <view class="entry-date">{{item.date}}</view>
+    <view class="card-del" data-id="{{item.id}}" catchtap="onDeleteItem">×</view>
+    <view class="entry-date">{{item.date}}</view>
       <view class="entry-preview">
         <text wx:if="{{item.sleep}}">睡·{{item.sleep}}</text>
         <text wx:if="{{item.sleep && item.stool}}"> · </text>
@@ -81,7 +65,6 @@
         <text wx:if="{{(item.sleep || item.stool || item.mood || item.dryThroat === '有') && item.acne === '有'}}"> · </text>
         <text wx:if="{{item.acne === '有'}}">有痘</text>
         <text wx:if="{{!(item.sleep || item.stool || item.mood || item.dryThroat === '有' || item.acne === '有')}}" class="muted">（可补充）</text>
-      </view>
     </view>
   </view>
 
