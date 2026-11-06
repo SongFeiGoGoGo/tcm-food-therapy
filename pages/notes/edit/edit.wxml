@@ -1,100 +1,35 @@
 <view class="edit-page" wx:if="{{!blocked}}">
-  <view class="when">{{whenText}}</view>
-  <input
-    class="title-input"
-    placeholder="标题（可选）"
-    placeholder-class="ph"
-    value="{{title}}"
-    maxlength="40"
-    bindinput="onTitleInput"
-  />
-  <textarea
-    class="body-input"
-    placeholder="这一刻想写点什么…"
-    placeholder-class="ph"
-    value="{{content}}"
-    maxlength="2000"
-    bindinput="onContentInput"
-    auto-height
-  />
-
-  <view class="more-toggle" bindtap="onToggleMore">
-    <text>{{showMore ? '收起' : '更多'}}</text>
+  <view class="composer">
+    <view class="when">{{whenText}}</view>
+    <input
+      class="title-input"
+      placeholder="标题（可选）"
+      placeholder-class="ph"
+      value="{{title}}"
+      maxlength="40"
+      bindinput="onTitleInput"
+      confirm-type="next"
+    />
+    <textarea
+      class="body-input"
+      style="height: {{bodyHeight}}px;"
+      placeholder="这一刻想写点什么…"
+      placeholder-class="ph"
+      value="{{content}}"
+      maxlength="4000"
+      bindinput="onContentInput"
+      show-confirm-bar="{{false}}"
+    />
   </view>
 
-  <view wx:if="{{showMore}}">
-    <view class="field">
-      <view class="label">药材 <text class="opt">名称和克数一一对应，可增减</text></view>
-      <view class="herb-row" wx:for="{{herbs}}" wx:key="_key">
-        <input
-          class="input herb-name"
-          placeholder="药材名称"
-          value="{{item.name}}"
-          maxlength="20"
-          data-index="{{index}}"
-          bindinput="onHerbName"
-        />
-        <input
-          class="input herb-amount"
-          placeholder="克数，如 20克"
-          value="{{item.amount}}"
-          maxlength="16"
-          data-index="{{index}}"
-          bindinput="onHerbAmount"
-        />
-        <view class="herb-remove" data-index="{{index}}" catchtap="onRemoveHerb">删除</view>
-      </view>
-      <button class="btn-outline btn-add-herb" catchtap="onAddHerb">+ 添加一味药</button>
+  <view class="dock">
+    <view class="more-toggle" wx:if="{{canShowMore}}" bindtap="onToggleMore">{{showMore ? '收起' : '更多'}}</view>
+    <view wx:if="{{showMore && canShowMore}}" class="more-box">
+      <view class="more-line" wx:for="{{herbs}}" wx:key="_key" wx:if="{{item.name || item.amount}}">{{item.name}} {{item.amount}}</view>
+      <view class="more-line" wx:for="{{slots}}" wx:key="key" wx:if="{{item.value}}">{{item.label}}：{{item.value}}</view>
+      <view class="more-line" wx:if="{{summary}}">{{summary}}</view>
     </view>
-
-    <view class="field" wx:for="{{slots}}" wx:key="key">
-      <view class="label">{{item.label}} <text class="opt">选填</text></view>
-      <textarea
-        wx:if="{{item.multiline}}"
-        class="textarea slot-text"
-        placeholder="{{item.placeholder}}"
-        value="{{item.value}}"
-        maxlength="500"
-        data-index="{{index}}"
-        bindinput="onSlotInput"
-        auto-height
-      />
-      <input
-        wx:else
-        class="input"
-        placeholder="{{item.placeholder}}"
-        value="{{item.value}}"
-        maxlength="60"
-        data-index="{{index}}"
-        bindinput="onSlotInput"
-      />
-    </view>
-
-    <view class="field">
-      <view class="label">摘要 <text class="opt">选填</text></view>
-      <input
-        class="input"
-        placeholder="不填则列表用正文开头"
-        value="{{summary}}"
-        maxlength="80"
-        bindinput="onSummaryInput"
-      />
-    </view>
-
-    <view class="field">
-      <view class="label">图标 <text class="opt">选填</text></view>
-      <view class="chips">
-        <view
-          wx:for="{{iconOpts}}"
-          wx:key="*this"
-          class="chip {{icon === item ? 'on' : ''}}"
-          data-v="{{item}}"
-          bindtap="onPickIcon"
-        >{{item}}</view>
-      </view>
-    </view>
+    <button class="save-btn" bindtap="onSave">保存</button>
+    <view wx:if="{{isEdit}}" class="delete-link" bindtap="onDelete">删除</view>
   </view>
-
-  <button class="btn-primary btn-block" bindtap="onSave">保存</button>
-  <button wx:if="{{isEdit}}" class="btn-danger btn-block" bindtap="onDelete">删除这条</button>
 </view>

@@ -32,7 +32,12 @@ function formatWhen(ts) {
 
 function hasAdvanced(herbs, slots, summary) {
   const herbFilled = (herbs || []).some((h) => (h.name || '').trim() || (h.amount || '').trim());
-  const slotFilled = (slots || []).some((s) => (s.value || '').trim());
+  const slotFilled = (slots || []).some((s) => {
+    const value = (s.value || '').trim();
+    if (!value) return false;
+    if (s.key === 'slotC' && (value === '个人学习日记' || value === '个人学习笔记')) return false;
+    return true;
+  });
   return herbFilled || slotFilled || !!(summary && String(summary).trim());
 }
 
@@ -49,7 +54,21 @@ Page({
     slots: [],
     blocked: false,
     showMore: false,
-    whenText: ''
+    canShowMore: false,
+    whenText: '',
+    bodyHeight: 420
+  },
+
+  onReady() {
+    this.fitBody();
+  },
+
+  fitBody() {
+    try {
+      const sys = wx.getSystemInfoSync();
+      const bodyHeight = Math.max(280, (sys.windowHeight || 640) - 210);
+      this.setData({ bodyHeight: bodyHeight });
+    } catch (e) {}
   },
 
   _query: null,
@@ -104,7 +123,8 @@ Page({
         icon: note.icon || '📝',
         herbs: herbs,
         slots: slots,
-        showMore: hasAdvanced(herbs, slots, note.summary),
+        canShowMore: hasAdvanced(herbs, slots, note.summary),
+        showMore: false,
         whenText: formatWhen(note.createdAt)
       });
       wx.setNavigationBarTitle({ title: '编辑日记' });
@@ -118,6 +138,7 @@ Page({
         icon: '📝',
         herbs: [blankHerb()],
         slots: userNotes.templateSlotsFor(null),
+        canShowMore: false,
         showMore: false,
         whenText: formatWhen(Date.now())
       });
