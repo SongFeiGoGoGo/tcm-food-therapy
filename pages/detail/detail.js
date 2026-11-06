@@ -39,11 +39,11 @@ Page({
       });
   },
 
-  /** 示例笔记：永久从列表去掉，重启不再从种子加回 */
+  /** 示例日记：永久从列表去掉，重启不再从种子加回 */
   onHideFromNotes() {
     const symptomId = this.data.symptomId;
     if (!symptomId) {
-      wx.showToast({ title: '无法定位该笔记', icon: 'none' });
+      wx.showToast({ title: '无法定位该日记', icon: 'none' });
       return;
     }
     wx.showModal({

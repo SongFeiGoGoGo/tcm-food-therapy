@@ -3,7 +3,7 @@
     <view class="label">标题 <text class="req">必填</text></view>
     <input
       class="input"
-      placeholder="例如：某食疗思路笔记"
+      placeholder="例如：某食疗思路日记"
       value="{{title}}"
       maxlength="40"
       bindinput="onTitleInput"
@@ -58,10 +58,10 @@
   </view>
 
   <view class="field">
-    <view class="label">正文 / 自由笔记 <text class="opt">选填</text></view>
+    <view class="label">正文 / 自由日记 <text class="opt">选填</text></view>
     <textarea
       class="textarea"
-      placeholder="写下你的理解。个人学习笔记，勿照录商业书原文"
+      placeholder="写下你的理解。个人学习日记，勿照录商业书原文"
       value="{{content}}"
       maxlength="2000"
       bindinput="onContentInput"
@@ -95,6 +95,4 @@
 
   <button class="btn-primary btn-block" bindtap="onSave">保存</button>
   <button wx:if="{{isEdit}}" class="btn-danger btn-block" bindtap="onDelete">删除这条</button>
-
-  <view class="disclaimer">理性讨论，不替代面诊。这里是个人学习笔记，不作诊断或用药依据。</view>
 </view>

@@ -64,17 +64,6 @@ page {
   margin: 24rpx 0 12rpx;
 }
 
-.disclaimer {
-  margin-top: 48rpx;
-  padding: 24rpx;
-  background: #fef9e7;
-  border-radius: 12rpx;
-  font-size: 22rpx;
-  color: #7c6a1f;
-  line-height: 1.5;
-  text-align: center;
-}
-
 .empty {
   text-align: center;
   padding: 80rpx 40rpx;

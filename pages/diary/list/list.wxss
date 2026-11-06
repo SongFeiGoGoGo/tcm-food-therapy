@@ -157,11 +157,18 @@
   font-weight: 600;
 }
 
+.habit-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8rpx;
+}
+
 .habit-row {
+  width: 50%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  padding: 22rpx 0;
-  border-top: 2rpx solid #f3f4f6;
+  padding: 16rpx 12rpx 16rpx 0;
 }
 
 .habit-box {
@@ -180,6 +187,9 @@
 }
 
 .habit-label {
-  font-size: 30rpx;
+  flex: 1;
+  min-width: 0;
+  font-size: 26rpx;
+  line-height: 1.35;
   color: #4A3420;
 }

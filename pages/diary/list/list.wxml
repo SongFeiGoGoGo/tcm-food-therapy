@@ -2,7 +2,7 @@
   <view class="checkin-hero">
     <view class="checkin-badge">个人记录</view>
     <view class="checkin-title">打卡</view>
-    <view class="checkin-desc">五个日常习惯，做了就勾上。格子颜色表示当天完成了几项。</view>
+    <view class="checkin-desc">做了就勾上。格子颜色表示当天完成了几项。</view>
   </view>
 
   <view class="heat-card">
@@ -45,19 +45,19 @@
   <view class="day-card" wx:if="{{selected}}">
     <view class="day-head">
       <text class="day-title">{{selectedLabel}}</text>
-      <text class="day-count">{{doneCount}}/5</text>
+      <text class="day-count">{{doneCount}}/{{habitTotal}}</text>
     </view>
-    <view
-      class="habit-row"
-      wx:for="{{habitRows}}"
-      wx:key="key"
-      data-key="{{item.key}}"
-      catchtap="onToggle"
-    >
-      <view class="habit-box {{item.checked ? 'is-on' : ''}}"></view>
-      <text class="habit-label">{{item.label}}</text>
+    <view class="habit-list">
+      <view
+        class="habit-row"
+        wx:for="{{habitRows}}"
+        wx:key="key"
+        data-key="{{item.key}}"
+        catchtap="onToggle"
+      >
+        <view class="habit-box {{item.checked ? 'is-on' : ''}}"></view>
+        <text class="habit-label">{{item.label}}</text>
+      </view>
     </view>
   </view>
-
-  <view class="disclaimer">理性讨论，不替代面诊，这里只记个人习惯。</view>
 </view>

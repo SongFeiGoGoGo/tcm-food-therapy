@@ -1,12 +1,12 @@
 <view class="notes-page">
   <view class="notes-hero">
-    <view class="notes-badge">学习笔记</view>
-    <view class="notes-title">中医小笔记</view>
-    <view class="notes-desc">这里可以记录你读书时整理的方子与用法，下面是我的示例（已改写成个人理解，并注明来源）。也可以随意记录自己学习中医的过程。理性讨论，不替代面诊。</view>
+    <view class="notes-badge">学习日记</view>
+    <view class="notes-title">中医小日记</view>
+    <view class="notes-desc">这里可以记录你读书时整理的方子与用法，下面是我的示例（已改写成个人理解，并注明来源）。也可以随意记录自己学习中医的过程。</view>
   </view>
 
   <view class="toolbar">
-    <button class="btn-primary btn-add" catchtap="onAdd">写笔记</button>
+    <button class="btn-primary btn-add" catchtap="onAdd">写日记</button>
   </view>
 
   <view
@@ -44,6 +44,5 @@
       <view class="note-foot" wx:if="{{item.foot}}">{{item.foot}}</view>
   </view>
 
-  <view class="empty" wx:if="{{!loading && !notes.length}}">暂无笔记</view>
-  <view class="disclaimer">理性讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+  <view class="empty" wx:if="{{!loading && !notes.length}}">暂无日记</view>
 </view>

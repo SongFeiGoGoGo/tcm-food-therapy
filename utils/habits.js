@@ -1,5 +1,5 @@
 /**
- * 打卡：五项习惯，本地 storage。
+ * 打卡习惯，本地 storage。
  * 日期键与首页干支日相同（上海时区，23:00 起算次日），见 utils/calendar.js。
  * 不读写、不删除旧养生日记 tcm_diary_entries。
  */
@@ -14,17 +14,28 @@ const HABITS = [
   { key: 'softBelly', label: '揉腹' },
   { key: 'combHair', label: '梳头' },
   { key: 'patBaxu', label: '拍八虚' },
-  { key: 'morningStool', label: '七点前完成排大便' }
+  { key: 'morningStool', label: '七点前完成排大便' },
+  { key: 'sleepBeforeEleven', label: '十一点前睡觉' },
+  { key: 'skincare', label: '护肤' },
+  { key: 'meditation', label: '冥想' },
+  { key: 'baduanjin', label: '八段锦' },
+  { key: 'footBath', label: '泡脚' },
+  { key: 'drinkWater', label: '喝水' },
+  { key: 'eatOnTime', label: '按时吃饭' }
 ];
 
 function emptyDay() {
-  return {
-    earlySleep: false,
-    softBelly: false,
-    combHair: false,
-    patBaxu: false,
-    morningStool: false
-  };
+  const day = {};
+  HABITS.forEach((item) => {
+    day[item.key] = false;
+  });
+  return day;
+}
+
+/** 热力图仍用 0–5 档，按当天完成比例着色。 */
+function levelOf(count) {
+  if (!count) return 0;
+  return Math.min(5, Math.ceil((count / HABITS.length) * 5));
 }
 
 function readAll() {
@@ -114,7 +125,7 @@ function buildWeeks(todayKey, records, weeksCount) {
       days.push({
         date: date,
         count: count,
-        level: count,
+        level: levelOf(count),
         future: future
       });
     }

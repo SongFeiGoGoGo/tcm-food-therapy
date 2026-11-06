@@ -58,7 +58,7 @@ Page({
             name: s.name,
             summary: s.summary,
             icon: s.icon,
-            foot: '据罗大伦老师书籍学习笔记 · 非原文照录',
+            foot: '据罗大伦老师书籍学习日记 · 非原文照录',
             badge: '示例',
             isUser: false,
             recipeId: s.recipeId || '',
@@ -69,7 +69,7 @@ Page({
       .catch((err) => {
         console.error(err);
         this.setData({ notes: mine, loading: false });
-        wx.showToast({ title: '示例笔记加载失败', icon: 'none' });
+        wx.showToast({ title: '示例日记加载失败', icon: 'none' });
       });
   },
 
@@ -107,7 +107,7 @@ Page({
     });
   },
 
-  /** 用户笔记：点右上角后二次确认再删 */
+  /** 用户日记：点右上角后二次确认再删 */
   onDeleteUser(e) {
     const id = e.currentTarget.dataset.id;
     if (!id) return;
@@ -125,7 +125,7 @@ Page({
     });
   },
 
-  /** 示例笔记：记下已删 id，下次启动不再从种子加回 */
+  /** 示例日记：记下已删 id，下次启动不再从种子加回 */
   onHideBuiltin(e) {
     const id = e.currentTarget.dataset.id;
     if (!id) return;

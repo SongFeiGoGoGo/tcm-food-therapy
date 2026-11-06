@@ -29,7 +29,7 @@
       },
       {
         "pagePath": "pages/notes/notes",
-        "text": "笔记",
+        "text": "日记",
         "iconPath": "images/tab/notes.png",
         "selectedIconPath": "images/tab/notes-active.png"
       },

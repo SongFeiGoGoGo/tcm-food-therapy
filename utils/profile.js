@@ -6,7 +6,6 @@
  * 以后把 code 交给自有后端（或云函数）换 openId / session，再与头像、昵称一起落库。
  * 当前 cloudEnv 为空，这里只完成本机头像昵称闭环。
  *
- * 理性讨论，不替代面诊。
  */
 const STORAGE_KEY = 'tcm_user_profile';
 
@@ -104,7 +103,7 @@ function isLoggedIn() {
 function promptLogin(onCancel) {
   wx.showModal({
     title: '请先登录',
-    content: '写笔记和打卡需要先登录',
+    content: '写日记和打卡需要先登录',
     cancelText: '取消',
     confirmText: '去登录',
     confirmColor: '#6B4F2A',

@@ -73,7 +73,7 @@ Page({
     if (id) {
       const note = userNotes.get(id);
       if (!note) {
-        wx.showToast({ title: '笔记不存在', icon: 'none' });
+        wx.showToast({ title: '日记不存在', icon: 'none' });
         setTimeout(() => wx.navigateBack({ fail() {} }), 500);
         return;
       }
@@ -87,7 +87,7 @@ Page({
         herbs: herbsFromNote(note),
         slots: userNotes.templateSlotsFor(note)
       });
-      wx.setNavigationBarTitle({ title: '编辑笔记' });
+      wx.setNavigationBarTitle({ title: '编辑日记' });
     } else {
       this.setData({
         id: '',
@@ -99,7 +99,7 @@ Page({
         herbs: [blankHerb()],
         slots: userNotes.templateSlotsFor(null)
       });
-      wx.setNavigationBarTitle({ title: '写笔记' });
+      wx.setNavigationBarTitle({ title: '写日记' });
     }
   },
 
@@ -216,7 +216,7 @@ Page({
     const id = this.data.id;
     if (!id) return;
     wx.showModal({
-      title: '删除这条笔记？',
+      title: '删除这条日记？',
       content: '删除后无法恢复',
       confirmText: '删除',
       confirmColor: '#b91c1c',

@@ -1,10 +1,9 @@
 /**
- * 用户自主笔记：本地 wx.storage 读写
- * 与种子笔记分离，不写入 seed / 云数据。
- * 另：已删除的示例笔记 id 存在本机（键名不改）。列表每次从种子读取时跳过这些 id，重启也不会再出现。
- * 用户自建笔记带固定模板：药材名+克数（可多行）、槽位 A/B/C、自由正文。
+ * 用户自主日记：本地 wx.storage 读写
+ * 与种子日记分离，不写入 seed / 云数据。
+ * 另：已删除的示例日记 id 存在本机（键名不改）。列表每次从种子读取时跳过这些 id，重启也不会再出现。
+ * 用户自建日记带固定模板：药材名+克数（可多行）、槽位 A/B/C、自由正文。
  * 槽位文案改 NOTE_TEMPLATE_SLOTS 即可，key 先固定。
- * 理性讨论，不替代面诊；不做诊断推荐。
  */
 const STORAGE_KEY = 'tcm_user_notes';
 const HIDDEN_BUILTIN_KEY = 'tcm_hidden_builtin_notes';
@@ -124,7 +123,7 @@ function get(id) {
  */
 function save(note) {
   if (!note || typeof note !== 'object') {
-    throw new Error('无效笔记');
+    throw new Error('无效日记');
   }
   const title = (note.title || '').trim();
   if (!title) {
@@ -159,7 +158,7 @@ function save(note) {
     slotA: slotA,
     slotB: slotB,
     slotC: slotC,
-    source: slotC || '个人学习笔记',
+    source: slotC || '个人学习日记',
     createdAt: existing ? existing.createdAt || now : now,
     updatedAt: now
   };
@@ -183,7 +182,7 @@ function remove(id) {
   return true;
 }
 
-/** 已删除的示例笔记 id。种子仍在文件里，但列表不再加回。 */
+/** 已删除的示例日记 id。种子仍在文件里，但列表不再加回。 */
 function listHiddenBuiltins() {
   try {
     const raw = wx.getStorageSync(HIDDEN_BUILTIN_KEY);
@@ -214,7 +213,7 @@ function writeHiddenBuiltins(ids) {
 }
 
 /**
- * 永久去掉一条示例笔记（写入已删 id，重启后种子不会再把它加回列表）
+ * 永久去掉一条示例日记（写入已删 id，重启后种子不会再把它加回列表）
  * @param {string} id symptom _id
  * @returns {boolean}
  */

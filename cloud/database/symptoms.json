@@ -37,8 +37,8 @@
   },
   {
     "_id": "symptom_child_spleen",
-    "name": "小儿脾胃不和（学习笔记）",
-    "summary": "笔记中健脾渗湿消食思路；外感期间应停服。",
+    "name": "小儿脾胃不和（学习日记）",
+    "summary": "日记中健脾渗湿消食思路；外感期间应停服。",
     "icon": "🧒",
     "sort": 13,
     "recipeId": "recipe_child_spleen",

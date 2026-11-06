@@ -15,6 +15,7 @@ Page({
     isToday: true,
     doneCount: 0,
     habitRows: [],
+    habitTotal: 0,
     levels: [0, 1, 2, 3, 4, 5]
   },
 
@@ -42,6 +43,7 @@ Page({
       selectedLabel: this.labelOf(selected, today),
       isToday: selected === today,
       doneCount: done,
+      habitTotal: habits.HABITS.length,
       habitRows: rows
     });
   },
