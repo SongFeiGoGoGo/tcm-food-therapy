@@ -1,24 +1,58 @@
 .edit-page {
   min-height: 100vh;
-  padding: 24rpx 32rpx 64rpx;
-  background: linear-gradient(180deg, #f3efe6 0%, #F7F4EF 40%);
+  padding: 28rpx 40rpx 80rpx;
+  background: #F7F4EF;
   box-sizing: border-box;
+}
+
+.when {
+  font-size: 24rpx;
+  color: #A67C52;
+  letter-spacing: 1rpx;
+  margin-bottom: 28rpx;
+}
+
+.title-input {
+  width: 100%;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #4A3420;
+  line-height: 1.35;
+  margin-bottom: 20rpx;
+}
+
+.body-input {
+  width: 100%;
+  min-height: 480rpx;
+  font-size: 32rpx;
+  line-height: 1.7;
+  color: #4A3420;
+  box-sizing: border-box;
+}
+
+.ph {
+  color: #c4b09a;
+  font-weight: 400;
+}
+
+.more-toggle {
+  margin: 12rpx 0 28rpx;
+  font-size: 26rpx;
+  color: #A67C52;
 }
 
 .field {
   background: #fffdf8;
   border-radius: 16rpx;
-  padding: 28rpx;
-  margin-bottom: 20rpx;
-  border: 2rpx solid #efe4d2;
-  box-shadow: 0 2rpx 10rpx rgba(92, 61, 30, 0.04);
+  padding: 24rpx;
+  margin-bottom: 16rpx;
 }
 
 .label {
-  font-size: 28rpx;
+  font-size: 26rpx;
   font-weight: 600;
   color: #4A3420;
-  margin-bottom: 16rpx;
+  margin-bottom: 12rpx;
 }
 
 .opt {
@@ -35,7 +69,7 @@
 }
 
 .chip {
-  padding: 12rpx 20rpx;
+  padding: 10rpx 18rpx;
   border-radius: 999rpx;
   font-size: 28rpx;
   background: #f5efe4;
@@ -48,18 +82,17 @@
 }
 
 .input {
-  margin-top: 8rpx;
-  padding: 16rpx 20rpx;
-  background: #f7f3eb;
+  padding: 14rpx 18rpx;
+  background: #F7F4EF;
   border-radius: 12rpx;
   font-size: 28rpx;
 }
 
 .textarea {
   width: 100%;
-  min-height: 220rpx;
-  padding: 16rpx 20rpx;
-  background: #f7f3eb;
+  min-height: 160rpx;
+  padding: 14rpx 18rpx;
+  background: #F7F4EF;
   border-radius: 12rpx;
   font-size: 28rpx;
   box-sizing: border-box;
@@ -71,24 +104,16 @@
 }
 
 .btn-danger {
-  background: #fff;
+  background: transparent;
   color: #b91c1c;
-  border: 2rpx solid #fecaca;
-  border-radius: 12rpx;
+  border: none;
   font-size: 28rpx;
   padding: 18rpx 36rpx;
-  margin-top: 20rpx;
+  margin-top: 8rpx;
 }
 
 .btn-danger::after {
   border: none;
-}
-
-.req {
-  font-weight: 400;
-  font-size: 22rpx;
-  color: #b91c1c;
-  margin-left: 8rpx;
 }
 
 .herb-row {
@@ -100,7 +125,6 @@
 
 .herb-name,
 .herb-amount {
-  margin-top: 0;
   min-width: 0;
 }
 

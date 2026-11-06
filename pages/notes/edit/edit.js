@@ -22,6 +22,20 @@ function herbsFromNote(note) {
   return rows;
 }
 
+function formatWhen(ts) {
+  const d = new Date(ts || Date.now());
+  const week = '日一二三四五六'.charAt(d.getDay());
+  const hh = d.getHours() < 10 ? '0' + d.getHours() : String(d.getHours());
+  const mm = d.getMinutes() < 10 ? '0' + d.getMinutes() : String(d.getMinutes());
+  return (d.getMonth() + 1) + '月' + d.getDate() + '日 周' + week + ' ' + hh + ':' + mm;
+}
+
+function hasAdvanced(herbs, slots, summary) {
+  const herbFilled = (herbs || []).some((h) => (h.name || '').trim() || (h.amount || '').trim());
+  const slotFilled = (slots || []).some((s) => (s.value || '').trim());
+  return herbFilled || slotFilled || !!(summary && String(summary).trim());
+}
+
 Page({
   data: {
     id: '',
@@ -33,7 +47,9 @@ Page({
     iconOpts: ICON_OPTS,
     herbs: [],
     slots: [],
-    blocked: false
+    blocked: false,
+    showMore: false,
+    whenText: ''
   },
 
   _query: null,
@@ -77,6 +93,8 @@ Page({
         setTimeout(() => wx.navigateBack({ fail() {} }), 500);
         return;
       }
+      const herbs = herbsFromNote(note);
+      const slots = userNotes.templateSlotsFor(note);
       this.setData({
         id: note.id,
         isEdit: true,
@@ -84,8 +102,10 @@ Page({
         summary: note.summary || '',
         content: note.content || '',
         icon: note.icon || '📝',
-        herbs: herbsFromNote(note),
-        slots: userNotes.templateSlotsFor(note)
+        herbs: herbs,
+        slots: slots,
+        showMore: hasAdvanced(herbs, slots, note.summary),
+        whenText: formatWhen(note.createdAt)
       });
       wx.setNavigationBarTitle({ title: '编辑日记' });
     } else {
@@ -97,10 +117,16 @@ Page({
         content: '',
         icon: '📝',
         herbs: [blankHerb()],
-        slots: userNotes.templateSlotsFor(null)
+        slots: userNotes.templateSlotsFor(null),
+        showMore: false,
+        whenText: formatWhen(Date.now())
       });
       wx.setNavigationBarTitle({ title: '写日记' });
     }
+  },
+
+  onToggleMore() {
+    this.setData({ showMore: !this.data.showMore });
   },
 
   onTitleInput(e) {
@@ -160,9 +186,11 @@ Page({
       this.guardLogin();
       return;
     }
-    const title = (this.data.title || '').trim();
-    if (!title) {
-      wx.showToast({ title: '请填写标题', icon: 'none' });
+    const typedTitle = (this.data.title || '').trim();
+    const content = (this.data.content || '').trim();
+    const title = typedTitle || (content.split('\n')[0] || '').trim().slice(0, 40) || this.data.whenText || '日记';
+    if (!content && !typedTitle) {
+      wx.showToast({ title: '先写一点再保存', icon: 'none' });
       return;
     }
 

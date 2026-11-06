@@ -1,95 +1,97 @@
 <view class="edit-page" wx:if="{{!blocked}}">
-  <view class="field">
-    <view class="label">标题 <text class="req">必填</text></view>
-    <input
-      class="input"
-      placeholder="例如：某食疗思路日记"
-      value="{{title}}"
-      maxlength="40"
-      bindinput="onTitleInput"
-    />
+  <view class="when">{{whenText}}</view>
+  <input
+    class="title-input"
+    placeholder="标题（可选）"
+    placeholder-class="ph"
+    value="{{title}}"
+    maxlength="40"
+    bindinput="onTitleInput"
+  />
+  <textarea
+    class="body-input"
+    placeholder="这一刻想写点什么…"
+    placeholder-class="ph"
+    value="{{content}}"
+    maxlength="2000"
+    bindinput="onContentInput"
+    auto-height
+  />
+
+  <view class="more-toggle" bindtap="onToggleMore">
+    <text>{{showMore ? '收起' : '更多'}}</text>
   </view>
 
-  <view class="field">
-    <view class="label">药材 <text class="opt">名称和克数一一对应，可增减</text></view>
-    <view class="herb-row" wx:for="{{herbs}}" wx:key="_key">
-      <input
-        class="input herb-name"
-        placeholder="药材名称"
-        value="{{item.name}}"
-        maxlength="20"
-        data-index="{{index}}"
-        bindinput="onHerbName"
-      />
-      <input
-        class="input herb-amount"
-        placeholder="克数，如 20克"
-        value="{{item.amount}}"
-        maxlength="16"
-        data-index="{{index}}"
-        bindinput="onHerbAmount"
-      />
-      <view class="herb-remove" data-index="{{index}}" catchtap="onRemoveHerb">删除</view>
+  <view wx:if="{{showMore}}">
+    <view class="field">
+      <view class="label">药材 <text class="opt">名称和克数一一对应，可增减</text></view>
+      <view class="herb-row" wx:for="{{herbs}}" wx:key="_key">
+        <input
+          class="input herb-name"
+          placeholder="药材名称"
+          value="{{item.name}}"
+          maxlength="20"
+          data-index="{{index}}"
+          bindinput="onHerbName"
+        />
+        <input
+          class="input herb-amount"
+          placeholder="克数，如 20克"
+          value="{{item.amount}}"
+          maxlength="16"
+          data-index="{{index}}"
+          bindinput="onHerbAmount"
+        />
+        <view class="herb-remove" data-index="{{index}}" catchtap="onRemoveHerb">删除</view>
+      </view>
+      <button class="btn-outline btn-add-herb" catchtap="onAddHerb">+ 添加一味药</button>
     </view>
-    <button class="btn-outline btn-add-herb" catchtap="onAddHerb">+ 添加一味药</button>
-  </view>
 
-  <view class="field" wx:for="{{slots}}" wx:key="key">
-    <view class="label">{{item.label}} <text class="opt">选填</text></view>
-    <textarea
-      wx:if="{{item.multiline}}"
-      class="textarea slot-text"
-      placeholder="{{item.placeholder}}"
-      value="{{item.value}}"
-      maxlength="500"
-      data-index="{{index}}"
-      bindinput="onSlotInput"
-      auto-height
-    />
-    <input
-      wx:else
-      class="input"
-      placeholder="{{item.placeholder}}"
-      value="{{item.value}}"
-      maxlength="60"
-      data-index="{{index}}"
-      bindinput="onSlotInput"
-    />
-  </view>
+    <view class="field" wx:for="{{slots}}" wx:key="key">
+      <view class="label">{{item.label}} <text class="opt">选填</text></view>
+      <textarea
+        wx:if="{{item.multiline}}"
+        class="textarea slot-text"
+        placeholder="{{item.placeholder}}"
+        value="{{item.value}}"
+        maxlength="500"
+        data-index="{{index}}"
+        bindinput="onSlotInput"
+        auto-height
+      />
+      <input
+        wx:else
+        class="input"
+        placeholder="{{item.placeholder}}"
+        value="{{item.value}}"
+        maxlength="60"
+        data-index="{{index}}"
+        bindinput="onSlotInput"
+      />
+    </view>
 
-  <view class="field">
-    <view class="label">正文 / 自由日记 <text class="opt">选填</text></view>
-    <textarea
-      class="textarea"
-      placeholder="写下你的理解。个人学习日记，勿照录商业书原文"
-      value="{{content}}"
-      maxlength="2000"
-      bindinput="onContentInput"
-      auto-height
-    />
-  </view>
+    <view class="field">
+      <view class="label">摘要 <text class="opt">选填</text></view>
+      <input
+        class="input"
+        placeholder="不填则列表用正文开头"
+        value="{{summary}}"
+        maxlength="80"
+        bindinput="onSummaryInput"
+      />
+    </view>
 
-  <view class="field">
-    <view class="label">摘要 <text class="opt">选填，列表里优先显示</text></view>
-    <input
-      class="input"
-      placeholder="不填则列表用正文开头；有药材时另显示药材行"
-      value="{{summary}}"
-      maxlength="80"
-      bindinput="onSummaryInput"
-    />
-  </view>
-
-  <view class="field">
-    <view class="label">图标 <text class="opt">选填</text></view>
-    <view class="chips">
-      <view
-        wx:for="{{iconOpts}}"
-        wx:key="*this"
-        class="chip {{icon === item ? 'on' : ''}}"
-        data-v="{{item}}"
-        bindtap="onPickIcon"
-      >{{item}}</view>
+    <view class="field">
+      <view class="label">图标 <text class="opt">选填</text></view>
+      <view class="chips">
+        <view
+          wx:for="{{iconOpts}}"
+          wx:key="*this"
+          class="chip {{icon === item ? 'on' : ''}}"
+          data-v="{{item}}"
+          bindtap="onPickIcon"
+        >{{item}}</view>
+      </view>
     </view>
   </view>
 

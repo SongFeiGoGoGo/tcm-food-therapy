@@ -1,8 +1,8 @@
 <view class="notes-page">
   <view class="notes-hero">
-    <view class="notes-badge">说hao hua</view>
+    <view class="notes-badge">学会说话</view>
     <view class="notes-title">有话说</view>
-    <view class="notes-desc">希望在科技飞速发展的当下你仍然不忘记用文字记录自己，仍然有话说。准确、正确的表述和表达自己比拍一张照留念难多了</view>
+    <view class="notes-desc">希望在科技飞速发展的当下你仍然不忘记用文字记录自己，仍然有话说。准确、正确的描述和表达自己比拍一张照留念难多了</view>
   </view>
 
   <view class="toolbar">
