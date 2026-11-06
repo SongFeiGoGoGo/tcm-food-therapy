@@ -1,64 +1,35 @@
-<view class="edit-page">
-  <view class="field">
-    <view class="label">标题</view>
+<view class="edit-page" wx:if="{{!blocked}}">
+  <view class="composer">
+    <view class="when">{{whenText}}</view>
     <input
-      class="input"
-      placeholder="例如：某食疗思路笔记"
+      class="title-input"
+      placeholder="标题（可选）"
+      placeholder-class="ph"
       value="{{title}}"
       maxlength="40"
       bindinput="onTitleInput"
+      confirm-type="next"
     />
-  </view>
-
-  <view class="field">
-    <view class="label">图标 <text class="opt">选填</text></view>
-    <view class="chips">
-      <view
-        wx:for="{{iconOpts}}"
-        wx:key="*this"
-        class="chip {{icon === item ? 'on' : ''}}"
-        data-v="{{item}}"
-        bindtap="onPickIcon"
-      >{{item}}</view>
-    </view>
-  </view>
-
-  <view class="field">
-    <view class="label">摘要 <text class="opt">选填</text></view>
-    <input
-      class="input"
-      placeholder="一句话概括，列表里会显示"
-      value="{{summary}}"
-      maxlength="80"
-      bindinput="onSummaryInput"
-    />
-  </view>
-
-  <view class="field">
-    <view class="label">正文 / 用法要点 <text class="opt">选填</text></view>
     <textarea
-      class="textarea"
-      placeholder="写下你的理解、用法要点或配伍思路（个人学习笔记，勿照录商业书原文）"
+      class="body-input"
+      style="height: {{bodyHeight}}px;"
+      placeholder="这一刻想写点什么…"
+      placeholder-class="ph"
       value="{{content}}"
-      maxlength="2000"
+      maxlength="4000"
       bindinput="onContentInput"
-      auto-height
+      show-confirm-bar="{{false}}"
     />
   </view>
 
-  <view class="field">
-    <view class="label">来源备注 <text class="opt">选填</text></view>
-    <input
-      class="input"
-      placeholder="个人学习笔记"
-      value="{{source}}"
-      maxlength="60"
-      bindinput="onSourceInput"
-    />
+  <view class="dock">
+    <view class="more-toggle" wx:if="{{canShowMore}}" bindtap="onToggleMore">{{showMore ? '收起' : '更多'}}</view>
+    <view wx:if="{{showMore && canShowMore}}" class="more-box">
+      <view class="more-line" wx:for="{{herbs}}" wx:key="_key" wx:if="{{item.name || item.amount}}">{{item.name}} {{item.amount}}</view>
+      <view class="more-line" wx:for="{{slots}}" wx:key="key" wx:if="{{item.value}}">{{item.label}}：{{item.value}}</view>
+      <view class="more-line" wx:if="{{summary}}">{{summary}}</view>
+    </view>
+    <button class="save-btn" bindtap="onSave">保存</button>
+    <view wx:if="{{isEdit}}" class="delete-link" bindtap="onDelete">删除</view>
   </view>
-
-  <button class="btn-primary btn-block" bindtap="onSave">保存</button>
-  <button wx:if="{{isEdit}}" class="btn-danger btn-block" bindtap="onDelete">删除这条</button>
-
-  <view class="disclaimer">理性讨论，不替代面诊。这里是个人学习笔记，不作诊断或用药依据。</view>
 </view>

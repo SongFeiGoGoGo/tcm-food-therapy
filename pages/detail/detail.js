@@ -4,7 +4,6 @@ const userNotes = require('../../utils/userNotes');
 Page({
   data: {
     recipe: null,
-    favorited: false,
     loading: true,
     recipeId: '',
     symptomId: '',
@@ -32,12 +31,6 @@ Page({
           symptomId: recipe.symptomId || this.data.symptomId,
           page: 'detail'
         });
-        return api.isFavorite(recipe._id);
-      })
-      .then((favorited) => {
-        if (typeof favorited === 'boolean') {
-          this.setData({ favorited });
-        }
       })
       .catch((err) => {
         console.error(err);
@@ -46,40 +39,21 @@ Page({
       });
   },
 
-  onToggleFavorite() {
-    const recipeId = this.data.recipeId || (this.data.recipe && this.data.recipe._id);
-    if (!recipeId) return;
-    api
-      .toggleFavorite(recipeId)
-      .then((res) => {
-        const favorited = !!(res && res.favorited);
-        this.setData({ favorited });
-        wx.showToast({
-          title: favorited ? '已收藏' : '已取消收藏',
-          icon: 'none'
-        });
-      })
-      .catch(() => {
-        wx.showToast({ title: '操作失败', icon: 'none' });
-      });
-  },
-
-  /** 内置学习笔记：仅本机从列表隐藏，不改 seed / 云库 */
+  /** 示例日记：永久从列表去掉，重启不再从种子加回 */
   onHideFromNotes() {
     const symptomId = this.data.symptomId;
     if (!symptomId) {
-      wx.showToast({ title: '无法定位该笔记', icon: 'none' });
+      wx.showToast({ title: '无法定位该日记', icon: 'none' });
       return;
     }
     wx.showModal({
-      title: '从我的列表移除？',
-      content: '仅在本机隐藏这条内置学习笔记，不会修改资料库。重启后仍保持隐藏。',
-      confirmText: '移除',
+      title: '确认删除？',
+      confirmText: '删除',
       confirmColor: '#b91c1c',
       success: (res) => {
         if (!res.confirm) return;
         userNotes.hideBuiltin(symptomId);
-        wx.showToast({ title: '已从列表移除', icon: 'success' });
+        wx.showToast({ title: '已删除', icon: 'success' });
         setTimeout(() => {
           wx.navigateBack({ fail() {} });
         }, 400);

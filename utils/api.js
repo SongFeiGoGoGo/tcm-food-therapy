@@ -74,90 +74,6 @@ function findRecipeLocal(id) {
   };
 }
 
-/** 切换收藏 */
-function toggleFavorite(recipeId) {
-  if (!recipeId) return Promise.reject(new Error('缺少 recipeId'));
-
-  if (isCloudReady()) {
-    return wx.cloud
-      .callFunction({ name: 'toggleFavorite', data: { recipeId } })
-      .then((res) => res.result || { favorited: false })
-      .catch((err) => {
-        console.warn('toggleFavorite 云调用失败，回退本地', err);
-        return toggleFavoriteLocal(recipeId);
-      });
-  }
-  return Promise.resolve(toggleFavoriteLocal(recipeId));
-}
-
-function toggleFavoriteLocal(recipeId) {
-  const openId = getLocalOpenId();
-  let list = wx.getStorageSync('favorites') || [];
-  const idx = list.findIndex((f) => f.recipeId === recipeId && f.openId === openId);
-  let favorited;
-  if (idx >= 0) {
-    list.splice(idx, 1);
-    favorited = false;
-  } else {
-    list.push({
-      _id: 'fav_' + Date.now(),
-      openId,
-      recipeId,
-      createdAt: Date.now()
-    });
-    favorited = true;
-  }
-  wx.setStorageSync('favorites', list);
-  return { favorited, recipeId };
-}
-
-/** 是否已收藏 */
-function isFavorite(recipeId) {
-  if (isCloudReady()) {
-    // 列表接口里判断；详情页可先本地再与 list 对齐
-    return listFavorites().then((items) => items.some((i) => i.recipeId === recipeId || i._id === recipeId));
-  }
-  const openId = getLocalOpenId();
-  const list = wx.getStorageSync('favorites') || [];
-  return Promise.resolve(list.some((f) => f.recipeId === recipeId && f.openId === openId));
-}
-
-/** 收藏列表（带食疗摘要） */
-function listFavorites() {
-  if (isCloudReady()) {
-    return wx.cloud
-      .callFunction({ name: 'listFavorites' })
-      .then((res) => (res.result && res.result.data) || [])
-      .catch((err) => {
-        console.warn('listFavorites 云调用失败，回退本地', err);
-        return listFavoritesLocal();
-      });
-  }
-  return Promise.resolve(listFavoritesLocal());
-}
-
-function listFavoritesLocal() {
-  const openId = getLocalOpenId();
-  const list = (wx.getStorageSync('favorites') || []).filter((f) => f.openId === openId);
-  return list
-    .map((f) => {
-      const recipe = seed.recipes.find((r) => r._id === f.recipeId);
-      const symptom = recipe ? seed.symptoms.find((s) => s._id === recipe.symptomId) : null;
-      if (!recipe) return null;
-      return {
-        _id: f._id,
-        recipeId: f.recipeId,
-        createdAt: f.createdAt,
-        title: recipe.title,
-        subtitle: recipe.subtitle,
-        symptomName: symptom ? symptom.name : '',
-        symptomId: recipe.symptomId
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-}
-
 /** 记录浏览 */
 function logView(payload) {
   const data = {
@@ -198,8 +114,5 @@ module.exports = {
   isCloudReady,
   getSymptoms,
   getRecipeById,
-  toggleFavorite,
-  isFavorite,
-  listFavorites,
   logView
 };

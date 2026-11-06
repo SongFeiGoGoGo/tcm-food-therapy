@@ -1,19 +1,51 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/detail/detail",
     "pages/notes/notes",
-    "pages/notes/edit/edit",
     "pages/diary/list/list",
-    "pages/diary/edit/edit",
-    "pages/favorites/favorites"
+    "pages/mine/mine",
+    "pages/detail/detail",
+    "pages/notes/edit/edit",
+    "pages/diary/edit/edit"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#2d6a4f",
+    "navigationBarBackgroundColor": "#6B4F2A",
     "navigationBarTitleText": "中医食疗助手",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#f7f7f5",
+    "backgroundColor": "#F7F4EF",
     "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#6b7280",
+    "selectedColor": "#6B4F2A",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab/home.png",
+        "selectedIconPath": "images/tab/home-active.png"
+      },
+      {
+        "pagePath": "pages/notes/notes",
+        "text": "日记",
+        "iconPath": "images/tab/notes.png",
+        "selectedIconPath": "images/tab/notes-active.png"
+      },
+      {
+        "pagePath": "pages/diary/list/list",
+        "text": "打卡",
+        "iconPath": "images/tab/checkin.png",
+        "selectedIconPath": "images/tab/checkin-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab/mine.png",
+        "selectedIconPath": "images/tab/mine-active.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",

@@ -1,6 +1,6 @@
 /**app.wxss — 全局样式：干净可读**/
 page {
-  background-color: #f7f7f5;
+  background-color: #F7F4EF;
   color: #1a1a1a;
   font-size: 28rpx;
   line-height: 1.6;
@@ -22,7 +22,7 @@ page {
 .card-title {
   font-size: 32rpx;
   font-weight: 600;
-  color: #1b4332;
+  color: #4A3420;
   margin-bottom: 12rpx;
 }
 
@@ -32,7 +32,7 @@ page {
 }
 
 .btn-primary {
-  background: #2d6a4f;
+  background: #6B4F2A;
   color: #fff;
   border-radius: 12rpx;
   font-size: 28rpx;
@@ -46,8 +46,8 @@ page {
 
 .btn-outline {
   background: #fff;
-  color: #2d6a4f;
-  border: 2rpx solid #2d6a4f;
+  color: #6B4F2A;
+  border: 2rpx solid #6B4F2A;
   border-radius: 12rpx;
   font-size: 28rpx;
   padding: 18rpx 36rpx;
@@ -60,19 +60,8 @@ page {
 .section-label {
   font-size: 26rpx;
   font-weight: 600;
-  color: #2d6a4f;
+  color: #6B4F2A;
   margin: 24rpx 0 12rpx;
-}
-
-.disclaimer {
-  margin-top: 48rpx;
-  padding: 24rpx;
-  background: #fef9e7;
-  border-radius: 12rpx;
-  font-size: 22rpx;
-  color: #7c6a1f;
-  line-height: 1.5;
-  text-align: center;
 }
 
 .empty {

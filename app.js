@@ -24,9 +24,6 @@ App({
 
     // 确保本地存储键存在
     try {
-      if (!wx.getStorageSync('favorites')) {
-        wx.setStorageSync('favorites', []);
-      }
       if (!wx.getStorageSync('view_logs')) {
         wx.setStorageSync('view_logs', []);
       }

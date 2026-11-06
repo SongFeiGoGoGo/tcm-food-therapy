@@ -1,61 +1,48 @@
-<view class="notes-page" bindtap="onPageTap">
+<view class="notes-page">
   <view class="notes-hero">
-    <view class="notes-badge">学习笔记</view>
-    <view class="notes-title">中医小笔记</view>
-    <view class="notes-desc">读书时整理的方子与用法，已改写成个人理解，并注明来源。也可自己新增笔记。内置笔记可浏览；我的笔记可编辑。理性讨论，不替代面诊。</view>
+    <view class="notes-badge">学会说话</view>
+    <view class="notes-title">有话说</view>
+    <view class="notes-desc">希望在科技飞速发展的当下你仍然不忘记用文字记录自己，仍然有话说。准确、正确的描述和表达自己比拍一张照留念难多了</view>
   </view>
 
   <view class="toolbar">
-    <button class="btn-primary btn-add" catchtap="onAdd">写笔记</button>
+    <button class="btn-primary btn-add" catchtap="onAdd">写日记</button>
   </view>
 
   <view
-    class="swipe-row"
+    class="note-card {{item.isUser ? 'note-card-user' : ''}}"
     wx:for="{{notes}}"
     wx:key="key"
+    data-id="{{item.id}}"
+    data-user="{{item.isUser}}"
+    data-recipe="{{item.recipeId}}"
+    catchtap="onTap"
   >
-    <view class="swipe-actions">
-      <view
-        wx:if="{{item.isUser}}"
-        class="swipe-btn swipe-btn-del"
-        data-id="{{item.id}}"
-        catchtap="onDeleteUser"
-      >删除</view>
-      <view
-        wx:else
-        class="swipe-btn swipe-btn-del"
-        data-id="{{item.id}}"
-        catchtap="onHideBuiltin"
-      >移除</view>
-    </view>
     <view
-      class="swipe-content note-card {{item.isUser ? 'note-card-user' : ''}} {{item._dragging ? 'is-dragging' : ''}}"
-      style="transform: translateX({{item._x || 0}}px);"
+      wx:if="{{item.isUser}}"
+      class="card-del"
       data-id="{{item.id}}"
-      data-user="{{item.isUser}}"
-      data-recipe="{{item.recipeId}}"
-      data-index="{{index}}"
-      bindtouchstart="onTouchStart"
-      bindtouchmove="onTouchMove"
-      bindtouchend="onTouchEnd"
-      bindtouchcancel="onTouchCancel"
-      catchtouchmove="{{item._catchMove ? 'onCatchTouchMove' : ''}}"
-      catchtap="onTap"
-    >
-      <view class="note-top">
+      catchtap="onDeleteUser"
+    >删除</view>
+    <view
+      wx:else
+      class="card-del"
+      data-id="{{item.id}}"
+      catchtap="onHideBuiltin"
+    >删除</view>
+    <view class="note-top">
         <text class="note-icon">{{item.icon}}</text>
         <view class="note-meta">
           <view class="note-name-row">
             <view class="note-name">{{item.name}}</view>
             <text class="note-tag {{item.isUser ? 'tag-user' : 'tag-seed'}}">{{item.badge}}</text>
           </view>
-          <view class="note-summary">{{item.summary}}</view>
+          <view class="note-summary" wx:if="{{item.summary}}">{{item.summary}}</view>
+          <view class="note-herbs" wx:if="{{item.herbLine}}">{{item.herbLine}}</view>
         </view>
       </view>
       <view class="note-foot" wx:if="{{item.foot}}">{{item.foot}}</view>
-    </view>
   </view>
 
-  <view class="empty" wx:if="{{!loading && !notes.length}}">暂无笔记</view>
-  <view class="disclaimer">理性讨论，不替代面诊。体质因人而异，不适请及时就医。</view>
+  <view class="empty" wx:if="{{!loading && !notes.length}}">暂无日记</view>
 </view>

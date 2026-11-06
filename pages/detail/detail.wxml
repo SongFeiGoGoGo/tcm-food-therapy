@@ -37,16 +37,12 @@
     </view>
   </view>
 
-  <view class="actions">
-    <button class="{{favorited ? 'btn-outline' : 'btn-primary'}} fav-btn" bindtap="onToggleFavorite">
-      {{favorited ? '已收藏 · 点击取消' : '收藏此方案'}}
-    </button>
-    <view class="hide-row" wx:if="{{fromNotes && symptomId}}">
-      <text class="hide-link" bindtap="onHideFromNotes">从列表移除</text>
+  <view class="actions" wx:if="{{fromNotes && symptomId}}">
+    <view class="hide-row">
+      <text class="hide-link" bindtap="onHideFromNotes">删除</text>
     </view>
   </view>
 
-  <view class="disclaimer">理性讨论，不替代面诊</view>
 </view>
 
 <view class="empty" wx:elif="{{!loading}}">未找到该食疗方案</view>

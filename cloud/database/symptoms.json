@@ -36,81 +36,9 @@
     "group": "daily"
   },
   {
-    "_id": "symptom_hemorrhoid",
-    "name": "痔疮便血不适（学习笔记）",
-    "summary": "笔记中见收敛止血、清肠一类食疗思路；便血多需先排查病因。",
-    "icon": "🩹",
-    "sort": 5,
-    "recipeId": "recipe_hemorrhoid",
-    "group": "notes"
-  },
-  {
-    "_id": "symptom_fracture_stasis",
-    "name": "骨折后化瘀食疗（学习笔记）",
-    "summary": "笔记中以骨汤配三七助化瘀生新；仅作康复期饮食参考。",
-    "icon": "🦴",
-    "sort": 6,
-    "recipeId": "recipe_fracture_stasis",
-    "group": "notes"
-  },
-  {
-    "_id": "symptom_phlegm_damp_foot",
-    "name": "痰湿困阻泡脚（学习笔记）",
-    "summary": "笔记中取健脾化痰思路外用泡脚；湿重痰多者可参考。",
-    "icon": "💧",
-    "sort": 7,
-    "recipeId": "recipe_phlegm_damp_foot",
-    "group": "notes"
-  },
-  {
-    "_id": "symptom_stomach_ulcer",
-    "name": "胃脘隐痛偏虚寒（学习笔记）",
-    "summary": "笔记对应黄芪建中一类温中建中思路；溃疡须就医确诊。",
-    "icon": "🥣",
-    "sort": 8,
-    "recipeId": "recipe_huangqi_jianzhong",
-    "group": "notes"
-  },
-  {
-    "_id": "symptom_thyroid_node_foot",
-    "name": "情志不畅伴颈部不适泡脚（学习笔记）",
-    "summary": "笔记中疏肝理气、健脾化痰思路用于泡脚；结节须专科随访。",
-    "icon": "🫧",
-    "sort": 9,
-    "recipeId": "recipe_thyroid_foot",
-    "group": "notes"
-  },
-  {
-    "_id": "symptom_rhinitis_stuffy",
-    "name": "鼻塞鼻涕多偏痰湿（学习笔记）",
-    "summary": "笔记中桔梗元参一类宣肺化痰思路；过敏性鼻炎另论。",
-    "icon": "🤧",
-    "sort": 10,
-    "recipeId": "recipe_rhinitis",
-    "group": "notes"
-  },
-  {
-    "_id": "symptom_rhinitis_severe",
-    "name": "鼻塞极重语音不清（学习笔记）",
-    "summary": "笔记责之寒湿瘀滞、湿气偏重；需辨清寒热再参考。",
-    "icon": "😷",
-    "sort": 11,
-    "recipeId": "recipe_rhinitis_severe",
-    "group": "notes"
-  },
-  {
-    "_id": "symptom_chronic_cough",
-    "name": "久咳不爽（学习笔记）",
-    "summary": "笔记中宣降肺气、化痰止咳思路；黄痰热象需加减并就医。",
-    "icon": "😮‍💨",
-    "sort": 12,
-    "recipeId": "recipe_chronic_cough",
-    "group": "notes"
-  },
-  {
     "_id": "symptom_child_spleen",
-    "name": "小儿脾胃不和（学习笔记）",
-    "summary": "笔记中健脾渗湿消食思路；外感期间应停服。",
+    "name": "小儿脾胃不和（学习日记）",
+    "summary": "日记中健脾渗湿消食思路；外感期间应停服。",
     "icon": "🧒",
     "sort": 13,
     "recipeId": "recipe_child_spleen",

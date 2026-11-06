@@ -1,0 +1,41 @@
+<view class="mine-page">
+  <view class="mine-card" wx:if="{{!loggedIn}}">
+    <view class="mine-title">未登录</view>
+    <button class="btn-primary btn-block" bindtap="onLogin">微信登录</button>
+  </view>
+
+  <view class="mine-card" wx:else>
+    <view class="avatar-slot">
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{avatarUrl || defaultAvatar}}" mode="aspectFill" />
+      </button>
+    </view>
+
+    <view class="nick-row" wx:if="{{!editingNick}}">
+      <view class="nick">{{nickName}}</view>
+      <text class="edit-link" bindtap="onEditNick">编辑</text>
+    </view>
+    <view class="nick-edit" wx:else>
+      <input
+        class="nick-input"
+        type="nickname"
+        maxlength="32"
+        placeholder="填写昵称"
+        value="{{nickDraft}}"
+        focus="{{nickFocus}}"
+        bindinput="onNickInput"
+        bindblur="onNickBlur"
+      />
+      <button class="btn-primary nick-save" bindtap="onSaveNick">保存</button>
+    </view>
+
+    <button class="btn-outline btn-block logout" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <!-- 打开微信客服会话。需在微信公众平台开通客服功能后才能收到消息。 -->
+  <view class="feedback-row">
+    <text>反馈</text>
+    <text class="feedback-arrow">›</text>
+    <button class="feedback-hit" open-type="contact"></button>
+  </view>
+</view>

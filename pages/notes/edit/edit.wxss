@@ -1,85 +1,87 @@
 .edit-page {
   min-height: 100vh;
-  padding: 24rpx 32rpx 64rpx;
-  background: linear-gradient(180deg, #f3efe6 0%, #f7f7f5 40%);
-  box-sizing: border-box;
-}
-
-.field {
-  background: #fffdf8;
-  border-radius: 16rpx;
-  padding: 28rpx;
-  margin-bottom: 20rpx;
-  border: 2rpx solid #efe4d2;
-  box-shadow: 0 2rpx 10rpx rgba(92, 61, 30, 0.04);
-}
-
-.label {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: #5c3d1e;
-  margin-bottom: 16rpx;
-}
-
-.opt {
-  font-weight: 400;
-  font-size: 22rpx;
-  color: #a89070;
-  margin-left: 8rpx;
-}
-
-.chips {
+  height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  gap: 12rpx;
-}
-
-.chip {
-  padding: 12rpx 20rpx;
-  border-radius: 999rpx;
-  font-size: 28rpx;
-  background: #f5efe4;
-  border: 2rpx solid transparent;
-}
-
-.chip.on {
-  background: #8b5e34;
-  border-color: #8b5e34;
-}
-
-.input {
-  margin-top: 8rpx;
-  padding: 16rpx 20rpx;
-  background: #f7f3eb;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-}
-
-.textarea {
-  width: 100%;
-  min-height: 220rpx;
-  padding: 16rpx 20rpx;
-  background: #f7f3eb;
-  border-radius: 12rpx;
-  font-size: 28rpx;
+  flex-direction: column;
+  background: #F7F4EF;
   box-sizing: border-box;
 }
 
-.btn-block {
+.composer {
+  flex: 1;
+  padding: 36rpx 48rpx 0;
+  box-sizing: border-box;
+}
+
+.when {
+  font-size: 24rpx;
+  color: #A67C52;
+  letter-spacing: 2rpx;
+  margin-bottom: 36rpx;
+}
+
+.title-input {
   width: 100%;
-  margin-top: 12rpx;
+  height: 72rpx;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #4A3420;
+  margin-bottom: 12rpx;
+  background: transparent;
 }
 
-.btn-danger {
-  background: #fff;
-  color: #b91c1c;
-  border: 2rpx solid #fecaca;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  padding: 18rpx 36rpx;
-  margin-top: 20rpx;
+.body-input {
+  width: 100%;
+  font-size: 34rpx;
+  line-height: 1.75;
+  color: #4A3420;
+  background: transparent;
+  box-sizing: border-box;
 }
 
-.btn-danger::after {
+.ph {
+  color: #c4b09a;
+  font-weight: 400;
+}
+
+.dock {
+  padding: 12rpx 48rpx 40rpx;
+}
+
+.more-toggle {
+  font-size: 24rpx;
+  color: #A67C52;
+  margin-bottom: 12rpx;
+}
+
+.more-box {
+  margin-bottom: 16rpx;
+  padding: 16rpx 0;
+  border-top: 2rpx solid #eadfce;
+}
+
+.more-line {
+  font-size: 24rpx;
+  color: #7a6548;
+  line-height: 1.5;
+}
+
+.save-btn {
+  width: 100%;
+  background: #6B4F2A;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  padding: 8rpx 0;
+}
+
+.save-btn::after {
   border: none;
+}
+
+.delete-link {
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #b91c1c;
 }

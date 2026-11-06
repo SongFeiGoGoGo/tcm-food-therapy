@@ -3,44 +3,50 @@
 按常见不适症状点选，查看对应的中医食疗参考方案（食材克数、配伍说明、注意事项）。  
 支持**微信云开发**落库；未开通云环境时自动进入**本地演示模式**（JSON 种子 + `wx.storage`），用微信开发者工具即可预览。
 
-> **免责声明：理性讨论，不替代面诊。** 体质因人而异，内容仅供学习交流，不能代替执业医师诊断与治疗。
-
 ## 功能概览
+
+底栏四个 Tab（左→右）：**首页 | 日记 | 打卡 | 我的**。冷启动打开首页。
 
 | 页面 | 路径 | 说明 |
 |------|------|------|
-| 首页 | `pages/index` | 中医小笔记 + 养生日记入口、我的收藏 |
-| 中医小笔记 | `pages/notes` | 学习笔记列表 |
-| 食疗详情 | `pages/detail` | 食材+克数、配伍、做法、注意、收藏、免责声明 |
-| 养生日记 | `pages/diary/list` / `edit` | 本地写入睡/便/口味等；本周小结仅计数 |
-| 我的收藏 | `pages/favorites` | 从云库或本地存储读取 |
+| 首页 | `pages/index` | 三张本地轮播；轮播下为干支三柱；其下两张功能卡（四季养生、养生食疗），图内已有标题，点击暂不跳转 |
+| 日记 | `pages/notes` | 示例列表、详情、自建日记；卡片右上角删除并确认 |
+| 写日记 | `pages/notes/edit` | 标题、药材名+克数（可增减）、槽位 A/B/C、自由正文 |
+| 打卡 | `pages/diary/list` | 五项习惯 + 16 周热力图。旧养生日记只归档，不展示、不删除 |
+| 我的 | `pages/mine` | 本地登录闭环：头像、昵称（可改，写入 storage） |
+| 食疗详情 | `pages/detail` | 示例日记详情。食材+克数、配伍、做法、注意 |
 
-症状与方案见 `utils/seed.js`（含学习笔记条目）。
-
-（首批三条食疗文案已改写；仍为理性讨论，可继续在 `utils/seed.js` 与 `cloud/database/*.json` 中调整。）
+症状与方案见 `utils/seed.js`（含学习日记条目）。正文可继续在 `utils/seed.js` 与 `cloud/database/*.json` 中调整。
 
 ## 目录结构
 
 ```
 tcm-food-therapy-miniprogram/
 ├── app.js / app.json / app.wxss
-├── project.config.json          # appid 现为 touristappid
+├── package.json                 # 依赖 lunar-javascript
+├── project.config.json          # appid 现为 touristappid；已配置构建 npm
+├── miniprogram_npm/lunar-javascript/
 ├── sitemap.json
 ├── pages/
-│   ├── index/                   # 首页入口
-│   ├── notes/                   # 中医小笔记
-│   ├── diary/list · edit        # 养生日记（本地写入）
-│   ├── detail/                  # 食疗详情
-│   └── favorites/               # 我的收藏
+│   ├── index/                   # Tab 首页（轮播 + 干支节气）
+│   ├── notes/                   # Tab 日记（路径未改）
+│   ├── diary/list               # Tab 打卡（习惯热力图）
+│   ├── diary/edit               # 旧写日记页，主路径已不用
+│   ├── mine/                    # Tab 我的（头像昵称）
+│   └── detail/                  # 食疗详情
+├── images/tab · banners         # tab 占位图标、轮播图
 ├── utils/
 │   ├── seed.js                  # 本地种子数据
 │   ├── api.js                   # 云 / 本地统一数据层
-│   └── diary.js                 # 养生日记 storage
+│   ├── banners.js               # 首页轮播配置
+│   ├── calendar.js              # 干支 / 节气（上海时区，23:00 换日）
+│   ├── habits.js                # 习惯打卡 storage
+│   ├── userNotes.js             # 自建日记 storage（含药材行、槽位）
+│   ├── profile.js               # 我的：头像昵称；wx.login 的后端接入点
+│   └── diary.js                 # 旧养生日记归档，不删除
 ├── cloudfunctions/
 │   ├── getSymptoms
 │   ├── getRecipeById
-│   ├── toggleFavorite
-│   ├── listFavorites
 │   └── logView
 ├── cloud/database/              # 可选：导入云库的 JSON / 字段说明
 ├── LICENSE                      # MIT
@@ -52,7 +58,19 @@ tcm-food-therapy-miniprogram/
 1. 安装 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)。  
 2. 选择「导入项目」→ 目录选本仓库根目录。  
 3. AppID：可先用测试号，或使用项目里的 `touristappid`（游客模式）。  
-4. 不勾选 / 暂不开通云开发也可直接编译预览——首页会显示「本地演示模式」。
+4. 不勾选 / 暂不开通云开发也可直接编译预览——首页会显示「本地演示模式」。`app.js` 保持 `cloudEnv = ''`，`project.config.json` 的 `appid` 保持 `touristappid`。
+
+### 农历库（首页干支 / 节气）
+
+干支和节气用 [`lunar-javascript@1.7.6`](https://github.com/6tail/lunar-javascript)，只在本机计算，不请求网络。
+
+`utils/calendar.js` 里写死的规则：
+
+- 时区 `Asia/Shanghai`（按 UTC+8，不用手机时区）。
+- **23:00 子时换日**：上海钟点从 23:00 起，干支日和打卡日期键都算下一天。公历小字仍是当天日历。
+- 节气用库给出的交节时刻，再套同一套 23:00 规则。临近提示阈值 7 天。
+
+仓库已提交 `miniprogram_npm/lunar-javascript`，导入后可以直接编译。若改过依赖，在项目根目录执行 `npm install`，再在微信开发者工具菜单选 **工具 → 构建 npm**（`project.config.json` 的 `packNpmRelationList` 已指向根目录 `package.json`，产物在 `./miniprogram_npm`）。
 
 ### 换成自己的 AppID
 
@@ -65,21 +83,43 @@ tcm-food-therapy-miniprogram/
 当 `app.js` 里 `cloudEnv` 为空，或 `wx.cloud.init` 未成功时：
 
 - 症状 / 食疗：读 `utils/seed.js`  
-- 收藏 / 浏览日志：写 `wx.setStorage`（键名 `favorites`、`view_logs`）  
-- 养生日记：写 `wx.setStorage`（键名 `tcm_diary_entries`），仅本机，不走云  
+- 浏览日志：写 `wx.setStorage`（键名 `view_logs`）  
+- 习惯打卡：写 `wx.setStorage`（键名 `tcm_habit_checkins`），仅本机，不走云  
+- 旧养生日记：键 `tcm_diary_entries` 仍留在本机，打卡页不展示、不删除  
+- 自建日记：`tcm_user_notes`；我的头像昵称：`tcm_user_profile`  
 - 首页会显示黄色标签「本地演示模式」
 
-**验证步骤：**
+### 微信开发者工具本地验收（本版四点）
 
-1. 保持 `app.js` 中 `const cloudEnv = ''`。  
-2. 开发者工具编译 → 应看到 3 条症状。  
-3. 点进详情 → 可见食材、配伍、注意、底部「理性讨论，不替代面诊」。  
-4. 点「收藏此方案」→ 打开「我的收藏」应能看到；再进详情可取消收藏。  
-5. 开发者工具 → 调试器 → Storage，可看到 `favorites` / `view_logs` 有数据。
+保持 `const cloudEnv = ''`，不要开通云开发，不要改成真实 AppID。导入后直接编译。
 
-**养生日记验证：** 首页点「养生日记」→ 写一条 → 返回列表 → 点卡片进编辑 → 列表左滑删除（需确认）→ 本周小结为横向小卡片。Storage 键 `tcm_diary_entries`。
+1. **四个 Tab**  
+   冷启动落在「首页」。底栏从左到右是首页、日记、打卡、我的。日记页可看示例并写日记。打卡页标题是「打卡」，里面是习惯热力图。
 
-**笔记列表验证：** 「中医小笔记」→ 我的笔记 / 内置笔记均支持左滑露出删除或移除（需确认）；无「点卡片编辑」等提示文案。
+2. **首页轮播**  
+   首页可以左右滑动三张 banner，都是本地图。配置在 `utils/banners.js`：`image`、短标题、预留 `link`（空则点击不跳转）。标题为「一盏茶」「日记与打卡」「草木清气」。出处见 `images/banners/ATTRIBUTION.md`。图加载失败时仍用色块和标题，不白屏。
+
+   干支区下面有两张功能卡，图在 `images/cards/siji.jpg`（四季养生，568×545）和 `images/cards/shiliao.jpg`（养生食疗，580×545），配置在 `utils/cards.js`。按钮区已裁掉，标题已经在图里，页面不再叠字，也不叠「查看方案 / 查看食谱」。`link` 为空，点击不跳转。
+
+3. **带药材行的新日记，保存后再打开仍在**  
+   底栏「日记」→「写日记」。填标题，在药材行写下名称和克数（例如黄芪、20克），需要的话点「+ 添加一味药」。三个预留槽（配伍说明 / 注意事项 / 来源备注，文案在 `utils/userNotes.js` 的 `NOTE_TEMPLATE_SLOTS`）和正文可以先空着。保存后回到列表，再点开这条，药材行还在。升级前已经存过的日记仍在列表里，打开后原标题和正文还在。调试器 Storage 键：`tcm_user_notes`。
+
+4. **我的：改昵称，杀进程重进仍在**  
+   底栏「我的」。未登录只看到「微信登录」，其它 Tab 不拦截。点登录（游客模式经常没有 `wx.login` 的 code，仍然可以进入已登录态）。看到头像和昵称后点「编辑」，改昵称，点「保存」，页面立刻显示新昵称。开发者工具里「清缓存」不要选清数据；用重新编译，或模拟器里关掉再打开，回到「我的」，昵称还在。Storage 键：`tcm_user_profile`。头像用 `chooseAvatar`，能写入本地文件则一并留下。  
+   **还没接的后端点：** `utils/profile.js` 的 `loginWithWechat` 会调用 `wx.login`，但 **不上传 code、不换 openId**。以后把 `res.code` 交给自有后端即可。登录后的头像应是正圆，微信头像完整落在圆框里，而不是只露出一条。  
+   「反馈」是微信客服按钮（`open-type="contact"`）。需在微信公众平台开通客服功能后才能收到消息，不需要 request 合法域名。
+
+**干支 / 节气：** 轮播正下方有干支三柱（如「丙午年 · 戊戌月 · 辛巳日」）和一行小字公历。不是节气日时，显示下一节气和还有几天；距离 ≤7 天还会多一句「还有 N 天到××」。把开发者工具的系统日期改到 2026-11-07，应看到「今日立冬」。23:00 之后干支日会进到下一天，公历小字仍是当天。
+
+**热力图：** 底栏「打卡」没有周记列表，也没有本周小结。近 16 周方格可以横滑。点今天（默认）或过去某一天，勾选早睡、揉腹、梳头、拍八虚、七点前完成排大便，以及十一点前睡觉、护肤、冥想、八段锦、泡脚、喝水、按时吃饭。完成 0 项最浅，5 项最深，勾上后格子马上变色。不要清数据，重新编译或关掉再打开，勾选还在。Storage 键：`tcm_habit_checkins`。
+
+**旧日记提示：** 若调试器里已经有 `tcm_diary_entries`，第一次打开打卡页会提示一次：「以前的养生日记已保存在本机，新版改为习惯打卡；旧记录暂不展示，不会删除。」没有旧数据则不提示。这条键不会被清掉。
+
+**日记列表验证：** 示例日记进现有详情页；自建日记进上面的模板表单。
+
+**删除与头像：** 日记列表卡片右上角是「删除」文字按钮。点下去只弹出标题「确认删除？」和按钮「删除」。示例日记删掉后记在本机，重新打开小程序也不会再从种子出现。登录后的头像应是正圆。
+
+示例学习日记只保留「小儿脾胃不和」，详情仍可打开。导航、按钮和底栏选中色是茶褐 `#6B4F2A`。
 
 ## 开通云开发（可选）
 
@@ -90,7 +130,7 @@ tcm-food-therapy-miniprogram/
 const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 ```
 
-3. 在云开发控制台创建集合（权限建议先「仅管理端可写，所有用户可读」或按业务收紧 `favorites` / `view_logs`）：
+3. 在云开发控制台创建集合（权限建议先「仅管理端可写，所有用户可读」，或按业务收紧 `view_logs`）：
 
 ### 数据库集合字段
 
@@ -118,16 +158,6 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 | `notes` | array | 注意事项字符串数组 |
 | `tags` | array | 标签 |
 
-#### `favorites`
-
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `openId` | string | 用户 openid |
-| `recipeId` | string | 食疗 ID |
-| `createdAt` | number | 毫秒时间戳 |
-
-建议索引：`openId` + `recipeId`。
-
 #### `view_logs`
 
 | 字段 | 类型 | 说明 |
@@ -143,11 +173,11 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 ### 导入种子数据
 
 可将 `cloud/database/symptoms.json`、`recipes.json` 在云控制台「数据库」→ 对应集合 → 导入（或逐条添加，保持 `_id` 与 JSON 一致）。  
-`favorites`、`view_logs` 初始为空即可。
+`view_logs` 初始为空即可。
 
 ### 部署云函数
 
-对 `cloudfunctions` 下每个目录（`getSymptoms`、`getRecipeById`、`toggleFavorite`、`listFavorites`、`logView`）：
+对 `cloudfunctions` 下每个目录（`getSymptoms`、`getRecipeById`、`logView`）：
 
 1. 右键 →「上传并部署：云端安装依赖」（需已关联云环境）。  
 2. 部署完成后重新编译小程序；首页应变为「云开发已连接」。  
@@ -159,14 +189,8 @@ const cloudEnv = '你的环境ID'; // 非空且 init 成功后走云函数
 |------|------|
 | `getSymptoms` | 返回症状列表（按 `sort`） |
 | `getRecipeById` | 按食疗 ID 或症状 ID 取详情 |
-| `toggleFavorite` | 切换当前用户收藏 |
-| `listFavorites` | 当前用户收藏列表（含摘要） |
 | `logView` | 写入浏览日志 |
 
 ## 开源协议
 
 [MIT License](./LICENSE)
-
-## 再次强调的免责声明
-
-本项目提供的食疗内容为**传统文化与饮食角度的理性讨论与技术演示**，**不构成医疗建议**，**不能替代执业中医师 / 医师的面诊、辨证与处方**。若有不适，请及时前往正规医疗机构就诊。

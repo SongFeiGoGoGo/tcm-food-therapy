@@ -1,7 +1,7 @@
 .notes-page {
   min-height: 100vh;
   padding: 24rpx 32rpx 48rpx;
-  background: linear-gradient(180deg, #f3efe6 0%, #f7f7f5 40%);
+  background: linear-gradient(180deg, #f3efe6 0%, #F7F4EF 40%);
   box-sizing: border-box;
 }
 
@@ -16,7 +16,7 @@
 .notes-badge {
   display: inline-block;
   font-size: 22rpx;
-  color: #8b5e34;
+  color: #6B4F2A;
   background: #f0e0c8;
   padding: 4rpx 14rpx;
   border-radius: 8rpx;
@@ -26,7 +26,7 @@
 .notes-title {
   font-size: 40rpx;
   font-weight: 700;
-  color: #5c3d1e;
+  color: #4A3420;
   margin-bottom: 12rpx;
 }
 
@@ -44,59 +44,33 @@
   width: 100%;
 }
 
-.swipe-row {
-  position: relative;
-  margin-bottom: 20rpx;
-  overflow: hidden;
-  border-radius: 16rpx;
-}
-
-.swipe-actions {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: stretch;
-  z-index: 0;
-}
-
-.swipe-btn {
-  width: 140rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26rpx;
-  color: #fff;
-  font-weight: 500;
-}
-
-.swipe-btn-del {
-  background: #b91c1c;
-}
-
-.swipe-content {
-  position: relative;
-  z-index: 1;
-  transition: transform 0.18s ease-out;
-  will-change: transform;
-}
-
-.swipe-content.is-dragging {
-  transition: none;
-}
-
 .note-card {
+  position: relative;
   background: #fffdf8;
   border-radius: 16rpx;
-  padding: 28rpx;
-  border-left: 8rpx solid #c4a574;
+  padding: 28rpx 128rpx 28rpx 28rpx;
+  margin-bottom: 20rpx;
+  border-left: 8rpx solid #A67C52;
   box-shadow: 0 2rpx 10rpx rgba(92, 61, 30, 0.06);
   box-sizing: border-box;
 }
 
+.card-del {
+  position: absolute;
+  top: 20rpx;
+  right: 16rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #a67c52;
+  color: #6b4f2a;
+  font-size: 24rpx;
+  line-height: 1.3;
+  background: #fffaf3;
+  z-index: 2;
+}
+
 .note-card-user {
-  border-left-color: #8b5e34;
+  border-left-color: #6B4F2A;
   background: #fffaf3;
 }
 
@@ -131,7 +105,7 @@
   flex: 1;
   font-size: 30rpx;
   font-weight: 600;
-  color: #5c3d1e;
+  color: #4A3420;
   min-width: 0;
 }
 
@@ -151,12 +125,19 @@
 
 .tag-user {
   color: #fff;
-  background: #8b5e34;
+  background: #6B4F2A;
 }
 
 .note-summary {
   font-size: 24rpx;
   color: #8a7355;
+  line-height: 1.45;
+}
+
+.note-herbs {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #4A3420;
   line-height: 1.45;
 }
 
